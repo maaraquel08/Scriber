@@ -2,70 +2,70 @@
 name: Scriber UI Frontend
 overview: Build the transcript editor UI matching the screenshot layout with Shadcn UI components, featuring an editable transcript viewer, interactive timeline, speaker management, and right sidebar with video player placeholder and metadata panels.
 todos:
-  - id: setup-shadcn
-    content: Initialize Shadcn UI and install required components (button, card, input, select, slider, collapsible, dropdown-menu, avatar, separator)
-    status: completed
-  - id: create-types
-    content: Create TypeScript interfaces in lib/types.ts based on SAMPLE_RETURN.MD structure (TranscriptWord, TranscriptData, Speaker, TranscriptSegment)
-    status: completed
-  - id: create-utils
-    content: Create utility functions in lib/utils.ts for time formatting, segment grouping, and timeline calculations
-    status: completed
-    dependencies:
-      - create-types
-  - id: create-mock-data
-    content: Create mock data in lib/mock-data.ts transforming SAMPLE_RETURN.MD into usable format with speaker segments
-    status: completed
-    dependencies:
-      - create-types
-  - id: build-header
-    content: Create editor-header.tsx component with undo/redo buttons, save status, and action buttons
-    status: completed
-    dependencies:
-      - setup-shadcn
-  - id: build-transcript-editor
-    content: Create transcript-editor.tsx and transcript-segment.tsx components with editable content and speaker attribution
-    status: completed
-    dependencies:
-      - setup-shadcn
-      - create-types
-      - create-mock-data
-  - id: build-timeline
-    content: Create audio-timeline.tsx and timeline-controls.tsx with interactive timeline, speaker bars, and playback controls
-    status: completed
-    dependencies:
-      - setup-shadcn
-      - create-types
-      - create-utils
-  - id: build-speakers
-    content: Create speaker-list.tsx and speaker-item.tsx components for speaker management panel
-    status: completed
-    dependencies:
-      - setup-shadcn
-      - create-types
-  - id: build-sidebar
-    content: Create video-player.tsx, global-properties.tsx, and metadata-panel.tsx for right sidebar
-    status: completed
-    dependencies:
-      - setup-shadcn
-      - create-types
-  - id: integrate-page
-    content: Integrate all components in app/page.tsx with proper layout structure and state management
-    status: completed
-    dependencies:
-      - build-header
-      - build-transcript-editor
-      - build-timeline
-      - build-speakers
-      - build-sidebar
-  - id: styling-polish
-    content: Apply styling to match screenshot, add hover states, and ensure proper spacing and colors
-    status: completed
-    dependencies:
-      - integrate-page
-  - id: todo-1768450228096-gbihrg885
-    content: ""
-    status: pending
+    - id: setup-shadcn
+      content: Initialize Shadcn UI and install required components (button, card, input, select, slider, collapsible, dropdown-menu, avatar, separator)
+      status: completed
+    - id: create-types
+      content: Create TypeScript interfaces in lib/types.ts based on SAMPLE_RETURN.MD structure (TranscriptWord, TranscriptData, Speaker, TranscriptSegment)
+      status: completed
+    - id: create-utils
+      content: Create utility functions in lib/utils.ts for time formatting, segment grouping, and timeline calculations
+      status: completed
+      dependencies:
+          - create-types
+    - id: create-mock-data
+      content: Create mock data in lib/mock-data.ts transforming SAMPLE_RETURN.MD into usable format with speaker segments
+      status: completed
+      dependencies:
+          - create-types
+    - id: build-header
+      content: Create editor-header.tsx component with undo/redo buttons, save status, and action buttons
+      status: completed
+      dependencies:
+          - setup-shadcn
+    - id: build-transcript-editor
+      content: Create transcript-editor.tsx and transcript-segment.tsx components with editable content and speaker attribution
+      status: completed
+      dependencies:
+          - setup-shadcn
+          - create-types
+          - create-mock-data
+    - id: build-timeline
+      content: Create audio-timeline.tsx and timeline-controls.tsx with interactive timeline, speaker bars, and playback controls
+      status: completed
+      dependencies:
+          - setup-shadcn
+          - create-types
+          - create-utils
+    - id: build-speakers
+      content: Create speaker-list.tsx and speaker-item.tsx components for speaker management panel
+      status: completed
+      dependencies:
+          - setup-shadcn
+          - create-types
+    - id: build-sidebar
+      content: Create video-player.tsx, global-properties.tsx, and metadata-panel.tsx for right sidebar
+      status: completed
+      dependencies:
+          - setup-shadcn
+          - create-types
+    - id: integrate-page
+      content: Integrate all components in app/page.tsx with proper layout structure and state management
+      status: completed
+      dependencies:
+          - build-header
+          - build-transcript-editor
+          - build-timeline
+          - build-speakers
+          - build-sidebar
+    - id: styling-polish
+      content: Apply styling to match screenshot, add hover states, and ensure proper spacing and colors
+      status: completed
+      dependencies:
+          - integrate-page
+    - id: todo-1768450228096-gbihrg885
+      content: ""
+      status: pending
 ---
 
 # Scriber UI Frontend Implementation Plan

@@ -6,6 +6,7 @@ import { existsSync } from "fs"
 import { join } from "path"
 import { tmpdir } from "os"
 import { execSync } from "child_process"
+import { Readable } from "stream"
 import { getCachedResponse, saveCachedResponse } from "@/lib/cache-utils"
 
 // Try to find ffmpeg in common locations
@@ -212,7 +213,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Convert buffer to Blob for ElevenLabs
-    const audioBlob = new Blob([audioBuffer], { type: audioMimeType })
+    const audioBlob = new Blob([new Uint8Array(audioBuffer)], { type: audioMimeType })
 
     // Call ElevenLabs Speech-to-Text API
     try {
@@ -221,7 +222,7 @@ export async function POST(request: NextRequest) {
         modelId: "scribe_v2",
         tagAudioEvents: true,
         diarize: true,
-        languageCode: null, // Auto-detect language
+        languageCode: undefined, // Auto-detect language
       })
 
       // Save to cache

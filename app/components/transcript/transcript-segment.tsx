@@ -32,9 +32,17 @@ export function TranscriptSegmentComponent({
     useEffect(() => {
         if (segmentRef.current) {
             if (isActive) {
-                segmentRef.current.classList.add("ring-2", "ring-primary", "ring-offset-2");
+                segmentRef.current.classList.add(
+                    "ring-2",
+                    "ring-primary",
+                    "ring-offset-2"
+                );
             } else {
-                segmentRef.current.classList.remove("ring-2", "ring-primary", "ring-offset-2");
+                segmentRef.current.classList.remove(
+                    "ring-2",
+                    "ring-primary",
+                    "ring-offset-2"
+                );
             }
         }
     }, [isActive]);
@@ -56,18 +64,27 @@ export function TranscriptSegmentComponent({
     const renderWords = () => {
         if (!segment.words || segment.words.length === 0) {
             // Fallback: split text by common punctuation and add spaces
-            const fallbackText = text.replace(/([.,!?;:])/g, "$1 ").replace(/\s+/g, " ").trim();
+            const fallbackText = text
+                .replace(/([.,!?;:])/g, "$1 ")
+                .replace(/\s+/g, " ")
+                .trim();
             return <span>{fallbackText}</span>;
         }
 
         return segment.words.map((word, index) => {
             if (word.type === "spacing") {
                 // Render spacing as actual space - preserve the spacing text or use regular space
-                const spacingText = word.text && word.text.trim() !== "" ? word.text : " ";
-                return <span key={index} className="inline">{spacingText}</span>;
+                const spacingText =
+                    word.text && word.text.trim() !== "" ? word.text : " ";
+                return (
+                    <span key={index} className="inline">
+                        {spacingText}
+                    </span>
+                );
             }
 
-            const isWordActive = currentTime >= word.start && currentTime <= word.end;
+            const isWordActive =
+                currentTime >= word.start && currentTime <= word.end;
             const isWordPast = currentTime > word.end;
             const isWordFuture = currentTime < word.start;
 
@@ -109,7 +126,11 @@ export function TranscriptSegmentComponent({
                 <Avatar className="h-10 w-10 shrink-0">
                     <AvatarFallback
                         className="text-white font-medium"
-                        style={{ backgroundColor: generateColorFromString(speaker.id) }}
+                        style={{
+                            backgroundColor: generateColorFromString(
+                                speaker.id
+                            ),
+                        }}
                     >
                         {getInitials(speaker.name)}
                     </AvatarFallback>
@@ -133,7 +154,7 @@ export function TranscriptSegmentComponent({
                         onBlur={handleBlur}
                         onInput={handleInput}
                         onClick={(e) => e.stopPropagation()}
-                        className="min-h-10 w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-3 py-2 hover:bg-muted/30 transition-colors whitespace-pre-wrap break-words leading-relaxed"
+                        className="min-h-10 w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-3 py-2 hover:bg-muted/30 transition-colors whitespace-pre-wrap wrap-break-word leading-relaxed"
                     >
                         {renderWords()}
                     </div>
