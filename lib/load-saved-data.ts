@@ -52,34 +52,26 @@ export async function loadSavedTranscript(
 
 /**
  * Get media file URL for a transcript ID
- * Tries multiple locations and file extensions
+ * Uses API route to stream large files (bypasses static file size limits)
  * 
  * Place your media file in public/media/ with one of these names:
  * - {transcriptId}.mp4 (or .mov, .avi, .mkv, .webm for video)
  * - {transcriptId}.mp3 (or .wav, .m4a, .ogg for audio)
  * - test-media.mp4 (fallback name)
+ * 
+ * The API route supports range requests for video seeking and handles large files
+ * that may exceed static file serving limits in production.
  */
 export function getMediaFileUrl(
   transcriptId: string = SAVED_TRANSCRIPT_ID
 ): { url: string | null; type: string | null } {
-  // Common video/audio extensions to try (in order of likelihood)
-  const videoExtensions = ["mp4", "mov", "webm", "mkv", "avi"]
-  const audioExtensions = ["mp3", "wav", "m4a", "ogg"]
-
-  // Try video extensions first (most common for transcripts)
-  for (const ext of videoExtensions) {
-    const url = `/media/${transcriptId}.${ext}`
-    const mimeType = ext === "mov" ? "video/quicktime" : 
-                     ext === "webm" ? "video/webm" :
-                     ext === "mkv" ? "video/x-matroska" :
-                     ext === "avi" ? "video/x-msvideo" :
-                     "video/mp4"
-    // Return first video format (browser will handle 404 if file doesn't exist)
-    return { url, type: mimeType }
-  }
-
-  // Fallback: try simpler name
-  return { url: "/media/test-media.mp4", type: "video/mp4" }
+  // Use API route to stream media files
+  // This bypasses static file size limits and supports range requests for seeking
+  const url = `/api/media/${transcriptId}`
+  
+  // Default to video/mp4 - the API route will detect the actual file type
+  // The browser will request the correct MIME type from the API
+  return { url, type: "video/mp4" }
 }
 
 export { SAVED_TRANSCRIPT_ID }

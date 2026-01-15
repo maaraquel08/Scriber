@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   experimental: {
     proxyClientMaxBodySize: "100mb", // Increase buffer size for proxied requests if needed
   },
+  // Large media files are served via API route (/api/media/[id]) to bypass
+  // static file size limits in production. The API route supports range requests
+  // for video seeking and streams files efficiently.
 };
 
 export default nextConfig;
