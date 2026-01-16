@@ -14,6 +14,18 @@ pnpm install
 yarn install
 ```
 
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following environment variables:
+
+```bash
+# ElevenLabs API Key (required for transcription)
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+
+# Gemini API Key (required for fact generation)
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
 Then, run the development server:
 
 ```bash

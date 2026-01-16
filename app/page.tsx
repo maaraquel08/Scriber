@@ -1,16 +1,17 @@
 "use client"
 
 import { EditorHeader } from "./components/header/editor-header"
-import { TranscriptEditor } from "./components/transcript/transcript-editor"
+import { TranscriptTabsContainer } from "./components/transcript/transcript-tabs-container"
 import { SpeakersTimelineContainer } from "./components/timeline/speakers-timeline-container"
 import { VideoPlayer } from "./components/sidebar/video-player"
 import { GlobalProperties } from "./components/sidebar/global-properties"
 import { MetadataPanel } from "./components/sidebar/metadata-panel"
+import { ResearchMetadata } from "./components/sidebar/research-metadata"
 import { FileUpload } from "./components/upload/file-upload"
 import { transformToSegmentsAndSpeakers } from "@/lib/transformers"
 import { loadSavedTranscript, getMediaFileUrl, SAVED_TRANSCRIPT_ID } from "@/lib/load-saved-data"
 import { useState, useCallback, useEffect, useRef } from "react"
-import type { TranscriptSegment, Speaker, TranscriptData } from "@/lib/types"
+import type { TranscriptSegment, Speaker, TranscriptData, Fact } from "@/lib/types"
 
 function calculateDuration(segments: TranscriptSegment[]): number {
   if (segments.length === 0) return 0
@@ -31,6 +32,14 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
   const [isLoadingSavedData, setIsLoadingSavedData] = useState(true)
 
+  // Fact generation state
+  const [dataType, setDataType] = useState<string>("")
+  const [product, setProduct] = useState<string>("")
+  const [feature, setFeature] = useState<string>("")
+  const [facts, setFacts] = useState<Fact[]>([])
+  const [isGeneratingFacts, setIsGeneratingFacts] = useState(false)
+  const [selectedTheme, setSelectedTheme] = useState<string>("all")
+
   // Playback state
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -43,6 +52,11 @@ export default function Home() {
 
   const hasTranscript = segments.length > 0
   const duration = calculateDuration(segments)
+  
+  // Filter facts by selected theme
+  const filteredFacts = selectedTheme === "all" 
+    ? facts 
+    : facts.filter((fact) => fact.theme === selectedTheme)
 
   const handleFileSelect = useCallback((file: File) => {
     // Clean up previous file URL to prevent memory leaks
@@ -123,19 +137,29 @@ export default function Home() {
     )
   }, [])
 
+  const handleFactUpdate = useCallback((factId: string, updates: Partial<Fact>) => {
+    setFacts((prev) =>
+      prev.map((fact) =>
+        fact.fact_id === factId
+          ? { ...fact, ...updates }
+          : fact
+      )
+    )
+  }, [])
+
   const handleZoomChange = useCallback((newZoom: number) => {
     setZoom(newZoom)
   }, [])
 
   // Playback handlers
+  // Only update state - let VideoPlayer's useEffect handle actual play/pause
+  // This prevents feedback loops between state and video element events
   const handlePlay = useCallback(() => {
     setIsPlaying(true)
-    videoRef.current?.play()
   }, [])
 
   const handlePause = useCallback(() => {
     setIsPlaying(false)
-    videoRef.current?.pause()
   }, [])
 
   const handleTimeUpdate = useCallback((time: number) => {
@@ -172,6 +196,67 @@ export default function Home() {
     }
   }, [])
 
+  const handleGenerateFacts = useCallback(async () => {
+    if (!dataType || !product || !feature) {
+      setError("Please select Data Type, Product, and Feature before generating facts")
+      return
+    }
+
+    if (!transcriptData) {
+      setError("No transcript data available")
+      return
+    }
+
+    setIsGeneratingFacts(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/facts/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transcriptData,
+          dataType,
+          product,
+          feature,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      const generatedFacts = data.facts || []
+      setFacts(generatedFacts)
+
+      // Cache the generated facts
+      if (generatedFacts.length > 0) {
+        try {
+          await fetch(`/api/facts/${SAVED_TRANSCRIPT_ID}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ facts: generatedFacts }),
+          })
+        } catch (cacheErr) {
+          console.warn("Failed to cache facts:", cacheErr)
+          // Non-critical - facts are still in state
+        }
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to generate facts"
+      setError(errorMessage)
+      console.error("Fact generation error:", err)
+    } finally {
+      setIsGeneratingFacts(false)
+    }
+  }, [dataType, product, feature, transcriptData])
+
   // Load saved transcript data on mount (only once)
   useEffect(() => {
     let isMounted = true
@@ -193,6 +278,20 @@ export default function Home() {
           if (mediaUrl) {
             setFileUrl(mediaUrl)
             setFileType(mediaType)
+          }
+
+          // Load cached facts
+          try {
+            const factsResponse = await fetch(`/api/facts/${SAVED_TRANSCRIPT_ID}`)
+            if (factsResponse.ok) {
+              const factsData = await factsResponse.json()
+              if (factsData.facts && factsData.facts.length > 0 && isMounted) {
+                setFacts(factsData.facts)
+              }
+            }
+          } catch (factsErr) {
+            console.warn("Failed to load cached facts:", factsErr)
+            // Non-critical - continue without cached facts
           }
         }
       } catch (err) {
@@ -252,7 +351,13 @@ export default function Home() {
   if (isLoadingSavedData && !hasTranscript) {
     return (
       <div className="flex h-screen flex-col">
-        <EditorHeader />
+        <EditorHeader 
+          segments={segments}
+          speakers={speakers}
+          facts={facts}
+          title={title}
+          languageCode={language}
+        />
         <div className="flex flex-1 items-center justify-center bg-background p-8">
           <div className="text-center">
             <div className="text-muted-foreground">Loading saved transcript...</div>
@@ -266,7 +371,13 @@ export default function Home() {
   if (!hasTranscript) {
     return (
       <div className="flex h-screen flex-col">
-        <EditorHeader />
+        <EditorHeader 
+          segments={segments}
+          speakers={speakers}
+          facts={facts}
+          title={title}
+          languageCode={language}
+        />
         <div className="flex flex-1 items-center justify-center bg-background p-8">
           <FileUpload
             onFileSelect={handleFileSelect}
@@ -281,18 +392,26 @@ export default function Home() {
 
   return (
     <div className="flex h-screen flex-col">
-      <EditorHeader />
+      <EditorHeader 
+        segments={segments}
+        speakers={speakers}
+        facts={facts}
+        title={title}
+        languageCode={language}
+      />
       <div className="flex flex-1 overflow-hidden">
         {/* Main transcript editor area */}
-        <div className="flex flex-1 flex-col overflow-hidden bg-background">
-          <TranscriptEditor
-            segments={segments}
-            speakers={speakers}
-            onSegmentTextChange={handleSegmentTextChange}
-            currentTime={currentTime}
-            onSegmentClick={handleSegmentClick}
-          />
-        </div>
+        <TranscriptTabsContainer
+          segments={segments}
+          speakers={speakers}
+          facts={filteredFacts}
+          isGeneratingFacts={isGeneratingFacts}
+          onSegmentTextChange={handleSegmentTextChange}
+          currentTime={currentTime}
+          onSegmentClick={handleSegmentClick}
+          onTimestampClick={handleSeek}
+          onFactUpdate={handleFactUpdate}
+        />
 
         {/* Right sidebar */}
         <div className="w-80 border-l flex flex-col overflow-y-auto">
@@ -312,6 +431,19 @@ export default function Home() {
             <GlobalProperties
               title={title}
               onTitleChange={setTitle}
+            />
+            <ResearchMetadata
+              dataType={dataType}
+              product={product}
+              feature={feature}
+              isGenerating={isGeneratingFacts}
+              selectedTheme={selectedTheme}
+              factsCount={facts.length}
+              onDataTypeChange={setDataType}
+              onProductChange={setProduct}
+              onFeatureChange={setFeature}
+              onThemeChange={setSelectedTheme}
+              onGenerateFacts={handleGenerateFacts}
             />
             {transcriptData && (
               <MetadataPanel
