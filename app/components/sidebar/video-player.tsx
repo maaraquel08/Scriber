@@ -1,7 +1,7 @@
 "use client"
 
 import { Play } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 interface VideoPlayerProps {
   fileUrl?: string | null
@@ -34,14 +34,64 @@ export function VideoPlayer({
       /\.(mp4|mov|avi|mkv|webm|m4v)$/i.test(fileUrl)
     : false
 
+  // Ref to track if we're programmatically controlling playback
+  // This prevents event handlers from creating feedback loops
+  const isProgrammaticControlRef = useRef(false)
+  // Ref to track pending play promise to avoid interrupting it
+  const playPromiseRef = useRef<Promise<void> | null>(null)
+
   // Sync playback state
   useEffect(() => {
     if (!videoRef?.current) return
 
+    const video = videoRef.current
+
     if (isPlaying) {
-      videoRef.current.play().catch(console.error)
+      isProgrammaticControlRef.current = true
+      // Only call play if we're not already playing
+      if (video.paused) {
+        playPromiseRef.current = video.play()
+        playPromiseRef.current
+          .then(() => {
+            playPromiseRef.current = null
+            setTimeout(() => {
+              isProgrammaticControlRef.current = false
+            }, 0)
+          })
+          .catch((err) => {
+            // Ignore AbortError - this happens when play() is interrupted by pause()
+            // which is expected behavior when user quickly toggles play/pause
+            if (err.name !== 'AbortError') {
+              console.error('Play error:', err)
+            }
+            playPromiseRef.current = null
+            isProgrammaticControlRef.current = false
+          })
+      } else {
+        isProgrammaticControlRef.current = false
+      }
     } else {
-      videoRef.current.pause()
+      // Only pause if there's no pending play request
+      // This prevents the "play() interrupted by pause()" error
+      if (playPromiseRef.current) {
+        playPromiseRef.current.then(() => {
+          if (!isPlaying && videoRef.current) {
+            isProgrammaticControlRef.current = true
+            videoRef.current.pause()
+            setTimeout(() => {
+              isProgrammaticControlRef.current = false
+            }, 0)
+          }
+        }).catch(() => {
+          // Play was already aborted, no need to pause
+        })
+      } else if (!video.paused) {
+        isProgrammaticControlRef.current = true
+        video.pause()
+        setTimeout(() => {
+          isProgrammaticControlRef.current = false
+        }, 0)
+      }
     }
   }, [isPlaying, videoRef])
 
@@ -67,10 +117,14 @@ export function VideoPlayer({
     }
 
     const handlePlay = () => {
+      // Skip if this is from programmatic control (prevent feedback loop)
+      if (isProgrammaticControlRef.current) return
       if (onPlay) onPlay()
     }
 
     const handlePause = () => {
+      // Skip if this is from programmatic control (prevent feedback loop)
+      if (isProgrammaticControlRef.current) return
       if (onPause) onPause()
     }
 

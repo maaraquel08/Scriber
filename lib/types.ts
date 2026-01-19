@@ -29,3 +29,17 @@ export interface TranscriptSegment {
   text: string;
   words: TranscriptWord[];
 }
+
+export interface Fact {
+  fact_id: string;
+  verbatim_quote: string;
+  timestamp: string; // HH:MM:SS format
+  speaker_label: string;
+  sentiment: "Positive" | "Neutral" | "Negative";
+  theme: string; // From the enum list in LLM_TASK.MD
+  summary_of_observation: string;
+}
+
+export interface ExtractionResponse {
+  facts: Fact[];
+}

@@ -103,6 +103,38 @@ export function formatTime(seconds: number): string {
 }
 
 /**
+ * Parse timestamp string (HH:MM:SS or MM:SS) to seconds
+ * Example: "00:04:12" → 252, "4:12" → 252
+ */
+export function parseTimestampToSeconds(timestamp: string): number {
+    if (!timestamp || typeof timestamp !== "string") {
+        return 0;
+    }
+
+    const parts = timestamp.trim().split(":").map(Number);
+    
+    // Handle invalid formats
+    if (parts.some(isNaN)) {
+        return 0;
+    }
+
+    // Handle MM:SS format (2 parts)
+    if (parts.length === 2) {
+        const [minutes, seconds] = parts;
+        return minutes * 60 + seconds;
+    }
+
+    // Handle HH:MM:SS format (3 parts)
+    if (parts.length === 3) {
+        const [hours, minutes, seconds] = parts;
+        return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    // Invalid format
+    return 0;
+}
+
+/**
  * Group words into segments by speaker
  */
 export function groupWordsIntoSegments(

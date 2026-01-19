@@ -1,0 +1,101 @@
+[
+  {
+    "verbatim_quote": "Yes, actually, I have. So prior to talking to you, I, I did my research. I, I checked your background. I also checked the instructions for this session-",
+    "timestamp": "00:01:45",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "Participant conducted pre-session research on the interviewer and instructions.",
+    "fact_id": "FACT_01"
+  },
+  {
+    "verbatim_quote": "... so everything is clear. It's just that I'm just wondering, how did you choose the participants? Because I checked your calendar, the second person that you'll be meeting is Kislai. [chuckles] So I was like-",
+    "timestamp": "00:01:55",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "Participant expressed curiosity about the participant selection criteria and observed another participant on the calendar.",
+    "fact_id": "FACT_02"
+  },
+  {
+    "verbatim_quote": "Yes, but I'm not really involved in the attrition part because-",
+    "timestamp": "00:02:36",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "Participant indicated they are not involved in the attrition aspect of the company.",
+    "fact_id": "FACT_03"
+  },
+  {
+    "verbatim_quote": "But for my role specifically, I was hired to recruit for the external clients, not for internal.",
+    "timestamp": "00:02:54",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "Participant clarified their specific role involves recruiting for external clients, not internal company roles.",
+    "fact_id": "FACT_04"
+  },
+  {
+    "verbatim_quote": "for recruitment, usually non-HR people will think na we are part of HR, which I don't like.",
+    "timestamp": "00:02:54",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Negative",
+    "theme": "Frustration",
+    "summary_of_observation": "Participant expressed frustration over the common misconception that their recruitment role is part of HR.",
+    "fact_id": "FACT_05"
+  },
+  {
+    "verbatim_quote": "Kaya nga when I got your message, sabi ko, \"Oh, my God, sa akin ba 'to?\" Pero I was under the impression na it's a group call, so sabi ko, \"Okay, hindi ako 'to.\"",
+    "timestamp": "00:03:07",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "Participant initially questioned if the session invitation was intended for them, assuming it was a group call.",
+    "fact_id": "FACT_06"
+  },
+  {
+    "verbatim_quote": "'Cause when I read the instructions, I was like, \"Oh, my God, ako lang mag-isa!\"",
+    "timestamp": "00:03:14",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "Participant expressed surprise upon realizing it was a solo session after reading the instructions.",
+    "fact_id": "FACT_07"
+  },
+  {
+    "verbatim_quote": "Well, pero ano lang din, uh, just a recommendation. It will, it will help you guys if you'll also talk to the hiring teams. I mean, at the end of the day, like for instance, yung kung sino man head ng bawat department, kasi sila talaga yung involved dito.",
+    "timestamp": "00:04:06",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Positive",
+    "theme": "Suggestions",
+    "summary_of_observation": "Participant recommended involving hiring team heads from various departments as they are directly involved in attrition.",
+    "fact_id": "FACT_08"
+  },
+  {
+    "verbatim_quote": "Well, people ops per se, I think it's just Didie, and Attorney Ryan is, is kind of new, right? I mean, he just started last, last month as an HR person.",
+    "timestamp": "00:04:41",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "Participant identified Didie as a key People Operations contact and mentioned Attorney Ryan is a recent HR hire.",
+    "fact_id": "FACT_09"
+  },
+  {
+    "verbatim_quote": "Pero I think he will help in terms of the, his perspective in terms of being a hiring manager. 'Di ba- Mm-hmm, mm ... kasi head BPO siya. So makakatulong siya sa part na yun.",
+    "timestamp": "00:04:51",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Positive",
+    "theme": "Suggestions",
+    "summary_of_observation": "Participant suggested Attorney Ryan's perspective as a BPO head and hiring manager would be beneficial.",
+    "fact_id": "FACT_10"
+  },
+  {
+    "verbatim_quote": "Pero if I were you, kausapin mo yung mga sales head, kasi sila yung pinakamataas na attrition.",
+    "timestamp": "00:05:03",
+    "speaker_label": "Speaker 1",
+    "sentiment": "Positive",
+    "theme": "Suggestions",
+    "summary_of_observation": "Participant advised contacting sales heads due to their department experiencing the highest attrition.",
+    "fact_id": "FACT_11"
+  }
+]
