@@ -13,6 +13,7 @@ interface TimelineControlsProps {
   onAddSegment?: () => void
   isPlaying?: boolean
   playbackSpeed?: number
+  zoom?: number
 }
 
 export function TimelineControls({
@@ -22,13 +23,19 @@ export function TimelineControls({
   onAddSegment,
   isPlaying = false,
   playbackSpeed = 1.0,
+  zoom: zoomProp = 100,
 }: TimelineControlsProps) {
   const [speed, setSpeed] = useState(playbackSpeed.toString())
-  const [zoom, setZoom] = useState([100])
+  // Sync internal zoom state with prop
+  const [zoom, setZoom] = useState([zoomProp])
 
   useEffect(() => {
     setSpeed(playbackSpeed.toString())
   }, [playbackSpeed])
+
+  useEffect(() => {
+    setZoom([zoomProp])
+  }, [zoomProp])
 
   function handleSpeedChange(value: string) {
     setSpeed(value)
@@ -37,6 +44,7 @@ export function TimelineControls({
 
   function handleZoomChange(value: number[]) {
     setZoom(value)
+    // Pass pixels-per-second directly
     onZoomChange?.(value[0])
   }
 
@@ -70,12 +78,12 @@ export function TimelineControls({
         <Slider
           value={zoom}
           onValueChange={handleZoomChange}
-          min={50}
+          min={2}
           max={200}
-          step={10}
+          step={2}
           className="w-32"
         />
-        <span className="text-sm text-muted-foreground w-12">{zoom[0]}%</span>
+        <span className="text-sm text-muted-foreground w-16">{zoom[0]} px/s</span>
       </div>
       <Button variant="outline" size="sm" onClick={onAddSegment}>
         <Plus className="mr-2 h-4 w-4" />

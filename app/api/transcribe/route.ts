@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js"
+import { AssemblyAI } from "assemblyai"
 import ffmpeg from "fluent-ffmpeg"
 import { writeFile, unlink } from "fs/promises"
 import { existsSync } from "fs"
@@ -46,8 +46,6 @@ if (ffmpegPath) {
   ffmpeg.setFfmpegPath(ffmpegPath)
 }
 
-const MAX_FILE_SIZE = 100 * 1024 * 1024 // 100MB
-
 function isVideoFile(mimeType: string): boolean {
   return mimeType.startsWith("video/")
 }
@@ -81,15 +79,168 @@ function bufferToStream(buffer: Buffer): Readable {
   return Readable.from(buffer)
 }
 
+/**
+ * Transform AssemblyAI response to match ElevenLabs format for compatibility
+ */
+function transformAssemblyAIResponse(transcript: any) {
+  // AssemblyAI returns timestamps in milliseconds, we need seconds
+  // Also, speaker labels are "A", "B", etc., we'll convert to "speaker_0", "speaker_1"
+  
+  const words: any[] = []
+  const speakerMap = new Map<string, string>()
+  let speakerIndex = 0
+
+  // Process all utterances and their words
+  if (transcript.utterances && Array.isArray(transcript.utterances)) {
+    let lastWordEnd = 0
+    
+    for (let utteranceIndex = 0; utteranceIndex < transcript.utterances.length; utteranceIndex++) {
+      const utterance = transcript.utterances[utteranceIndex]
+      const speakerLabel = utterance.speaker || "A"
+      
+      // Map speaker label to speaker_id format
+      if (!speakerMap.has(speakerLabel)) {
+        speakerMap.set(speakerLabel, `speaker_${speakerIndex}`)
+        speakerIndex++
+      }
+      const speakerId = speakerMap.get(speakerLabel)!
+
+      // Process words in this utterance
+      if (utterance.words && Array.isArray(utterance.words)) {
+        for (let i = 0; i < utterance.words.length; i++) {
+          const word = utterance.words[i]
+          const wordStart = word.start / 1000 // Convert milliseconds to seconds
+          const wordEnd = word.end / 1000
+          
+          // Add spacing before word if there's a gap from previous word (within utterance or from previous utterance)
+          if (i > 0) {
+            const prevWord = utterance.words[i - 1]
+            const prevEnd = prevWord.end / 1000
+            const gap = wordStart - prevEnd
+            
+            // Always add spacing between words, even if gap is small
+            if (gap > 0.01) {
+              words.push({
+                text: " ",
+                start: prevEnd,
+                end: wordStart,
+                type: "spacing",
+                speaker_id: speakerId,
+              })
+            } else {
+              // Very small gap, still add a space for proper rendering
+              words.push({
+                text: " ",
+                start: prevEnd,
+                end: wordStart,
+                type: "spacing",
+                speaker_id: speakerId,
+              })
+            }
+          } else if (utteranceIndex > 0 && lastWordEnd > 0) {
+            // First word of a new utterance - add spacing from previous utterance
+            const gap = wordStart - lastWordEnd
+            if (gap > 0.01) {
+              words.push({
+                text: " ",
+                start: lastWordEnd,
+                end: wordStart,
+                type: "spacing",
+                speaker_id: speakerId,
+              })
+            }
+          }
+          
+          // Add the word
+          words.push({
+            text: word.text,
+            start: wordStart,
+            end: wordEnd,
+            type: "word",
+            speaker_id: speakerId,
+          })
+          
+          // Track last word end for next utterance
+          lastWordEnd = wordEnd
+        }
+      }
+    }
+  } else if (transcript.words && Array.isArray(transcript.words)) {
+    // Fallback: if words are at top level
+    for (let i = 0; i < transcript.words.length; i++) {
+      const word = transcript.words[i]
+      const speakerLabel = word.speaker || "A"
+      if (!speakerMap.has(speakerLabel)) {
+        speakerMap.set(speakerLabel, `speaker_${speakerIndex}`)
+        speakerIndex++
+      }
+      const speakerId = speakerMap.get(speakerLabel)!
+      
+      const wordStart = word.start / 1000
+      const wordEnd = word.end / 1000
+      
+      // Add spacing before word if there's a gap from previous word
+      if (i > 0) {
+        const prevWord = transcript.words[i - 1]
+        const prevEnd = prevWord.end / 1000
+        const gap = wordStart - prevEnd
+        
+        // Always add spacing between words, even if gap is small
+        if (gap > 0.01) {
+          words.push({
+            text: " ",
+            start: prevEnd,
+            end: wordStart,
+            type: "spacing",
+            speaker_id: speakerId,
+          })
+        } else {
+          // Very small gap, still add a space for proper rendering
+          words.push({
+            text: " ",
+            start: prevEnd,
+            end: wordStart,
+            type: "spacing",
+            speaker_id: speakerId,
+          })
+        }
+      }
+      
+      words.push({
+        text: word.text,
+        start: wordStart,
+        end: wordEnd,
+        type: "word",
+        speaker_id: speakerId,
+      })
+    }
+  }
+
+  // Get language code (AssemblyAI uses language_code or language)
+  const languageCode = transcript.language_code || transcript.language || "en"
+  
+  // Ensure we have at least an empty words array
+  if (words.length === 0) {
+    console.warn("No words found in AssemblyAI transcript response")
+  }
+  
+  return {
+    language_code: languageCode,
+    language_probability: transcript.language_probability || 1.0,
+    text: transcript.text || "",
+    words: words,
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.ELEVENLABS_API_KEY
+    const apiKey = process.env.ASSEMBLY_API_KEY
     if (!apiKey) {
-      console.error("ELEVENLABS_API_KEY is not configured")
+      console.error("ASSEMBLY_API_KEY is not configured")
       return NextResponse.json(
         {
           error:
-            "Server configuration error: ElevenLabs API key is not set. Please configure ELEVENLABS_API_KEY in your environment variables.",
+            "Server configuration error: AssemblyAI API key is not set. Please configure ASSEMBLY_API_KEY in your environment variables.",
         },
         { status: 500 }
       )
@@ -100,16 +251,6 @@ export async function POST(request: NextRequest) {
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
-    }
-
-    // Check file size
-    if (file.size > MAX_FILE_SIZE) {
-      return NextResponse.json(
-        {
-          error: `File size (${(file.size / 1024 / 1024).toFixed(1)}MB) exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit. Please use a smaller file.`,
-        },
-        { status: 400 }
-      )
     }
 
     if (file.size === 0) {
@@ -202,41 +343,49 @@ export async function POST(request: NextRequest) {
         }
 
         // If ffmpeg fails for other reasons, try sending the video file directly
-        // Some video formats might work with ElevenLabs
+        // Some video formats might work with AssemblyAI
         console.warn("Audio extraction failed, trying video file directly:", error)
       }
     }
 
-    // Initialize ElevenLabs client
-    const elevenlabs = new ElevenLabsClient({
+    // Initialize AssemblyAI client
+    const client = new AssemblyAI({
       apiKey: apiKey,
     })
 
-    // Convert buffer to Blob for ElevenLabs
-    const audioBlob = new Blob([new Uint8Array(audioBuffer)], { type: audioMimeType })
-
-    // Call ElevenLabs Speech-to-Text API
+    // Call AssemblyAI Speech-to-Text API
+    // AssemblyAI accepts Buffer directly and handles polling automatically
     try {
-      const transcription = await elevenlabs.speechToText.convert({
-        file: audioBlob,
-        modelId: "scribe_v2",
-        tagAudioEvents: true,
-        diarize: true,
-        languageCode: undefined, // Auto-detect language
+      const transcript = await client.transcripts.transcribe({
+        audio: audioBuffer,
+        speaker_labels: true,
+        speech_model: "universal",
       })
 
-      // Save to cache
-      saveCachedResponse(file.name, file.size, file.type, transcription)
+      // Check if transcription completed successfully
+      if (transcript.status === "error") {
+        throw new Error(transcript.error || "Transcription failed")
+      }
 
-      return NextResponse.json(transcription)
+      if (transcript.status !== "completed") {
+        throw new Error(`Transcription status: ${transcript.status}`)
+      }
+
+      // Transform AssemblyAI response to match ElevenLabs format for compatibility
+      const transformedResponse = transformAssemblyAIResponse(transcript)
+
+      // Save to cache
+      saveCachedResponse(file.name, file.size, file.type, transformedResponse)
+
+      return NextResponse.json(transformedResponse)
     } catch (apiError) {
-      console.error("ElevenLabs API error:", apiError)
+      console.error("AssemblyAI API error:", apiError)
       
       // Provide more specific error messages
       if (apiError instanceof Error) {
         if (apiError.message.includes("401") || apiError.message.includes("Unauthorized")) {
           return NextResponse.json(
-            { error: "Invalid API key. Please check your ElevenLabs API key configuration." },
+            { error: "Invalid API key. Please check your AssemblyAI API key configuration." },
             { status: 401 }
           )
         }

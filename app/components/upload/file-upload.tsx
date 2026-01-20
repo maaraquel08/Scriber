@@ -21,10 +21,13 @@ export function FileUpload({
 }: FileUploadProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [fileError, setFileError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelect = useCallback(
     (file: File) => {
+      setFileError(null)
+      
       // Validate file type
       const isValidType =
         file.type.startsWith("video/") || file.type.startsWith("audio/")
@@ -46,13 +49,13 @@ export function FileUpload({
           "aac",
         ]
         if (!extension || !validExtensions.includes(extension)) {
+          setFileError(`Unsupported file type. Please upload a video or audio file.`)
           return
         }
       }
 
-      // Validate file size (100MB limit)
-      const maxSize = 100 * 1024 * 1024
-      if (file.size > maxSize) {
+      if (file.size === 0) {
+        setFileError("File is empty. Please select a valid file.")
         return
       }
 
@@ -168,9 +171,6 @@ export function FileUpload({
                   Browse Files
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">
-                Maximum file size: 100MB
-              </p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -199,13 +199,13 @@ export function FileUpload({
         </div>
 
         {/* Error message */}
-        {error && (
+        {(error || fileError) && (
           <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-            {error}
+            {error || fileError}
           </div>
         )}
 
-        {/* Upload button */}
+        {/* Transcribe button */}
         {selectedFile && (
           <Button
             onClick={handleUpload}
@@ -221,7 +221,7 @@ export function FileUpload({
             ) : (
               <>
                 <Upload className="mr-2 h-4 w-4" />
-                Transcribe File
+                Transcribe
               </>
             )}
           </Button>

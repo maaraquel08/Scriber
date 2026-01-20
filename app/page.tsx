@@ -8,6 +8,7 @@ import { GlobalProperties } from "./components/sidebar/global-properties"
 import { MetadataPanel } from "./components/sidebar/metadata-panel"
 import { ResearchMetadata } from "./components/sidebar/research-metadata"
 import { FileUpload } from "./components/upload/file-upload"
+import { TranscriptList } from "./components/upload/transcript-list"
 import { transformToSegmentsAndSpeakers } from "@/lib/transformers"
 import { loadSavedTranscript, getMediaFileUrl, SAVED_TRANSCRIPT_ID } from "@/lib/load-saved-data"
 import { useState, useCallback, useEffect, useRef } from "react"
@@ -16,6 +17,29 @@ import type { TranscriptSegment, Speaker, TranscriptData, Fact } from "@/lib/typ
 function calculateDuration(segments: TranscriptSegment[]): number {
   if (segments.length === 0) return 0
   return Math.max(...segments.map((s) => s.end))
+}
+
+/**
+ * Generate a transcript ID based on file metadata
+ * Uses a combination of filename, size, type, and timestamp for uniqueness
+ */
+async function generateTranscriptId(
+  fileName: string,
+  fileSize: number,
+  fileType: string
+): Promise<string> {
+  // Create a unique identifier using file metadata and timestamp
+  const timestamp = Date.now()
+  const data = `${fileName}-${fileSize}-${fileType}-${timestamp}`
+  
+  // Use Web Crypto API for hashing (available in browser)
+  const encoder = new TextEncoder()
+  const dataBuffer = encoder.encode(data)
+  const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
+  
+  return hashHex
 }
 
 export default function Home() {
@@ -31,6 +55,8 @@ export default function Home() {
   const [isTranscribing, setIsTranscribing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isLoadingSavedData, setIsLoadingSavedData] = useState(true)
+  const [currentTranscriptId, setCurrentTranscriptId] = useState<string | null>(null)
+  const [lastSaved, setLastSaved] = useState<Date | null>(null)
 
   // Fact generation state
   const [dataType, setDataType] = useState<string>("")
@@ -86,13 +112,25 @@ export default function Home() {
       })
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+        let errorMessage = `HTTP error! status: ${response.status}`
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          // If response is not JSON, try to get text
+          try {
+            const text = await response.text()
+            errorMessage = text || errorMessage
+          } catch {
+            // Fall back to status-based message
+          }
+        }
+        throw new Error(errorMessage)
       }
 
       const data = await response.json()
 
-      // Transform ElevenLabs response to our format
+      // Transform API response to our format
       const { transcriptData: newTranscriptData, segments: newSegments, speakers: newSpeakers } =
         transformToSegmentsAndSpeakers(data)
 
@@ -100,7 +138,56 @@ export default function Home() {
       setSegments(newSegments)
       setSpeakers(newSpeakers)
       setLanguage(newTranscriptData.language_code)
-      setTitle(file.name.replace(/\.[^/.]+$/, "")) // Remove file extension
+      const fileTitle = file.name.replace(/\.[^/.]+$/, "") // Remove file extension
+      setTitle(fileTitle)
+
+      // Generate transcript ID based on file name, size, and timestamp
+      const transcriptId = await generateTranscriptId(file.name, file.size, file.type)
+
+      // Store transcript ID for future updates
+      setCurrentTranscriptId(transcriptId)
+
+      // Auto-save transcript
+      try {
+        await fetch(`/api/transcript/${transcriptId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            languageCode: newTranscriptData.language_code,
+            languageProbability: newTranscriptData.language_probability,
+            text: newTranscriptData.text,
+            words: newTranscriptData.words,
+            title: fileTitle,
+            fileName: file.name,
+            fileType: file.type,
+          }),
+        })
+        
+        // Save media file to public/media folder
+        try {
+          const mediaFormData = new FormData()
+          mediaFormData.append("file", file)
+          await fetch(`/api/media/${transcriptId}`, {
+            method: "POST",
+            body: mediaFormData,
+          })
+          console.log("Media file saved successfully:", transcriptId)
+          
+          // Update file URL to use the saved media file
+          setFileUrl(`/api/media/${transcriptId}`)
+        } catch (mediaSaveError) {
+          console.error("Failed to save media file:", mediaSaveError)
+          // Don't throw - media saving is secondary
+        }
+        
+        setLastSaved(new Date())
+        console.log("Transcript saved successfully:", transcriptId)
+      } catch (saveError) {
+        console.error("Failed to save transcript:", saveError)
+        // Don't throw - transcription succeeded, saving is secondary
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Failed to transcribe file"
       setError(errorMessage)
@@ -148,7 +235,7 @@ export default function Home() {
   }, [])
 
   const handleZoomChange = useCallback((newZoom: number) => {
-    setZoom(newZoom)
+    setZoom(Math.max(2, Math.min(200, newZoom)))
   }, [])
 
   // Playback handlers
@@ -165,6 +252,12 @@ export default function Home() {
   const handleTimeUpdate = useCallback((time: number) => {
     // Skip state updates while seeking to avoid choppiness
     if (isSeekingRef.current) return
+    
+    // Validate time value
+    if (isNaN(time) || !isFinite(time) || time < 0) {
+      return
+    }
+    
     setCurrentTime(time)
   }, [])
 
@@ -172,9 +265,33 @@ export default function Home() {
     // Mark as seeking to prevent timeupdate from causing state thrashing
     isSeekingRef.current = true
     setCurrentTime(time)
+    
     if (videoRef.current) {
-      videoRef.current.currentTime = time
+      const video = videoRef.current
+      // Only seek if video is ready and has valid duration
+      if (video.readyState >= 2 && !isNaN(video.duration) && video.duration > 0) {
+        try {
+          // Clamp time to valid range
+          const clampedTime = Math.max(0, Math.min(time, video.duration))
+          video.currentTime = clampedTime
+        } catch (error) {
+          console.error("Error seeking video:", error)
+        }
+      } else {
+        // If video isn't ready, wait for it to load
+        const handleCanPlay = () => {
+          try {
+            const clampedTime = Math.max(0, Math.min(time, video.duration))
+            video.currentTime = clampedTime
+          } catch (error) {
+            console.error("Error seeking video after load:", error)
+          }
+          video.removeEventListener("canplay", handleCanPlay)
+        }
+        video.addEventListener("canplay", handleCanPlay, { once: true })
+      }
     }
+    
     // Clear seeking flag after a short delay to allow the seek to complete
     setTimeout(() => {
       isSeekingRef.current = false
@@ -234,9 +351,9 @@ export default function Home() {
       setFacts(generatedFacts)
 
       // Cache the generated facts
-      if (generatedFacts.length > 0) {
+      if (generatedFacts.length > 0 && currentTranscriptId) {
         try {
-          await fetch(`/api/facts/${SAVED_TRANSCRIPT_ID}`, {
+          await fetch(`/api/facts/${currentTranscriptId}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -255,66 +372,91 @@ export default function Home() {
     } finally {
       setIsGeneratingFacts(false)
     }
-  }, [dataType, product, feature, transcriptData])
+  }, [dataType, product, feature, transcriptData, currentTranscriptId])
 
-  // Load saved transcript data on mount (only once)
-  useEffect(() => {
-    let isMounted = true
+  const handleBackToUpload = useCallback(() => {
+    // Clear all transcript-related state to show upload page
+    setSegments([])
+    setSpeakers([])
+    setTranscriptData(null)
+    setTitle("")
+    setLanguage("")
+    setFacts([])
+    setFileUrl(null)
+    setFileType(null)
+    setUploadedFile(null)
+    setError(null)
+    setIsPlaying(false)
+    setCurrentTime(0)
+  }, [])
 
-    async function loadData() {
-      try {
-        const loadedData = await loadSavedTranscript(SAVED_TRANSCRIPT_ID)
+  const handleLoadTranscript = useCallback(async (transcriptId: string) => {
+    setIsLoadingSavedData(true)
+    setError(null)
+
+    try {
+      const loadedData = await loadSavedTranscript(transcriptId)
+      
+      if (loadedData) {
+        // Set transcript data
+        setTranscriptData(loadedData.transcriptData)
+        setSegments(loadedData.segments)
+        setSpeakers(loadedData.speakers)
+        setLanguage(loadedData.language)
+        setTitle(loadedData.title)
+        setCurrentTranscriptId(transcriptId)
         
-        if (loadedData && isMounted) {
-          // Set transcript data
-          setTranscriptData(loadedData.transcriptData)
-          setSegments(loadedData.segments)
-          setSpeakers(loadedData.speakers)
-          setLanguage(loadedData.language)
-          setTitle(loadedData.title)
-
-          // Load media file URL
-          const { url: mediaUrl, type: mediaType } = getMediaFileUrl(SAVED_TRANSCRIPT_ID)
-          if (mediaUrl) {
-            setFileUrl(mediaUrl)
-            setFileType(mediaType)
-          }
-
-          // Load cached facts
-          try {
-            const factsResponse = await fetch(`/api/facts/${SAVED_TRANSCRIPT_ID}`)
-            if (factsResponse.ok) {
-              const factsData = await factsResponse.json()
-              if (factsData.facts && factsData.facts.length > 0 && isMounted) {
-                setFacts(factsData.facts)
-              }
+        // Try to get updatedAt and fileType from the saved transcript
+        try {
+          const transcriptResponse = await fetch(`/api/transcript/${transcriptId}`)
+          if (transcriptResponse.ok) {
+            const transcriptData = await transcriptResponse.json()
+            if (transcriptData.updatedAt) {
+              setLastSaved(new Date(transcriptData.updatedAt))
             }
-          } catch (factsErr) {
-            console.warn("Failed to load cached facts:", factsErr)
-            // Non-critical - continue without cached facts
+            // Set file type from saved transcript if available
+            if (transcriptData.fileType) {
+              setFileType(transcriptData.fileType)
+            }
           }
+        } catch {
+          // Ignore errors - last saved time is not critical
         }
-      } catch (err) {
-        console.error("Failed to load saved transcript:", err)
-        // Fall through to show upload page
-      } finally {
-        if (isMounted) {
-          setIsLoadingSavedData(false)
-        }
-      }
-    }
 
-    // Only load if we don't have transcript data yet
-    if (segments.length === 0) {
-      loadData()
-    } else {
+        // Load media file URL (always uses local API route now)
+        const { url: mediaUrl } = getMediaFileUrl(transcriptId)
+        if (mediaUrl) {
+          setFileUrl(mediaUrl)
+        }
+
+        // Load cached facts
+        try {
+          const factsResponse = await fetch(`/api/facts/${transcriptId}`)
+          if (factsResponse.ok) {
+            const factsData = await factsResponse.json()
+            if (factsData.facts && factsData.facts.length > 0) {
+              setFacts(factsData.facts)
+            }
+          }
+        } catch (factsErr) {
+          console.warn("Failed to load cached facts:", factsErr)
+          // Non-critical - continue without cached facts
+        }
+      } else {
+        setError("Failed to load transcript")
+      }
+    } catch (err) {
+      console.error("Failed to load transcript:", err)
+      setError(err instanceof Error ? err.message : "Failed to load transcript")
+    } finally {
       setIsLoadingSavedData(false)
     }
+  }, [])
 
-    return () => {
-      isMounted = false
-    }
-  }, []) // Empty dependency array - only run on mount
+  // Set loading to false on mount - always start on upload page
+  useEffect(() => {
+    setIsLoadingSavedData(false)
+  }, [])
 
   // Cleanup file URL on unmount
   useEffect(() => {
@@ -357,11 +499,16 @@ export default function Home() {
           facts={facts}
           title={title}
           languageCode={language}
+          lastSaved={lastSaved}
         />
-        <div className="flex flex-1 items-center justify-center bg-background p-8">
+        <div className="flex flex-1 flex-col items-center justify-center bg-background p-8 gap-8 overflow-y-auto">
           <div className="text-center">
             <div className="text-muted-foreground">Loading saved transcript...</div>
           </div>
+          <TranscriptList
+            onSelectTranscript={handleLoadTranscript}
+            isLoading={true}
+          />
         </div>
       </div>
     )
@@ -378,12 +525,16 @@ export default function Home() {
           title={title}
           languageCode={language}
         />
-        <div className="flex flex-1 items-center justify-center bg-background p-8">
+        <div className="flex flex-1 flex-col items-center justify-center bg-background p-8 gap-8 overflow-y-auto">
           <FileUpload
             onFileSelect={handleFileSelect}
             onTranscribe={handleTranscribe}
             isTranscribing={isTranscribing}
             error={error}
+          />
+          <TranscriptList
+            onSelectTranscript={handleLoadTranscript}
+            isLoading={isLoadingSavedData}
           />
         </div>
       </div>
@@ -398,6 +549,8 @@ export default function Home() {
         facts={facts}
         title={title}
         languageCode={language}
+        onBack={handleBackToUpload}
+        lastSaved={lastSaved}
       />
       <div className="flex flex-1 overflow-hidden">
         {/* Main transcript editor area */}

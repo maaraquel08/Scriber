@@ -19,8 +19,8 @@ yarn install
 Create a `.env.local` file in the root directory with the following environment variables:
 
 ```bash
-# ElevenLabs API Key (required for transcription)
-ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+# AssemblyAI API Key (required for transcription)
+ASSEMBLY_API_KEY=your_assemblyai_api_key_here
 
 # Gemini API Key (required for fact generation)
 GEMINI_API_KEY=your_gemini_api_key_here

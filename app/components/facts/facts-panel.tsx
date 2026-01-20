@@ -11,7 +11,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { parseTimestampToSeconds } from "@/lib/utils";
 import type { Fact } from "@/lib/types";
-import { Clock, Quote, ChevronDown, Check } from "lucide-react";
+import { Clock, Quote, ChevronDown, Check, Copy } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 interface FactsPanelProps {
@@ -125,6 +125,7 @@ export function FactsPanel({
         null
     );
     const [editingSummaryText, setEditingSummaryText] = useState("");
+    const [copiedFactId, setCopiedFactId] = useState<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // Focus textarea when editing starts
@@ -180,6 +181,21 @@ export function FactsPanel({
     function handleThemeChange(factId: string, newTheme: string) {
         if (onFactUpdate) {
             onFactUpdate(factId, { theme: newTheme });
+        }
+    }
+
+    async function handleCopyFact(fact: Fact, e: React.MouseEvent) {
+        e.stopPropagation();
+        const textToCopy = `Quote: "${fact.verbatim_quote}"\n\nSummary: ${fact.summary_of_observation}`;
+        
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            setCopiedFactId(fact.fact_id);
+            setTimeout(() => {
+                setCopiedFactId(null);
+            }, 2000);
+        } catch (err) {
+            console.error("Failed to copy text:", err);
         }
     }
 
@@ -298,20 +314,35 @@ export function FactsPanel({
                                             {fact.sentiment}
                                         </span>
                                     </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-6 px-2 text-xs"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleTimestampClick(
-                                                fact.timestamp
-                                            );
-                                        }}
-                                    >
-                                        <Clock className="h-3 w-3 mr-1" />
-                                        {fact.timestamp}
-                                    </Button>
+                                    <div className="flex items-center gap-1">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-6 px-2 text-xs"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleTimestampClick(
+                                                    fact.timestamp
+                                                );
+                                            }}
+                                        >
+                                            <Clock className="h-3 w-3 mr-1" />
+                                            {fact.timestamp}
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-6 px-2 text-xs"
+                                            onClick={(e) => handleCopyFact(fact, e)}
+                                            title="Copy quote and summary"
+                                        >
+                                            {copiedFactId === fact.fact_id ? (
+                                                <Check className="h-3 w-3" />
+                                            ) : (
+                                                <Copy className="h-3 w-3" />
+                                            )}
+                                        </Button>
+                                    </div>
                                 </div>
                             </CardHeader>
                             <CardContent>

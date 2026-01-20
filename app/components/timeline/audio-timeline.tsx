@@ -10,13 +10,13 @@ import {
     generateColorFromString,
 } from "@/lib/utils";
 import type { TranscriptSegment, Speaker } from "@/lib/types";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 interface AudioTimelineProps {
     segments: TranscriptSegment[];
     speakers: Speaker[];
     duration: number;
-    zoom?: number;
+    zoom?: number; // pixels per second (px/s) - default 100 px/s
     currentTime?: number;
     onTimestampClick?: (timestamp: number) => void;
     onSegmentClick?: (segment: TranscriptSegment) => void;
@@ -27,7 +27,7 @@ export function AudioTimeline({
     segments,
     speakers,
     duration,
-    zoom = 100,
+    zoom = 100, // pixels per second (px/s)
     currentTime = 0,
     onTimestampClick,
     onSegmentClick,
@@ -39,7 +39,13 @@ export function AudioTimeline({
     const MARKER_HEIGHT = 40; // h-10 (increased from 24px h-6)
     const LANE_HEIGHT = 64; // h-16 per speaker lane
 
-    const zoomScale = zoom / 100;
+    // Calculate timeline width based on pixels-per-second (px/s)
+    // Timeline width = duration (seconds) * zoom (pixels per second)
+    // Example: 100 seconds * 200 px/s = 20,000px wide timeline
+    const timelineWidthPx = duration * zoom;
+    
+    // Marker positioning still uses percentages relative to timeline width
+    // This works correctly because percentages are calculated from the pixel width
     const markerInterval = calculateMarkerInterval(duration, zoom);
     const markers = calculateTimelineMarkers(duration, markerInterval);
     const minorInterval = calculateMinorMarkerInterval(markerInterval);
@@ -54,25 +60,52 @@ export function AudioTimeline({
     const progressPercentage =
         duration > 0 ? (currentTime / duration) * 100 : 0;
 
+    // Ref to the timeline content div for accurate click position calculation
+    const timelineContentRef = useRef<HTMLDivElement>(null);
+
     // ============================================================================
     // Event Handlers
     // ============================================================================
     const handleTimelineClick = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            // getBoundingClientRect() returns the visual (scaled) dimensions,
-            // so x directly maps to the percentage of the scaled width
-            const percentage = (x / rect.width) * 100;
-            const timestamp = Math.max(
-                0,
-                Math.min(duration, (percentage / 100) * duration)
-            );
-
-            onSeek?.(timestamp);
-            onTimestampClick?.(timestamp);
+            if (!timelineContentRef.current || duration === 0) return;
+            
+            // Get the scrollable container (parent with overflow-x-auto)
+            const scrollContainer = timelineContentRef.current.parentElement;
+            if (!scrollContainer) return;
+            
+            // Get the scroll container rect to calculate click position relative to scroll viewport
+            const scrollRect = scrollContainer.getBoundingClientRect();
+            const clickX = e.clientX - scrollRect.left;
+            const scrollLeft = scrollContainer.scrollLeft;
+            
+            // Calculate absolute position in the timeline (accounting for scroll)
+            // clickX is relative to visible scroll viewport, add scrollLeft to get absolute position
+            const absoluteX = clickX + scrollLeft;
+            
+            // Get the actual rendered width of the timeline content
+            const timelineRect = timelineContentRef.current.getBoundingClientRect();
+            const actualWidth = timelineRect.width;
+            
+            // Check if timeline is stretched beyond its natural width (due to minWidth: "100%")
+            // At low zoom (e.g., 2px/s), actualWidth might be larger than timelineWidthPx
+            if (actualWidth > timelineWidthPx) {
+                // Timeline is stretched - use percentage-based calculation
+                const percentage = Math.max(0, Math.min(100, (absoluteX / actualWidth) * 100));
+                const timestamp = (percentage / 100) * duration;
+                onSeek?.(timestamp);
+                onTimestampClick?.(timestamp);
+            } else {
+                // Timeline is at natural width - use zoom-based calculation
+                const timestamp = Math.max(
+                    0,
+                    Math.min(duration, absoluteX / zoom)
+                );
+                onSeek?.(timestamp);
+                onTimestampClick?.(timestamp);
+            }
         },
-        [duration, onTimestampClick, onSeek]
+        [duration, zoom, onTimestampClick, onSeek, timelineWidthPx]
     );
 
     const handleTimestampMarkerClick = useCallback(
@@ -94,16 +127,16 @@ export function AudioTimeline({
 
     return (
         <div
-            className="relative w-full border-t bg-muted/30 overflow-x-auto overflow-y-hidden"
-            style={{ height: `${timelineHeight}px` }}
+            className="relative w-full h-fit border-t bg-muted/30 overflow-x-auto overflow-y-auto"
         >
-            {/* Scrollable timeline content - width scales with zoom */}
+            {/* Scrollable timeline content - width scales with pixels-per-second */}
             <div
+                ref={timelineContentRef}
                 className="relative flex flex-col"
                 style={{
-                    width: `${zoomScale * 100}%`,
+                    width: `${timelineWidthPx}px`,
                     minWidth: "100%",
-                    height: `${timelineHeight}px`,
+                    minHeight: `${timelineHeight}px`,
                 }}
             >
                 {/* Progress indicator */}
@@ -141,24 +174,30 @@ export function AudioTimeline({
                         />
                     ))}
                     {/* Major markers (with labels) */}
-                    {markers.map((marker) => (
-                        <div
-                            key={marker}
-                            className="absolute border-l border-foreground/40 px-1 cursor-pointer hover:bg-muted/50 transition-colors whitespace-nowrap"
-                            style={{
-                                left: `${getTimelinePosition(
-                                    marker,
-                                    duration
-                                )}%`,
-                            }}
-                            onClick={(e) =>
-                                handleTimestampMarkerClick(marker, e)
-                            }
-                            title={`Jump to ${formatTime(marker)}`}
-                        >
-                            {formatTime(marker)}
-                        </div>
-                    ))}
+                    {markers.map((marker) => {
+                        const position = getTimelinePosition(marker, duration);
+                        // Calculate spacing to prevent overlap
+                        // Use transform to center the marker text on the position
+                        return (
+                            <div
+                                key={marker}
+                                className="absolute border-l border-foreground/40 cursor-pointer hover:bg-muted/50 transition-colors whitespace-nowrap"
+                                style={{
+                                    left: `${position}%`,
+                                    transform: "translateX(-50%)",
+                                    paddingLeft: "2px",
+                                    paddingRight: "2px",
+                                    fontSize: "0.75rem", // text-xs - keep font size constant, don't scale with zoom
+                                }}
+                                onClick={(e) =>
+                                    handleTimestampMarkerClick(marker, e)
+                                }
+                                title={`Jump to ${formatTime(marker)}`}
+                            >
+                                {formatTime(marker)}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {/* Speaker lanes container */}

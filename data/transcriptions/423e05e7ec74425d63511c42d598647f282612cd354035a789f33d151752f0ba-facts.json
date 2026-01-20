@@ -1,0 +1,632 @@
+[
+    {
+      "verbatim_quote": "So there are, you know, there are two divisions, you know, that I directly manage. Right. So basically, you know, just, you know, managing the affairs of those two divisions. Right. Okay. That's. That takes up, you know, like, a chunk of my time. This is customer success, you know, and so customer success has four teams. So there is customer success management, there is customer advocacy, there is implementation, there is managed pay to service. Actually, there are five teams and there is alliance or partnerships. Right. And then there are there are two other teams from operations, legal and people. So there are seven teams, you know, that, that, you know, I directly manage. So basically, you know, like, this takes up a chunk of my time.",
+      "timestamp": "00:00:48",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Routine",
+      "summary_of_observation": "The participant directly manages seven teams across two divisions, consuming a significant portion of their time.",
+      "fact_id": "FACT_1"
+    },
+    {
+      "verbatim_quote": "But apart from that, you know, like, from a strategic standpoint, you know, there are two main things, you know, that I keep my eye on. Keeping the customers. Right. And getting new customers. So basically, Sean Upsell. Right, okay. Growth of our current customers and getting new customers.",
+      "timestamp": "00:01:27",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Motivation",
+      "summary_of_observation": "The participant's strategic focus is on retaining existing customers and acquiring new ones, emphasizing growth and upsell.",
+      "fact_id": "FACT_2"
+    },
+    {
+      "verbatim_quote": "Client and prospect interaction, you know, is like a lot of what I do.",
+      "timestamp": "00:01:58",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Routine",
+      "summary_of_observation": "A significant portion of the participant's role involves interacting with clients and prospects.",
+      "fact_id": "FACT_3"
+    },
+    {
+      "verbatim_quote": "attrition does affect our company as a whole in many different ways.",
+      "timestamp": "00:02:22",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Motivation",
+      "summary_of_observation": "Attrition significantly impacts the entire company, making it a critical metric for the participant.",
+      "fact_id": "FACT_4"
+    },
+    {
+      "verbatim_quote": "So one of the things in that I want to see, right, immediately is how much of my attrition is regrettable versus unregrettable. And this is a very important metric.",
+      "timestamp": "00:03:09",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Needs",
+      "summary_of_observation": "The participant immediately wants to know the breakdown of attrition into 'regrettable' versus 'unregrettable' as it's a very important metric for them.",
+      "fact_id": "FACT_5"
+    },
+    {
+      "verbatim_quote": "So the term that we use in strut is regrettable, regrettable and unregrettable. It sounds better.",
+      "timestamp": "00:03:58",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Language and Terminology",
+      "summary_of_observation": "The participant prefers the terms 'regrettable' and 'unregrettable' for attrition analysis, finding them to sound better than desirable/undesirable.",
+      "fact_id": "FACT_6"
+    },
+    {
+      "verbatim_quote": "It's really performance based. Performance and attitude based. That's it. The manager or the immediate supervisor knows already.",
+      "timestamp": "00:04:12",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Decision Making Process",
+      "summary_of_observation": "The determination of regrettable vs. unregrettable attrition is primarily based on an employee's performance and attitude, often known by their direct manager.",
+      "fact_id": "FACT_7"
+    },
+    {
+      "verbatim_quote": "basically if you're looking at someone's performance holistically, there are a number of signals that you will look at, right? There are. There are a number of data points. You might be looking at their attendance, right? Like, you know, like, how. How tardy is this person? Okay, how many leaves do they take? What is the distribution of leaves like, etc, etc. Right? You will look at, you know, their output, right? And, you know, then you will look at, you know, like, generally speaking, you know, when you engage with them, how. How are they? Like, are they dull? Lack of energy, lack of enthusiasm? Or are they. So, you know, there are. There is. There are two hard quantitative variables and there is one qualitative variable, right? But collectively, you know, the manager, whether you Know or not it's officially documented somewhere. Right. A good manager knows already that, okay, the, this, these are the people in my team, you know, who are basically meeting the metrics and these are the people who don't like.",
+      "timestamp": "00:04:28",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "User Behavior",
+      "summary_of_observation": "Managers assess employee performance holistically using quantitative data points like attendance and output, and qualitative observations like energy and enthusiasm.",
+      "fact_id": "FACT_8"
+    },
+    {
+      "verbatim_quote": "No, no, no, I said two divisions.",
+      "timestamp": "00:05:42",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Language and Terminology",
+      "summary_of_observation": "The participant clarifies that they manage two 'divisions' not 'teams', indicating a specific organizational structure.",
+      "fact_id": "FACT_9"
+    },
+    {
+      "verbatim_quote": "given the criticality of this role, even one designation is a problem for me. So, so in this case, you know, so this, you know, like, you know, it's a function of criticality that these people manage our biggest clients. These clients give us the money to run as a company, to survive as a company. Right. So any one of them leave, it's going to be a big problem.",
+      "timestamp": "00:06:40",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "The departure of even one Enterprise CSM is a significant problem due to the criticality of their role in managing the biggest and most revenue-generating clients.",
+      "fact_id": "FACT_10"
+    },
+    {
+      "verbatim_quote": "A customer success manager's role is relationship driven if you, if you know, because that enterprise customer success manager really spends time, you know, building relationship with different people, you know, with the, on the client side, when you remove that person, somebody new has to step in and rebuild those relationships. It doesn't happen overnight.",
+      "timestamp": "00:07:22",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "Customer Success Manager roles are relationship-driven, and losing such an individual requires a lengthy process for a new person to rebuild client relationships, which doesn't happen quickly.",
+      "fact_id": "FACT_11"
+    },
+    {
+      "verbatim_quote": "Any good engineer, you know, would understand the code base, understand the architecture, understand, you know, how work is actually done in sprout. Right. If you take that engineer out. Right. Anybody new who comes in will have to go through that learning process over.",
+      "timestamp": "00:07:54",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "Losing a skilled engineer creates a significant setback as new hires must undergo an extensive learning process to understand the company's code base, architecture, and workflows.",
+      "fact_id": "FACT_12"
+    },
+    {
+      "verbatim_quote": "if it takes one year, that means anytime you lose a person, you know, it sets you back by two years.",
+      "timestamp": "00:08:14",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "The participant estimates that losing a key person could set the company back by two years due to the time required for a new hire to become effective and the lost productivity during that period.",
+      "fact_id": "FACT_13"
+    },
+    {
+      "verbatim_quote": "Because if somebody resigned now, the new person, assuming that new person joins now, that new person is only effective a year from now. Right. And in that year, you know, while you're training this person, you also lost all the work that the other person would have done.",
+      "timestamp": "00:08:23",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Mental Models",
+      "summary_of_observation": "The participant's mental model for the impact of attrition includes a 'two-year' setback, accounting for both the ramp-up time of a new hire and the lost productivity of the departed employee.",
+      "fact_id": "FACT_14"
+    },
+    {
+      "verbatim_quote": "I like this AI overview. Your attrition rate is currently at 12.5%, showing a plus 2.3% increase from the previous quarter.",
+      "timestamp": "00:10:01",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant likes the AI overview section of the dashboard.",
+      "fact_id": "FACT_15"
+    },
+    {
+      "verbatim_quote": "Now what's missing here, you know, is that 12.5 and 2.3% are percentages. You should put a number in parentheses there. Okay. The 12.5% in the current quarter. Right. So that corresponds to how many headcount. I would want to know that immediately. Okay. And 2.3 increase in previous quarter. So what was previous quarter? So, you know, like a quantity, like, you know, like absolute values that, you know, It's. Oh, it's 16 people this quarter versus, you know, 15 last quarter.",
+      "timestamp": "00:10:13",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant wants to see absolute headcount numbers alongside percentages in the AI overview for clarity and immediate understanding of the scale of attrition.",
+      "fact_id": "FACT_16"
+    },
+    {
+      "verbatim_quote": "So in the old Inside dashboard. You know, we used to. We used to benchmark attrition with. With, you know, your peers in the industry. Same industry. So it would be good to see that.",
+      "timestamp": "00:10:43",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests incorporating industry peer benchmarking for attrition, as was available in the old dashboard.",
+      "fact_id": "FACT_17"
+    },
+    {
+      "verbatim_quote": "This one, you know, when you say last period, right. What is the period? Like, what period are you talking about? Are you talking about last quarter? Last year? That's not clear.",
+      "timestamp": "00:11:05",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Usability",
+      "summary_of_observation": "The label 'last period' is unclear, and the participant struggles to understand what specific time frame it refers to (e.g., last quarter, last year).",
+      "fact_id": "FACT_18"
+    },
+    {
+      "verbatim_quote": "I don't know. It could be. But, you know, like, I would assume that given the number of separations we are talking about, I would assume, you know, that it's like last 12 months or something.",
+      "timestamp": "00:11:25",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Mental Models",
+      "summary_of_observation": "Given the number of separations, the participant assumes 'last period' refers to the last 12 months, highlighting an ambiguity in the current labeling.",
+      "fact_id": "FACT_19"
+    },
+    {
+      "verbatim_quote": "If it's. If it's last quarter, you know, man, it's like a crazy high number.",
+      "timestamp": "00:11:33",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Frustration",
+      "summary_of_observation": "The participant expresses concern that the number of separations would be 'crazy high' if 'last period' referred to the last quarter, indicating a desire for clarity on the metric's timeframe.",
+      "fact_id": "FACT_20"
+    },
+    {
+      "verbatim_quote": "I would want to see that, you know, I mean, like, regrettable versus unregulable.",
+      "timestamp": "00:11:41",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant reiterates the strong need to see attrition broken down into 'regrettable' versus 'unregrettable' categories.",
+      "fact_id": "FACT_21"
+    },
+    {
+      "verbatim_quote": "one problem, you know, when it comes to showing attrition by percentages. Right. Okay. Or only percentages, is that there are. There is a department in Sprout that has only four people. If one of them resigns, you will say that the retrition is 33.3%.",
+      "timestamp": "00:12:05",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "The participant identifies a problem with showing attrition solely by percentages, as it can be misleading for small departments (e.g., one resignation in a four-person team shows 33.3% attrition).",
+      "fact_id": "FACT_22"
+    },
+    {
+      "verbatim_quote": "So that's why, you know, it has to be. It has to be balanced, you know, by count as well. Yeah. Like, relative to the size of the department. Right. So, you know, you can also see that, okay, 10 people out of 40 people left or two people out of 40 people left.",
+      "timestamp": "00:12:25",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests balancing attrition percentages with absolute headcount to provide a more accurate and contextualized view, especially for smaller departments.",
+      "fact_id": "FACT_23"
+    },
+    {
+      "verbatim_quote": "when you're looking at attrition rights, obviously you want to look at, you know, clusters. Right. The different ways in your attrition can be grouped together. So department is one. Tenure is one. Okay. Age, gender, civil status, location is one. Yeah, these are all good. Okay. Reason. Right. Voluntary, involuntary is good. Okay. Supervisor. Yeah. By supervisor is also very good. Okay. Attrition by supervisor. Yeah. Okay. These are the different ways, you know, you would want to look at it.",
+      "timestamp": "00:12:44",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Needs",
+      "summary_of_observation": "The participant expresses a need to view attrition data grouped by various clusters such as department, tenure, age, gender, civil status, location, reason (voluntary/involuntary), and supervisor.",
+      "fact_id": "FACT_24"
+    },
+    {
+      "verbatim_quote": "there should be an option that. Okay. If I'm looking at, you know, attrition by department, I want to look at, you know, Per department. You know, how do you split it? Voluntary versus, I mean, sorry, regrettable versus unregulable.",
+      "timestamp": "00:13:14",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests an option to further split attrition data within each department by 'regrettable' versus 'unregrettable' categories.",
+      "fact_id": "FACT_25"
+    },
+    {
+      "verbatim_quote": "attrition is not always a bad thing. There has to be a natural attrition. You know, healthy attrition. You know, in a company, healthy attrition just means, you know, that. Yeah. You know, like, over time, some people sort of, like, outgrow the company. So it's perfect. It's perfectly fine to part ways amicably.",
+      "timestamp": "00:13:34",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Mental Models",
+      "summary_of_observation": "The participant believes that not all attrition is bad, and a 'healthy attrition' rate involves people naturally outgrowing the company and parting amicably.",
+      "fact_id": "FACT_26"
+    },
+    {
+      "verbatim_quote": "what else, you know, would be cool or magical if, you know, we could relate the attrition data with, like, I know we are working on this, Right. That we are trying to predict attrition. Right. So at some point it would be cool to see that. Okay. Out of these person. People that we predicted would attract these many actually attracted. Something like that.",
+      "timestamp": "00:14:42",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant expresses a desire for a 'magical' feature that relates attrition data with predictions, showing how many predicted leavers actually left.",
+      "fact_id": "FACT_27"
+    },
+    {
+      "verbatim_quote": "trying to predict who's going to leave is a very hard problem.",
+      "timestamp": "00:15:14",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Technical Limitation",
+      "summary_of_observation": "The participant acknowledges that predicting employee attrition is a very difficult problem, implying potential technical limitations for such a feature.",
+      "fact_id": "FACT_28"
+    },
+    {
+      "verbatim_quote": "one more card, you know, that I would like to see. You know, it's like let's. Let's divide, you know, so there is. There is total separations, right?",
+      "timestamp": "00:15:36",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant requests an additional metric card specifically for 'total separations'.",
+      "fact_id": "FACT_29"
+    },
+    {
+      "verbatim_quote": "I would also want to break down total separations. You know, first into two buckets. Fte, probationary. Okay. Immediately that. Fte. Probationary. Yeah. And then within fte, how many was regrettable? How many regrettable? And then, you know, within each subgroup, you know, how many was voluntary, involuntary? Okay, like that. Same. Same for probationary. Yeah.",
+      "timestamp": "00:15:52",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant needs a hierarchical breakdown of total separations, first by FTE vs. probationary, then within each by regrettable vs. unregrettable, and finally by voluntary vs. involuntary.",
+      "fact_id": "FACT_30"
+    },
+    {
+      "verbatim_quote": "you also want to see. Because, you know, that gives you an insight into. Is there something wrong with your hiring? Because let's say 187 separations. Right. Okay. Let's say a third of those are for probationary employees. Then, you know, you, you, you must wonder that. Okay. And, you know, then, you know, like, let's say a third of those is like 52. So 62, you know, are from professionally employees, which means, you know, you hired the 62 people last year. And if you hired a total of 100 people and 62 had to leave during probationary period, there is a big glaring question that what are we doing in our hiring process?",
+      "timestamp": "00:16:22",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Motivation",
+      "summary_of_observation": "Breaking down separations by probationary employees provides insight into potential issues with the hiring or training process, as a high number of probationary exits indicates a significant company cost.",
+      "fact_id": "FACT_31"
+    },
+    {
+      "verbatim_quote": "Hiring, onboarding people is a huge cost. Yeah, yeah. So, you know, so that's why it's important to see that way.",
+      "timestamp": "00:17:11",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Motivation",
+      "summary_of_observation": "The participant emphasizes the high cost associated with hiring and onboarding new employees, reinforcing the importance of monitoring probationary attrition.",
+      "fact_id": "FACT_32"
+    },
+    {
+      "verbatim_quote": "6.5% seems high.",
+      "timestamp": "00:18:33",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant considers a 6.5% attrition rate over 12 months to be potentially high.",
+      "fact_id": "FACT_33"
+    },
+    {
+      "verbatim_quote": "I can't say if it's a problem. I really need to see the breakdown. How many of these were regrettable, how many unregrettable, how many voluntary, how many involuntary?",
+      "timestamp": "00:18:43",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "To determine if attrition is a problem, the participant explicitly states they need to see a breakdown by regrettable/unregrettable and voluntary/involuntary types.",
+      "fact_id": "FACT_34"
+    },
+    {
+      "verbatim_quote": "60 regrettable attrition. So yeah, that's something that definitely we need to look into that, you know, because ideally we would, we would have wanted to keep those 60 people.",
+      "timestamp": "00:19:03",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Painpoint",
+      "summary_of_observation": "The participant views 60 regrettable attritions as a definite problem because those employees were ideally meant to be retained.",
+      "fact_id": "FACT_35"
+    },
+    {
+      "verbatim_quote": "I would want to see the breakdown of where the 60 are coming from, which functions. And if I see that, you know, those 60 are coming from, let's say sales and customer service, Like, I'll be like, oh, like, you know what its problem. Because given the business goals that we have for our company, it's very important for us to, you know, keep our hires and sales and customer service.",
+      "timestamp": "00:19:20",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Needs",
+      "summary_of_observation": "The participant needs to see the departmental breakdown of regrettable attrition, especially if it affects critical functions like sales and customer service, which are crucial for business goals.",
+      "fact_id": "FACT_36"
+    },
+    {
+      "verbatim_quote": "a very high number of unregulable attrition. Okay. That just makes us wonder, you know, are we spending enough time grooming people, training people and hiring the right way?",
+      "timestamp": "00:19:47",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Motivation",
+      "summary_of_observation": "A high number of unregrettable attritions prompts the participant to question the effectiveness of the company's grooming, training, and hiring processes.",
+      "fact_id": "FACT_37"
+    },
+    {
+      "verbatim_quote": "So total separations. It's just definition. Okay. I was expecting something different. I was expecting, you know, that, you know, instead of basically, this is something, you know, that it's explaining to me what total separations is. Right. It gave me a. It gave me a very long answer, you know, as to, you know, what total separation means. What I was hoping for, you know, is that it actually break down total separations for me in my context.",
+      "timestamp": "00:21:00",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant expected the AI feature to provide a breakdown of 'total separations' within their specific company context, rather than a generic definition.",
+      "fact_id": "FACT_38"
+    },
+    {
+      "verbatim_quote": "what I would have liked more was, you know, a breakdown of it.",
+      "timestamp": "00:21:40",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant would have preferred a breakdown of total separations from the AI, even if it included a brief definition.",
+      "fact_id": "FACT_39"
+    },
+    {
+      "verbatim_quote": "the default answer was very long. Maybe the default answer needs to be short. And you can say that. Hey, can you expound on it?",
+      "timestamp": "00:21:58",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests that default AI answers should be shorter and concise, with an option to expand for more detail.",
+      "fact_id": "FACT_40"
+    },
+    {
+      "verbatim_quote": "By the way, you know, there is a typo here. It could be average tenure per department.",
+      "timestamp": "00:22:18",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Language and Terminology",
+      "summary_of_observation": "The participant identifies a typo in the AI feature, suggesting 'average tenure per department' instead of 'for department'.",
+      "fact_id": "FACT_41"
+    },
+    {
+      "verbatim_quote": "This question is misleading. If, if you are going to give me this answer, the question should have been, what is average tenure per department? Because you know, what, what, what the bot shared with me is not an insight about average tenure per department. And insight is actually, you know, a specific data point relevant to my organization.",
+      "timestamp": "00:22:38",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant finds the AI's answer to 'provide more insights' misleading because it offers a generic definition instead of specific, contextualized data points relevant to their organization.",
+      "fact_id": "FACT_42"
+    },
+    {
+      "verbatim_quote": "what I was looking for, you know, is that give me a, Give me a breakdown of the total separations by voluntary versus involuntary by tenure and by department.",
+      "timestamp": "00:23:18",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant wants the AI to provide a detailed breakdown of total separations by voluntary/involuntary, tenure, and department.",
+      "fact_id": "FACT_43"
+    },
+    {
+      "verbatim_quote": "it created the impression, you know, that it already knew the data from my organization. So that's why I know it's like, not helpful.",
+      "timestamp": "00:24:14",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Expectation",
+      "summary_of_observation": "The AI gave the impression of using the participant's organizational data, but failed to do so, making the output unhelpful and frustrating the user's expectations.",
+      "fact_id": "FACT_44"
+    },
+    {
+      "verbatim_quote": "If the average tenure of resigned people has decreased, it's a good thing, right? Not a bad thing. So why is it saying, you know, it's. You get what I'm saying, right? If the average tenure of people who are resigning is going down, what does that mean? That, you know, the people who are in your company for longer are staying. So I have this insight is off top.",
+      "timestamp": "00:24:43",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Frustration",
+      "summary_of_observation": "The participant finds an AI insight contradictory ('average tenure has decreased' is presented as a negative, but they interpret it as a positive indicating longer-tenured employees are staying), suggesting the insight is 'off' or a bug.",
+      "fact_id": "FACT_45"
+    },
+    {
+      "verbatim_quote": "Departure reason includes career growth and compensation. Okay, this is good. Okay. Q3 saw notable increase in mid level employees. This is good recommendation. Yes, this is good.",
+      "timestamp": "00:25:05",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant finds the AI's insights regarding departure reasons (career growth, compensation) and increases in mid-level employee attrition to be good and useful.",
+      "fact_id": "FACT_46"
+    },
+    {
+      "verbatim_quote": "I always want to see numbers. Don't. Not just percentages.",
+      "timestamp": "00:25:27",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant consistently wants to see absolute numbers in addition to percentages in attrition data.",
+      "fact_id": "FACT_47"
+    },
+    {
+      "verbatim_quote": "if you show numbers, right? If you show numbers, maybe that's another way, you know, you can verify it.",
+      "timestamp": "00:25:46",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests that including numbers could help users verify the accuracy of AI-generated insights.",
+      "fact_id": "FACT_48"
+    },
+    {
+      "verbatim_quote": "But ultimately, you know, like, honest answer. I don't know. Like, how will I. How will I verify? I will have to actually, you know, go and look for it myself. Right. And then confirm that. Yeah. What the AI told you is correct.",
+      "timestamp": "00:25:57",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Usability",
+      "summary_of_observation": "The participant doesn't know how to verify AI insights within the product and would have to manually cross-reference data to confirm its accuracy.",
+      "fact_id": "FACT_49"
+    },
+    {
+      "verbatim_quote": "There has to be a way for us to, you know, like really slag something. Yeah. But, you know, let's say, you know, I'm looking at this AI overview, right? And something here, you know, seems a mess. Okay. Like I click a button, you know, that sort of indicates, you know, that, you know, I am, I. I do not agree with the insight shown here. Or something is off. Like something like, you know, a thumbs up comes down.",
+      "timestamp": "00:26:10",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests a simple feedback mechanism (e.g., thumbs up/down) to indicate disagreement or issues with AI-generated insights in the overview.",
+      "fact_id": "FACT_50"
+    },
+    {
+      "verbatim_quote": "Nothing very complicated, you know, where I have to go and fill up a form.",
+      "timestamp": "00:26:58",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Preference",
+      "summary_of_observation": "The participant prefers a simple, non-complicated feedback mechanism for the AI, specifically disliking the idea of filling out a form.",
+      "fact_id": "FACT_51"
+    },
+    {
+      "verbatim_quote": "So when I clicked on that, there is a supervisor performance rankings. Wait, which one am I supposed to look at? So who are the performance rankings? Or on the left hand side? You know, it looks like it's calculating something.",
+      "timestamp": "00:27:23",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Usability",
+      "summary_of_observation": "Clicking the 'foresight' button led to confusion, as 'supervisor performance rankings' appeared, making the participant question which element they were supposed to be looking at.",
+      "fact_id": "FACT_52"
+    },
+    {
+      "verbatim_quote": "I think there's like a UI bug in the prototype because when you click on the foresight.",
+      "timestamp": "00:27:42",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Technical Limitation",
+      "summary_of_observation": "The participant identifies a UI bug in the prototype where clicking the 'foresight' button rearranges elements.",
+      "fact_id": "FACT_53"
+    },
+    {
+      "verbatim_quote": "So attrition decreased 1.2 percentage points from 7. It's, it seems like a very incomplete piece of information if you're, if you're trying to say that, you know, attrition used to be 7 and is now 5.8. Maybe, maybe, you know, I would also add that attrition decreased by 1.2 percentage point or attrition decreased 1.2 percentage prime from 7 to 5.8.",
+      "timestamp": "00:28:38",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Usability",
+      "summary_of_observation": "The 'foresight' summary of attrition decrease is considered incomplete; the participant wants to see the specific previous and current values (e.g., 'from 7 to 5.8').",
+      "fact_id": "FACT_54"
+    },
+    {
+      "verbatim_quote": "I would want to know more. Okay, you're saying attrition decree from where, where is, where is that? And you know, because there could be in theory that in a big company, right. You know, maybe there are 50 teams, right. And 40 or 45 of those teams, you know, really have reduced the attrition. Yeah, but five of them, you know, actually have very high attritions. But just because, you know, 45 teams reduced it. Yeah, very definitely. Their reduction, you know, is, is masking the overall overall efficient, you know, or their reduction is masking the increase in the attrition of those five teams. So that's why, you know, like the big picture is fine. But you know, like when somebody starts looking into the data, you know, they all, they want to drill down. Okay, fine, attrition went down. Where did it go down? Did it go down across the organization or there are certain pockets, you know, where it really went down, etc. That certain other pockets will actually went up.",
+      "timestamp": "00:29:05",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant needs to drill down into attrition data to understand where changes occurred (e.g., across the organization or in specific pockets), as overall numbers can mask underlying trends in individual teams.",
+      "fact_id": "FACT_55"
+    },
+    {
+      "verbatim_quote": "Maybe, you know, if it possible, possible to like add another dimension. And I want to see, you know, attrition by. Let's say, okay, department is not there, but maybe 10 years. Yeah, like combining. Combining things. Combining things.",
+      "timestamp": "00:30:35",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests the ability to add multiple dimensions to attrition data, like combining quarter/year views with breakdowns by tenure.",
+      "fact_id": "FACT_56"
+    },
+    {
+      "verbatim_quote": "How does it. It's not. Nothing is happening. How is it supposed to be there like that?",
+      "timestamp": "00:31:50",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Usability",
+      "summary_of_observation": "The participant struggles with the drag-and-drop interaction for adding context, initially finding that 'nothing is happening'.",
+      "fact_id": "FACT_57"
+    },
+    {
+      "verbatim_quote": "my first, my first query, it apparently it was able to identify outliers. No, it created a hypothetical scenario data. Sorry, sorry. It's hypothetical data. And then this when I dragged and dropped. It's again, hypothetical. It's not real, right? It's not using real data.",
+      "timestamp": "00:32:39",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant is confused and frustrated that the AI is using hypothetical data rather than real organizational data, despite giving the impression it could identify real outliers.",
+      "fact_id": "FACT_58"
+    },
+    {
+      "verbatim_quote": "I honestly didn't know what to expect. You know, if I am dragging and dropping attrition trend. Okay. With attrition by demographics. Right. Yeah. I am hoping that it's going to bring. But I honestly don't know. Maybe, you know, I'm hoping to see a trend in attrition by demographics. That, okay, what is the trend in attrition for less than people with less than one year? Maybe. Yeah. Or if I made it by gender, you know, same, you know, what is the trend in attrition by gender for the last one year or something like that.",
+      "timestamp": "00:33:22",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant is unsure what to expect when dragging and dropping multiple widgets to the AI, but hopes to see combined trends (e.g., attrition trend by demographics or gender over time).",
+      "fact_id": "FACT_59"
+    },
+    {
+      "verbatim_quote": "There should be some kind of a default. Okay. When you, when you drag and drop these two things, you know, by default, you know, this is how it will, you know, treat it.",
+      "timestamp": "00:34:13",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Suggestions",
+      "summary_of_observation": "The participant suggests that the AI should have a default interpretation or behavior when two widgets are dragged and dropped together, such as showing a combined trend.",
+      "fact_id": "FACT_60"
+    },
+    {
+      "verbatim_quote": "my answer, you know, is a bit jaded because of my experience with insight inside. The user experience of Internet was absolutely horrible. Terrible. It was just so slow to load. I never liked using it.",
+      "timestamp": "00:35:36",
+      "speaker_label": "Participant",
+      "sentiment": "Negative",
+      "theme": "Comparative Feedback",
+      "summary_of_observation": "The participant's experience with the previous 'Insight' dashboard was 'absolutely horrible' due to slow loading times, which negatively biases their initial perspective on new products.",
+      "fact_id": "FACT_61"
+    },
+    {
+      "verbatim_quote": "This one, you know, at least, you know, it's very responsive that anything that you click on. Like, see, when I went back, you know, and I clicked on attrition, right. It loads up pretty fast, right. When you do, when you, like when you, when you move the pointer, Right. It's quite responsive. So. So what I like, you know, is first of all, the look and feel is nice and clean. Yeah. And it's. It's fast. Yeah. It's responsive. Yeah. Things are loading pretty quickly.",
+      "timestamp": "00:35:54",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Usability",
+      "summary_of_observation": "The participant likes the new dashboard's responsiveness, fast loading times, clean look and feel, marking a significant improvement over the previous tool.",
+      "fact_id": "FACT_62"
+    },
+    {
+      "verbatim_quote": "The AI stuff is actually pretty cool if the AI work. So you Know, the. The magic would happen, you know, when the AI actually gives answers based on the data. Right, Your data.",
+      "timestamp": "00:36:20",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant finds the AI concept 'pretty cool' and believes it would be 'magic' if it provided answers based on their specific company data.",
+      "fact_id": "FACT_63"
+    },
+    {
+      "verbatim_quote": "The idea is really cool. But, you know, you. You see a data point, you can immediately engage, you know, with the data point using sitecare",
+      "timestamp": "00:36:40",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant finds the interactive capability with data points using Sitekick (AI) to be a 'really cool' idea, allowing immediate engagement.",
+      "fact_id": "FACT_64"
+    },
+    {
+      "verbatim_quote": "things that I told you that I would want to see. Okay. Things that. That will make it more useful for me. Right? Okay. It's not so much things that I want to see is like. Okay, you're talking about separations, right? Break it down for me. Fte, then voluntary, involuntary or probationary. Fte, Regrettable and regrettable under each category. And then under each of those, Voluntary. Voluntary.",
+      "timestamp": "00:37:07",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Needs",
+      "summary_of_observation": "The participant reiterates the crucial need for a highly detailed and hierarchical breakdown of separations, encompassing FTE/probationary, regrettable/unregrettable, and voluntary/involuntary categories to enhance dashboard usefulness.",
+      "fact_id": "FACT_65"
+    },
+    {
+      "verbatim_quote": "But. But the real product will look exactly like this, right?",
+      "timestamp": "00:38:18",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Expectation",
+      "summary_of_observation": "The participant expects the final product to visually match the prototype shown during the usability test.",
+      "fact_id": "FACT_66"
+    },
+    {
+      "verbatim_quote": "as early as now, you know, I feel that you should include it in a sales pitch deck because this has a. This has a wow factor.",
+      "timestamp": "00:38:50",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Retention Drivers",
+      "summary_of_observation": "The participant believes the product has a 'wow factor' and should be included in sales pitches.",
+      "fact_id": "FACT_67"
+    },
+    {
+      "verbatim_quote": "The only thing active here is leave attrition, the other stuff and headcount.",
+      "timestamp": "00:39:02",
+      "speaker_label": "Participant",
+      "sentiment": "Neutral",
+      "theme": "Technical Limitation",
+      "summary_of_observation": "The participant observes that only 'leave attrition' and 'headcount' features are active in the current prototype.",
+      "fact_id": "FACT_68"
+    },
+    {
+      "verbatim_quote": "So, you know, this is also cool. This is also cool. That's why I said, you know, that, you know, we need this in epic.",
+      "timestamp": "00:39:26",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant finds the headcount feature 'cool' and emphasizes the need for it.",
+      "fact_id": "FACT_69"
+    },
+    {
+      "verbatim_quote": "No, no questions for me. But guys, you know, like, anytime, you know, you want to do anything like this, you know, just reach out to me directly. Okay. No problem. Game to do this anytime.",
+      "timestamp": "00:40:06",
+      "speaker_label": "Participant",
+      "sentiment": "Positive",
+      "theme": "Satisfaction",
+      "summary_of_observation": "The participant expresses high satisfaction and willingness to participate in future usability testing sessions, indicating a positive overall experience with the research process.",
+      "fact_id": "FACT_70"
+    }
+  ]

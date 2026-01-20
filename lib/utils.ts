@@ -195,70 +195,100 @@ export function groupWordsIntoSegments(
 }
 
 /**
- * Calculate optimal marker interval based on zoom level and duration
+ * Calculate optimal marker interval based on zoom level (pixels-per-second) and duration
  * Returns interval for labeled markers (text timestamps)
- * Higher zoom = more frequent labels, but spaced for readability
- * Longer videos = larger intervals to prevent performance issues
+ * Properly scales gaps based on total video duration and zoom level
  */
 export function calculateMarkerInterval(
     duration: number,
-    zoom: number
+    zoomPxPerSec: number // pixels per second
 ): number {
-    // Target maximum number of major markers for performance
-    // Too many DOM elements can cause rendering lag
-    const MAX_MARKERS = 200;
-
-    // Calculate base interval from zoom level (more zoom = smaller interval)
-    let baseInterval: number;
-    if (zoom >= 200) baseInterval = 10; // 200%+ zoom: 10 second intervals
-    else if (zoom >= 150) baseInterval = 15; // 150%+ zoom: 15 second intervals
-    else if (zoom >= 120) baseInterval = 20; // 120%+ zoom: 20 second intervals
-    else if (zoom >= 100) baseInterval = 30; // 100%+ zoom: 30 second intervals
-    else if (zoom >= 75) baseInterval = 60; // 75%+ zoom: 1 minute intervals
-    else baseInterval = 120; // Below 75%: 2 minute intervals
-
-    // For long videos, increase interval to keep marker count reasonable
-    // This ensures scalability for 1-hour+ meetings
-    const estimatedMarkers = Math.ceil(duration / baseInterval);
-
-    if (estimatedMarkers > MAX_MARKERS) {
-        // Scale up interval to stay within marker limit
-        // Round to nearest "nice" interval (5, 10, 15, 30, 60, 120, etc.)
-        const scaledInterval = Math.ceil(duration / MAX_MARKERS);
-
-        // Round to nearest nice interval
-        if (scaledInterval <= 5) return 5;
-        if (scaledInterval <= 10) return 10;
-        if (scaledInterval <= 15) return 15;
-        if (scaledInterval <= 30) return 30;
-        if (scaledInterval <= 60) return 60;
-        if (scaledInterval <= 120) return 120;
-        if (scaledInterval <= 300) return 300; // 5 minutes
-        return 600; // 10 minutes for very long videos
+    if (duration <= 0) return 5; // Default for invalid duration
+    
+    // Target spacing between markers in pixels (for readability)
+    // Higher zoom allows more markers, but we want consistent visual spacing
+    const TARGET_SPACING_PX = Math.max(80, Math.min(200, zoomPxPerSec * 0.5));
+    
+    // Calculate ideal interval based on target spacing
+    // interval (seconds) = spacing (px) / zoom (px/s)
+    let idealInterval = TARGET_SPACING_PX / zoomPxPerSec;
+    
+    // Round to nearest "nice" interval for better readability
+    // Nice intervals: 1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, etc.
+    const niceIntervals = [
+        1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600
+    ];
+    
+    // Find the nearest nice interval that's >= idealInterval
+    let interval = niceIntervals.find(i => i >= idealInterval) || niceIntervals[niceIntervals.length - 1];
+    
+    // For very short videos (< 30s), use smaller intervals
+    if (duration < 30) {
+        interval = Math.min(interval, 1);
     }
-
-    return baseInterval;
+    // For short videos (< 5 min), cap at 5 seconds
+    else if (duration < 300) {
+        interval = Math.min(interval, 5);
+    }
+    // For medium videos (< 30 min), cap at 30 seconds
+    else if (duration < 1800) {
+        interval = Math.min(interval, 30);
+    }
+    // For long videos (< 2 hours), cap at 5 minutes
+    else if (duration < 7200) {
+        interval = Math.min(interval, 300);
+    }
+    
+    // Ensure we don't have too many markers (performance and readability)
+    const numMarkers = Math.ceil(duration / interval);
+    const MAX_MARKERS = 200;
+    
+    if (numMarkers > MAX_MARKERS) {
+        // Scale up to stay within marker limit
+        const scaledInterval = Math.ceil(duration / MAX_MARKERS);
+        // Round up to next nice interval
+        interval = niceIntervals.find(i => i >= scaledInterval) || niceIntervals[niceIntervals.length - 1];
+    }
+    
+    // Ensure we have at least a few markers for very short videos
+    if (duration > 0 && duration / interval < 3) {
+        const targetInterval = Math.max(1, Math.floor(duration / 3));
+        // Round down to nearest nice interval (find largest interval <= targetInterval)
+        const reversedIntervals = [...niceIntervals].reverse();
+        interval = reversedIntervals.find(i => i <= targetInterval) || 1;
+    }
+    
+    return interval;
 }
 
 /**
  * Calculate minor markers (subtle lines) between major markers
  * Returns intervals for subtle lines between main markers
+ * Scales appropriately based on major interval
  */
 export function calculateMinorMarkerInterval(majorInterval: number): number {
-    // For 10 second intervals (200% zoom), show minor markers every 2 seconds
-    if (majorInterval === 10) return 2;
-    // For 15 second intervals, show minor markers every 5 seconds
-    if (majorInterval === 15) return 5;
-    // For 20 second intervals, show minor markers every 5 seconds
-    if (majorInterval === 20) return 5;
-    // For 30 second intervals, show minor markers every 10 seconds
-    if (majorInterval === 30) return 10;
-    // For 60 second intervals, show minor markers every 15 seconds
-    if (majorInterval === 60) return 15;
-    // For 120 second intervals, show minor markers every 30 seconds
-    if (majorInterval === 120) return 30;
-    // For other intervals, show minor markers at half the interval
-    return majorInterval / 2;
+    // Divide major interval into 2-5 sub-intervals for minor markers
+    // Use nice divisions: 2, 3, 4, or 5 parts
+    
+    if (majorInterval <= 1) {
+        // For 1 second intervals, no minor markers needed
+        return majorInterval;
+    } else if (majorInterval <= 5) {
+        // For 2-5 second intervals, divide by 2
+        return Math.max(1, Math.floor(majorInterval / 2));
+    } else if (majorInterval <= 15) {
+        // For 5-15 second intervals, divide by 3
+        return Math.max(1, Math.floor(majorInterval / 3));
+    } else if (majorInterval <= 60) {
+        // For 15-60 second intervals, divide by 4
+        return Math.max(1, Math.floor(majorInterval / 4));
+    } else if (majorInterval <= 300) {
+        // For 1-5 minute intervals, divide by 5
+        return Math.max(1, Math.floor(majorInterval / 5));
+    } else {
+        // For longer intervals, divide by 6
+        return Math.max(1, Math.floor(majorInterval / 6));
+    }
 }
 
 /**

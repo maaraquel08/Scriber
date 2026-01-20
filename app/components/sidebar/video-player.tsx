@@ -1,7 +1,7 @@
 "use client"
 
-import { Play } from "lucide-react"
-import { useEffect, useRef } from "react"
+import { Play, Loader2 } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 interface VideoPlayerProps {
   fileUrl?: string | null
@@ -31,7 +31,8 @@ export function VideoPlayer({
   // Determine if it's a video based on file type or URL extension
   const isVideo = fileUrl
     ? fileType?.startsWith("video/") ||
-      /\.(mp4|mov|avi|mkv|webm|m4v)$/i.test(fileUrl)
+      /\.(mp4|mov|avi|mkv|webm|m4v)$/i.test(fileUrl) ||
+      /\/api\/media\//.test(fileUrl) // Assume API media routes are videos
     : false
 
   // Ref to track if we're programmatically controlling playback
@@ -39,6 +40,10 @@ export function VideoPlayer({
   const isProgrammaticControlRef = useRef(false)
   // Ref to track pending play promise to avoid interrupting it
   const playPromiseRef = useRef<Promise<void> | null>(null)
+  
+  // Track video loading state
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   // Sync playback state
   useEffect(() => {
@@ -106,13 +111,59 @@ export function VideoPlayer({
     videoRef.current.playbackRate = playbackSpeed
   }, [playbackSpeed, videoRef])
 
+  // Ensure video element is ready and force initial timeupdate
+  useEffect(() => {
+    if (!videoRef?.current || !fileUrl) return
+    
+    const video = videoRef.current
+    
+    // Force an initial timeupdate when video is ready
+    const handleCanPlayThrough = () => {
+      if (onTimeUpdate && video.currentTime >= 0) {
+        onTimeUpdate(video.currentTime)
+      }
+    }
+    
+    // Also check periodically if timeupdate isn't firing (fallback)
+    const intervalId = setInterval(() => {
+      if (video && !video.paused && onTimeUpdate) {
+        const currentTime = video.currentTime
+        if (!isNaN(currentTime) && isFinite(currentTime) && currentTime >= 0) {
+          onTimeUpdate(currentTime)
+        }
+      }
+    }, 100) // Check every 100ms as fallback
+    
+    video.addEventListener("canplaythrough", handleCanPlayThrough)
+    
+    return () => {
+      video.removeEventListener("canplaythrough", handleCanPlayThrough)
+      clearInterval(intervalId)
+    }
+  }, [fileUrl, videoRef, onTimeUpdate])
+
   // Handle timeupdate from video element
+  // Re-run effect when fileUrl changes to ensure event listeners are attached to the new video element
   useEffect(() => {
     if (!videoRef?.current) return
 
     const handleTimeUpdate = () => {
       if (videoRef.current && onTimeUpdate) {
-        onTimeUpdate(videoRef.current.currentTime)
+        const currentTime = videoRef.current.currentTime
+        // Only update if time is valid and video is playing
+        if (!isNaN(currentTime) && isFinite(currentTime) && currentTime >= 0) {
+          onTimeUpdate(currentTime)
+        }
+      }
+    }
+    
+    // Also listen for seeking events to update time immediately
+    const handleSeeking = () => {
+      if (videoRef.current && onTimeUpdate) {
+        const currentTime = videoRef.current.currentTime
+        if (!isNaN(currentTime) && isFinite(currentTime) && currentTime >= 0) {
+          onTimeUpdate(currentTime)
+        }
       }
     }
 
@@ -128,17 +179,55 @@ export function VideoPlayer({
       if (onPause) onPause()
     }
 
+    const handleLoadedMetadata = () => {
+      setIsLoading(false)
+      setHasError(false)
+    }
+
+    const handleLoadedData = () => {
+      setIsLoading(false)
+    }
+
+    const handleError = (e: Event) => {
+      setIsLoading(false)
+      setHasError(true)
+      const video = e.target as HTMLVideoElement
+      console.error("Video error:", {
+        error: video.error,
+        code: video.error?.code,
+        message: video.error?.message,
+        src: video.src,
+      })
+    }
+
+    const handleLoadStart = () => {
+      setIsLoading(true)
+      setHasError(false)
+    }
+
     const element = videoRef.current
-    element.addEventListener("timeupdate", handleTimeUpdate)
+    element.addEventListener("timeupdate", handleTimeUpdate, { passive: true })
+    element.addEventListener("seeking", handleSeeking, { passive: true })
+    element.addEventListener("seeked", handleSeeking, { passive: true })
     element.addEventListener("play", handlePlay)
     element.addEventListener("pause", handlePause)
+    element.addEventListener("loadedmetadata", handleLoadedMetadata)
+    element.addEventListener("loadeddata", handleLoadedData)
+    element.addEventListener("error", handleError)
+    element.addEventListener("loadstart", handleLoadStart)
 
     return () => {
       element.removeEventListener("timeupdate", handleTimeUpdate)
+      element.removeEventListener("seeking", handleSeeking)
+      element.removeEventListener("seeked", handleSeeking)
       element.removeEventListener("play", handlePlay)
       element.removeEventListener("pause", handlePause)
+      element.removeEventListener("loadedmetadata", handleLoadedMetadata)
+      element.removeEventListener("loadeddata", handleLoadedData)
+      element.removeEventListener("error", handleError)
+      element.removeEventListener("loadstart", handleLoadStart)
     }
-  }, [onTimeUpdate, onPlay, onPause, videoRef])
+  }, [onTimeUpdate, onPlay, onPause, videoRef, fileUrl]) // Add fileUrl to dependencies
 
   // NOTE: We no longer handle onSeeked events here because:
   // 1. Seeking is initiated from the timeline and handled by directly setting videoRef.currentTime in page.tsx
@@ -160,10 +249,56 @@ export function VideoPlayer({
   if (isVideo) {
     return (
       <div className="relative aspect-video w-full bg-black rounded-lg overflow-hidden">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <Loader2 className="h-8 w-8 text-white animate-spin" />
+          </div>
+        )}
+        {hasError && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="text-white text-sm text-center p-4">
+              <p>Failed to load video</p>
+              <p className="text-xs text-white/70 mt-2">{fileUrl}</p>
+            </div>
+          </div>
+        )}
         <video
+          key={fileUrl} // Force re-mount when URL changes
           ref={videoRef as React.RefObject<HTMLVideoElement>}
           src={fileUrl}
           className="w-full h-full object-contain"
+          preload="auto"
+          playsInline
+          crossOrigin="anonymous"
+          onLoadedMetadata={(e) => {
+            const video = e.currentTarget
+            console.log("Video metadata loaded:", {
+              duration: video.duration,
+              readyState: video.readyState,
+              src: video.src,
+            })
+            setIsLoading(false)
+            setHasError(false)
+          }}
+          onCanPlay={(e) => {
+            const video = e.currentTarget
+            console.log("Video can play:", {
+              duration: video.duration,
+              currentTime: video.currentTime,
+            })
+            setIsLoading(false)
+          }}
+          onError={(e) => {
+            const video = e.currentTarget
+            console.error("Video error:", {
+              error: video.error,
+              code: video.error?.code,
+              message: video.error?.message,
+              src: video.src,
+            })
+            setIsLoading(false)
+            setHasError(true)
+          }}
         />
       </div>
     )

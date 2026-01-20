@@ -43,21 +43,24 @@ export function SpeakersTimelineContainer({
   onAddSegment,
 }: SpeakersTimelineContainerProps) {
   return (
-    <div className="border-t flex bg-background">
+    <div className="border-t flex bg-background h-fit">
       {/* Speakers Section */}
-      <div className="w-80 border-r bg-muted/20 flex flex-col">
-        <SpeakerList
-          speakers={speakers}
-          onSpeakerUpdate={onSpeakerUpdate}
-          onAddSpeaker={onAddSpeaker}
-        />
+      <div className="w-80 border-r bg-muted/20 flex flex-col min-h-0 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <SpeakerList
+            speakers={speakers}
+            onSpeakerUpdate={onSpeakerUpdate}
+            onAddSpeaker={onAddSpeaker}
+          />
+        </div>
       </div>
 
       {/* Timeline Section */}
-      <div className="flex-1 flex flex-col bg-background">
+      <div className="flex-1 flex flex-col bg-background min-h-0 overflow-hidden">
         {/* Action Controls - matches Speakers header height */}
         <div className="shrink-0">
           <TimelineControls
+            zoom={zoom}
             onZoomChange={onZoomChange}
             onPlay={onPlay}
             isPlaying={isPlaying}
@@ -68,7 +71,7 @@ export function SpeakersTimelineContainer({
         </div>
 
         {/* Timeline Body - aligns with Speakers body */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           <AudioTimeline
             segments={segments}
             speakers={speakers}

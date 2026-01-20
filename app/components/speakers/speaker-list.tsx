@@ -17,7 +17,7 @@ export function SpeakerList({
   onSpeakerUpdate,
 }: SpeakerListProps) {
   return (
-    <div className="w-full flex flex-col h-full">
+    <div className="w-full flex flex-col h-fit">
       {/* Header */}
       <div className="flex items-center justify-between border-b px-4 py-2 shrink-0">
         <span className="font-medium">Speakers</span>
@@ -28,7 +28,7 @@ export function SpeakerList({
 
       {/* Body - flex column with no gaps for perfect alignment */}
       {/* Add padding-top to match timeline time markers height */}
-      <div className="flex-1 flex flex-col overflow-y-auto pt-10">
+      <div className="flex flex-col pt-10">
         {speakers.map((speaker) => (
           <SpeakerItem
             key={speaker.id}

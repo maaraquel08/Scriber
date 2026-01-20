@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Undo2, Redo2, MessageSquare, Download, FileText, Lightbulb } from "lucide-react"
+import { ArrowLeft, MessageSquare, Download, FileText, Lightbulb } from "lucide-react"
 import type { TranscriptSegment, Speaker, Fact } from "@/lib/types"
 
 interface EditorHeaderProps {
@@ -16,6 +16,8 @@ interface EditorHeaderProps {
   facts?: Fact[]
   title?: string
   languageCode?: string
+  onBack?: () => void
+  lastSaved?: Date | null
 }
 
 function downloadJSON(data: object, filename: string) {
@@ -37,6 +39,8 @@ export function EditorHeader({
   facts = [],
   title = "transcript",
   languageCode = "en",
+  onBack,
+  lastSaved = null,
 }: EditorHeaderProps) {
   const hasTranscript = segments.length > 0
   const hasFacts = facts.length > 0
@@ -87,14 +91,17 @@ export function EditorHeader({
   return (
     <header className="flex items-center justify-between border-b px-6 py-3">
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" title="Undo">
-          <Undo2 className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="icon" title="Redo">
-          <Redo2 className="h-4 w-4" />
-        </Button>
+        {onBack && (
+          <Button variant="ghost" size="icon" title="Back to upload" onClick={onBack}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        )}
       </div>
-      <div className="text-sm text-muted-foreground">Last saved never</div>
+      <div className="text-sm text-muted-foreground">
+        {lastSaved
+          ? `Last saved ${lastSaved.toLocaleTimeString()}`
+          : "Last saved never"}
+      </div>
       <div className="flex items-center gap-2">
         <Button variant="outline" size="sm">
           <MessageSquare className="mr-2 h-4 w-4" />

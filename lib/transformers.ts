@@ -122,23 +122,72 @@ export function extractSpeakersFromTranscript(
 }
 
 /**
- * Transform saved transcript JSON (camelCase) to ElevenLabs format (snake_case)
+ * Transform saved transcript JSON (camelCase or snake_case) to ElevenLabs format (snake_case)
+ * Handles both formats for backward compatibility
+ * Also adds spacing words if they're missing
  */
 export function transformSavedTranscript(
-  saved: SavedTranscriptResponse
+  saved: SavedTranscriptResponse | any
 ): ElevenLabsResponse {
+  // Handle both camelCase and snake_case formats
+  const languageCode = saved.languageCode || saved.language_code || "en"
+  const languageProbability = saved.languageProbability || saved.language_probability || 1.0
+  const text = saved.text || ""
+  
+  // Transform words array, handling both formats
+  let words = (saved.words || []).map((word: any) => ({
+    text: word.text,
+    start: word.start,
+    end: word.end,
+    type: word.type || "word",
+    speaker_id: word.speakerId || word.speaker_id || "speaker_0",
+    logprob: word.logprob,
+  }))
+  
+  // Check if spacing words are missing and add them
+  const hasSpacingWords = words.some((w: any) => w.type === "spacing")
+  if (!hasSpacingWords && words.length > 0) {
+    // Add spacing words between consecutive words
+    const wordsWithSpacing: any[] = []
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i]
+      
+      // Add spacing before word if there's a gap from previous word
+      if (i > 0) {
+        const prevWord = words[i - 1]
+        const gap = word.start - prevWord.end
+        
+        // Add spacing if there's a gap (even small gaps should have spacing)
+        if (gap > 0.01) {
+          wordsWithSpacing.push({
+            text: " ",
+            start: prevWord.end,
+            end: word.start,
+            type: "spacing",
+            speaker_id: word.speaker_id,
+          })
+        } else {
+          // Even if no gap, add a space for proper rendering
+          wordsWithSpacing.push({
+            text: " ",
+            start: prevWord.end,
+            end: word.start,
+            type: "spacing",
+            speaker_id: word.speaker_id,
+          })
+        }
+      }
+      
+      wordsWithSpacing.push(word)
+    }
+    words = wordsWithSpacing
+  }
+  
   return {
-    language_code: saved.languageCode,
-    language_probability: saved.languageProbability,
-    text: saved.text,
-    words: saved.words.map((word) => ({
-      text: word.text,
-      start: word.start,
-      end: word.end,
-      type: word.type,
-      speaker_id: word.speakerId,
-      logprob: word.logprob,
-    })),
+    language_code: languageCode,
+    language_probability: languageProbability,
+    text: text,
+    words: words,
   }
 }
 
