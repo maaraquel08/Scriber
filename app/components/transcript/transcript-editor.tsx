@@ -59,7 +59,7 @@ export function TranscriptEditor({
   return (
     <div
       ref={containerRef}
-      className="h-full overflow-y-auto px-6 py-4 bg-background"
+      className="h-full w-full overflow-y-auto overflow-x-hidden px-6 py-4 bg-background"
     >
       {segments.length === 0 ? (
         <div className="flex items-center justify-center h-full text-muted-foreground">

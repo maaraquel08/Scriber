@@ -1,0 +1,542 @@
+[
+  {
+    "verbatim_quote": "Pretty much my everyday starts with answering emails, checking the pending items from yesterday. And then I start early around 7 or 8 I do check my inbox. And then after that, I go straight to my meetings.",
+    "timestamp": "00:00:24",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The participant's daily routine begins early with emails and checking pending items, followed by meetings.",
+    "fact_id": "FACT_01"
+  },
+  {
+    "verbatim_quote": "I focus on the criticals versus the non-criticals. So the top three things that I think are really important.",
+    "timestamp": "00:00:54",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant prioritizes tasks by focusing on the top three critical items.",
+    "fact_id": "FACT_02"
+  },
+  {
+    "verbatim_quote": "But the afternoon is usually dedicated for meetings. Just basically general queries from people. Kasi naman the legal and POVs questions and queries are unanticipated in a sense that you don't know what's gonna happen for today or in a given day and so you just answer as they come.",
+    "timestamp": "00:01:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "Afternoons are typically reserved for meetings and responding to unanticipated legal and people operations queries.",
+    "fact_id": "FACT_03"
+  },
+  {
+    "verbatim_quote": "And then of course I check the dashboard, I check who's in, who's on leave.",
+    "timestamp": "00:01:40",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant uses a dashboard to monitor employee attendance, specifically who is present and who is on leave.",
+    "fact_id": "FACT_04"
+  },
+  {
+    "verbatim_quote": "Of course, as the head of HR, you want to understand the attrition level of your organization because it would affect your capacity and bandwidth.",
+    "timestamp": "00:03:00",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Understanding attrition levels is essential for the Head of HR to manage organizational capacity and bandwidth.",
+    "fact_id": "FACT_05"
+  },
+  {
+    "verbatim_quote": "And you also want to make sure that attrition is something that you manage, not only from the productivity point of view or optics, but also from the brand reputation optics.",
+    "timestamp": "00:03:10",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Attrition management is crucial for both productivity and maintaining brand reputation.",
+    "fact_id": "FACT_06"
+  },
+  {
+    "verbatim_quote": "So reputation wise it has a significant impact if it goes out to the public.",
+    "timestamp": "00:03:41",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Security",
+    "summary_of_observation": "Public knowledge of attrition can have a significant negative impact on an organization's reputation.",
+    "fact_id": "FACT_07"
+  },
+  {
+    "verbatim_quote": "And also in terms of operations, it goes also to your succession planning. Are we prepared if A leaves, are there people or will there be someone who would take his or her position so that there's continuity in work?",
+    "timestamp": "00:03:55",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Attrition directly impacts succession planning and the continuity of work.",
+    "fact_id": "FACT_08"
+  },
+  {
+    "verbatim_quote": "So if I'm to sum, it's really the reputation of the market because prospects are really critical on the attrition rate because it says a lot about the organization.",
+    "timestamp": "00:04:41",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Motivation",
+    "summary_of_observation": "Market reputation is highly influenced by attrition rates, which prospective employees closely scrutinize.",
+    "fact_id": "FACT_09"
+  },
+  {
+    "verbatim_quote": "Ang muna akong titignan mataas ba yung attrition kasi sa BPO di ba? Very critical yan yung culture.",
+    "timestamp": "00:05:16",
+    "speaker_label": "speaker_0",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "High attrition rates in the BPO industry are critical indicators of cultural problems.",
+    "fact_id": "FACT_10"
+  },
+  {
+    "verbatim_quote": "So number 1 of course is yung cost control mo. You want to monitor kung ano ba yung... ... Like syempre kapag may umalis sayo, meron kang lost productivity and knowledge doon.",
+    "timestamp": "00:06:05",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "Cost control is a primary concern, as employee departures lead to lost productivity and institutional knowledge.",
+    "fact_id": "FACT_11"
+  },
+  {
+    "verbatim_quote": "You have to be able to recruit and onboard someone to be able to fill that position.",
+    "timestamp": "00:06:33",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Filling vacant positions necessitates recruitment and onboarding processes.",
+    "fact_id": "FACT_12"
+  },
+  {
+    "verbatim_quote": "Recruitment of course is a matter of you, it's quantifiable in a sense that your people will have to devote time on training the individual.",
+    "timestamp": "00:06:50",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Recruitment costs are quantifiable, primarily due to the time dedicated by existing staff to train new hires.",
+    "fact_id": "FACT_13"
+  },
+  {
+    "verbatim_quote": "And then of course ang training and ramp up kayo. Kasi hindi naman lahat yan pag pumasok sa iyo immediately malalagay mo sila. You have to marinate them.",
+    "timestamp": "00:07:22",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "New employees require dedicated training and a ramp-up period before becoming fully integrated and productive.",
+    "fact_id": "FACT_14"
+  },
+  {
+    "verbatim_quote": "cost control is very important. And again as mentioned, yung continuity and stability is also important.",
+    "timestamp": "00:07:44",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Cost control, organizational continuity, and stability are considered very important.",
+    "fact_id": "FACT_15"
+  },
+  {
+    "verbatim_quote": "You want to make sure na you have to measure kung ano ba yung manpower gaps na meron ka, ano ba yung mga backups na meron ka.",
+    "timestamp": "00:07:53",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "It is necessary to measure manpower gaps and identify available backups.",
+    "fact_id": "FACT_16"
+  },
+  {
+    "verbatim_quote": "And then ime-measure mo rin yung service quality mo and delivery mo. Kasi kung meron kang turnaround time pero wala ka naman tao. Say may tickets na pumasok sa'yo pero wala kang CA. So ilan ngayon yung magiging disgruntled customers mo?",
+    "timestamp": "00:08:04",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "Measuring service quality and delivery is vital, as staff shortages can lead to missed turnaround times and dissatisfied customers.",
+    "fact_id": "FACT_17"
+  },
+  {
+    "verbatim_quote": "Ang isa mo pang pwede i-measure sa attrition while hindi siya really... Directly under attrition but parang associated factors lang siya is yung moral. Kasi syempre kapag may umalis, yung mga taong naiiwanan, parang may feeling na ay umalis na siya baka may better opportunity or di kaya ba't ako na lang yung natitira.",
+    "timestamp": "00:08:23",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "Employee morale is an associated factor of attrition, as remaining employees may feel uncertainty or consider seeking better opportunities.",
+    "fact_id": "FACT_18"
+  },
+  {
+    "verbatim_quote": "Tinitingnan natin yung mga turn around time na ganoon.",
+    "timestamp": "00:08:48",
+    "speaker_label": "speaker_0",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "Turnaround times are actively monitored.",
+    "fact_id": "FACT_19"
+  },
+  {
+    "verbatim_quote": "you're losing the wrong people. Siyempre ayaw mo naman na umalis yung mga high performers mo, yung mga positions that are really critical and hard to replace.",
+    "timestamp": "00:10:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "Losing high-performing or critical-to-replace employees is identified as a significant problem.",
+    "fact_id": "FACT_20"
+  },
+  {
+    "verbatim_quote": "Of course kung alam mo yung benchmark sa industry mo at alam mo na medyo mataas ka, So early attrition is certainly a symptom.",
+    "timestamp": "00:11:15",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "A high early attrition rate compared to industry benchmarks indicates an attrition problem.",
+    "fact_id": "FACT_22"
+  },
+  {
+    "verbatim_quote": "Diyan ang medyo mataas ang attrition especially for the 3 and 6 month employees. Dito pumapasok yung mga regrettable and not regrettable kasi maraming PIP. But that's also a very critical moment kasi dun mo makikita yung front door experience nila. Like ano ba yung una namin naranasan sa mga unang buwan namin. So if it's not really that good then we'll leave. So kung mataas yung first 3 months and first 6 months mo, you'd say na ito symptoms to ng Problema na natin yung attrition.",
+    "timestamp": "00:11:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "High attrition among 3- and 6-month employees is a critical symptom, reflecting issues with their initial 'front door experience' at the company.",
+    "fact_id": "FACT_23"
+  },
+  {
+    "verbatim_quote": "Tapos hindi ka makapag-provide ng replacement or hindi ka makapag-provide ng additional manpower. So they just accept. At some point if they are always absent and all, mafifil mo na rin na, at saka kapag nagiging disengaged na sila, masasabi mo na nagkakaroon ka na ng, ano yun, yung engagement signals na.",
+    "timestamp": "00:12:28",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "An attrition problem is indicated by the inability to provide replacements or additional manpower, leading to absenteeism and employee disengagement.",
+    "fact_id": "FACT_24"
+  },
+  {
+    "verbatim_quote": "So meron niya lang po tayong bug sa UI kasi hindi pa siya responsive, mostly for lockdown.",
+    "timestamp": "00:18:00",
+    "speaker_label": "speaker_0",
+    "sentiment": "Negative",
+    "theme": "Visual Design",
+    "summary_of_observation": "The UI has a responsiveness bug, particularly noted during lockdown.",
+    "fact_id": "FACT_25"
+  },
+  {
+    "verbatim_quote": "Well, the first thing that I've noticed is the AI overview. It says here 12.5. It gives me statistics basically. And the good thing about this is that parang it's giving me a nudge that since it's zero, it has increased from the previous quarter, it requires my immediate attention. And so that for me is very critical. Parang it would really help me understand ... On a very high glance kung ano na yan nangyayari sa akin. And so what I needed to do.",
+    "timestamp": "00:18:05",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The participant finds the AI overview critical and helpful as it provides a 'nudge' about increased attrition, prompting immediate attention and high-level understanding.",
+    "fact_id": "FACT_26"
+  },
+  {
+    "verbatim_quote": "It will not provide me, well it does not provide me the specific of the things that I need to do because maybe it won't be able to measure that. But at least there's a nudge that medyo mataas ang attrition ko.",
+    "timestamp": "00:18:59",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The AI overview effectively nudges about high attrition but lacks specific actionable steps, which the participant implicitly expects.",
+    "fact_id": "FACT_27"
+  },
+  {
+    "verbatim_quote": "Hindi ko lang siguro nakikita nga ngayon kung ano yung, if these are time-bound, but I believe so kasi mayroon nakalagay versus last blank versus last perfect blank. So maybe ito yung mga pagiging time-bound niya. Because what you want to know is that where are we at versus last quarter versus last year versus last whatever period you're trying to figure out.",
+    "timestamp": "00:19:35",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The participant requires clear time-bound comparisons (e.g., quarter-over-quarter, year-over-year) to effectively understand trends.",
+    "fact_id": "FACT_28"
+  },
+  {
+    "verbatim_quote": "There might be some terms here if I'm not exactly in the HR practice that may not be understandable right away like voluntary turnover. So anong kayang definition nun para doon sa... Ano kayang definition nun unless there's a glossary on how these terms are being used. So I think that one is very critical also.",
+    "timestamp": "00:20:13",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Language and Terminology",
+    "summary_of_observation": "A glossary is deemed critical for non-HR professionals to understand HR-specific terms like 'voluntary turnover.'",
+    "fact_id": "FACT_29"
+  },
+  {
+    "verbatim_quote": "Attrition by department also great. Kaya lang hindi ko alam kung ito ba is measured yearly, quarterly or monthly. So I guess pag pinindot mo yan baka may lalabas but mukhang wala.",
+    "timestamp": "00:21:00",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Usability",
+    "summary_of_observation": "While the 'Attrition by department' feature is appreciated, the participant lacks clarity on the measurement frequency (yearly, quarterly, or monthly).",
+    "fact_id": "FACT_30"
+  },
+  {
+    "verbatim_quote": "But if you're just a manager and this is for the manager, I think that's kind of like unnecessary for you to be able to see the other departments. Siguro for the POC, the admins and all industry level people.",
+    "timestamp": "00:21:26",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The participant suggests that managers might not need to view attrition data for all departments, implying a preference for role-based data visibility.",
+    "fact_id": "FACT_31"
+  },
+  {
+    "verbatim_quote": "Hopefully ito kung pindutin ko ito, I don't know if I can customize the specific reasons and if so will it give me an understanding of. Oh. Sige kung resigned to, ilan yung better opportunity, ilan yung personal reasons, ilan yung etc. etc.",
+    "timestamp": "00:21:40",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The participant desires the ability to customize and view detailed breakdowns of specific reasons for employee departure.",
+    "fact_id": "FACT_32"
+  },
+  {
+    "verbatim_quote": "Hindi ko alam kung paano natin ma-associate ang mga costs. Kasi if I'm a decision maker, of course gusto kong malaman ano ba ang mga associated costs dito sa attrition na ito. In terms of the salary, ano ba ang na-forgo namin, ano ba ang nawala.",
+    "timestamp": "00:22:36",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "As a decision-maker, the participant needs to associate specific costs, such as lost salaries and forgone expenses, with attrition data.",
+    "fact_id": "FACT_33"
+  },
+  {
+    "verbatim_quote": "Kasi technical description, it would also matter especially kung attrition mo naman, if you're a professional services firm, makikita mo na... Q8. Nanggagaling yung attrition mo sa mga operations, not really with your experts? I think hindi ka magiging very conscious about it. But kung makita mo nag-aali sa sayo yung mga accountants. Mo. Ayun talagang very critical sa'yo yan. You know what I mean? Like yung job descriptors get to provide a lot of insights also.",
+    "timestamp": "00:23:09",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Job descriptors are important for understanding attrition, especially when it concerns expert roles, which is more critical than attrition in operational roles.",
+    "fact_id": "FACT_34"
+  },
+  {
+    "verbatim_quote": "Pero siguro dapat sa high level, sa HR in general, dapat makita nila aling mga position dito ang madalas inaalisan.",
+    "timestamp": "00:24:11",
+    "speaker_label": "speaker_0",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "High-level HR personnel require visibility into which positions experience the highest attrition rates.",
+    "fact_id": "FACT_35"
+  },
+  {
+    "verbatim_quote": "Hindi ko lang makita itong versus last, nakita mo sa screen ko? So hindi ko alam kung nakalagay ang versus last period. Hindi ko lang alam kung ano ang last period. But kung defined naman ang last period niya I think that's the time bound. You just need i-comparison.",
+    "timestamp": "00:24:39",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Usability",
+    "summary_of_observation": "The participant notes an unclear or missing 'versus last period' indicator, hindering comprehension of time-bound comparisons.",
+    "fact_id": "FACT_36"
+  },
+  {
+    "verbatim_quote": "So you know what the trend is or what the trends are. Kung ito ba is increasing or decreasing from previous year, previous quarter, etc. Really important.",
+    "timestamp": "00:25:17",
+    "speaker_label": "speaker_0",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Understanding attrition trends (increasing or decreasing from previous periods) is considered highly important.",
+    "fact_id": "FACT_37"
+  },
+  {
+    "verbatim_quote": "Kasi pag nagre-report ka naman, okay sige. Halimbawa sa quarterly report, where we're at now versus where we were last year, same period of last year. So ganoon ang mga comparison na gusto mo.",
+    "timestamp": "00:25:39",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "For reporting, the participant prefers comparisons such as current data against the same period of the previous year.",
+    "fact_id": "FACT_38"
+  },
+  {
+    "verbatim_quote": "Kung historical ba yun, I mean kung seasonal lang ba yung fluctuation ng attrition mo. Kasi for instance, ang mame-measure niyan is right away kung sa December period. Ba, right after mag-13th month people do leave, makikita mo kung meron nga. So you'll be able to know what do you have to do kung ganoon, what approaches will you employ diba?",
+    "timestamp": "00:26:00",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "It is crucial to determine if attrition fluctuations are seasonal (e.g., after the 13th month in December) to inform appropriate mitigating actions.",
+    "fact_id": "FACT_39"
+  },
+  {
+    "verbatim_quote": "How can you trust the AI overview? Kasi kung ang magagawa lang ng AI is magbigay siya sa akin ng isang overview. ... Baka hindi tama ang pagsisynthesize niya nang nilalagay niya sa AI overview. So paano ba? Ang hirap eh. How will I trust?",
+    "timestamp": "00:26:17",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Security",
+    "summary_of_observation": "The participant questions the trustworthiness of the AI overview, expressing concern about the accuracy of its data synthesis.",
+    "fact_id": "FACT_40"
+  },
+  {
+    "verbatim_quote": "Well yung data naman nandito. I still have to verify I guess and see if what's here reflect what's my real numbers get.",
+    "timestamp": "00:27:14",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant intends to verify the AI overview's data against their own actual numbers for accuracy.",
+    "fact_id": "FACT_41"
+  },
+  {
+    "verbatim_quote": "How is this AI overview working? What's the logic behind it? What are the things that it's capturing?",
+    "timestamp": "00:27:54",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The participant seeks to understand the underlying logic, operational mechanics, and data capture processes of the AI overview.",
+    "fact_id": "FACT_42"
+  },
+  {
+    "verbatim_quote": "I'll take it as it is but. I still have to verify my own data and make. A. Comparison of the summary that it has versus what I know based on the facts that I hold.",
+    "timestamp": "00:28:18",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant will use the AI overview's summary but will always cross-reference it with their own data for verification.",
+    "fact_id": "FACT_43"
+  },
+  {
+    "verbatim_quote": "That's not exactly about attrition but you just wanting to know how many positions that you have to fill and the corresponding costs, particularly salary that's associated to that.",
+    "timestamp": "00:28:44",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The participant needs to know the number of positions to fill and their associated costs, especially salaries.",
+    "fact_id": "FACT_44"
+  },
+  {
+    "verbatim_quote": "Kasi siyempre kapag in-expound mo yung computation mo, bako-compute mo na rin yung SSS, pag-ibig PhilHealth, etc. and then you'll be able to do projection based on those numbers and facts that you have.",
+    "timestamp": "00:29:10",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "Detailed computations are necessary for projections, including government contributions like SSS, Pag-ibig, and PhilHealth.",
+    "fact_id": "FACT_45"
+  },
+  {
+    "verbatim_quote": "See for instance, if I'm a sales-oriented and sales-led organization, so certainly having a high attrition rate in the sales is something that would impact my financials moving forward. Kasi sino yung magkukusang deals ko kapag atas pala ng attrition. So maybe there's a problem in the leadership there. There should be some root causes there that I'll be able to figure out.",
+    "timestamp": "00:30:31",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "High attrition in a sales-oriented organization significantly impacts financials and suggests potential leadership or root cause issues that require investigation.",
+    "fact_id": "FACT_46"
+  },
+  {
+    "verbatim_quote": "It's really about how much it will cost me.",
+    "timestamp": "00:32:16",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Decision Making Process",
+    "summary_of_observation": "The primary consideration in workforce management decisions is the associated cost.",
+    "fact_id": "FACT_47"
+  },
+  {
+    "verbatim_quote": "If I'll use Sidekick, well, chat GPT lang, I'll ask questions, you know, generate report for me.",
+    "timestamp": "00:32:32",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The participant expects to interact with Sidekick by asking questions and requesting reports, similar to ChatGPT.",
+    "fact_id": "FACT_48"
+  },
+  {
+    "verbatim_quote": "I don't think I'll be asking Sidekick right away about behavioral things like okay do tell me what are the potential I.",
+    "timestamp": "00:33:23",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant would not initially inquire about behavioral aspects when using Sidekick.",
+    "fact_id": "FACT_49"
+  },
+  {
+    "verbatim_quote": "E parang hindi naman siya useful kasi sorry ah. I cannot provide you with the exact top 3 departments with high attrition. Exactly my question because the data is not company specific. So parang it breaks my heart. After seeing. The data that I have, then the disconnect there. Is that the sidekick cannot. Who's telling the truth? Is it the sidekick?",
+    "timestamp": "00:33:53",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Frustration",
+    "summary_of_observation": "The participant is frustrated because Sidekick failed to provide company-specific attrition data, leading to doubt about data accuracy and a disconnect with the presented figures.",
+    "fact_id": "FACT_50"
+  },
+  {
+    "verbatim_quote": "nagagamit ko lang siya kapag may question ako related sa HR or meron akong task for HR like create COE for me, create my salary...",
+    "timestamp": "00:34:49",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant uses Sidekick for specific HR-related questions or tasks, such as generating Certificates of Employment or salary documents.",
+    "fact_id": "FACT_51"
+  },
+  {
+    "verbatim_quote": "Well, if you're going to ask me just because I'm a senior leader already in the organization, it's more of the analytics.",
+    "timestamp": "00:35:10",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "As a senior leader, the participant would primarily use Sidekick for analytical purposes.",
+    "fact_id": "FACT_52"
+  },
+  {
+    "verbatim_quote": "Siguro initial question ko sa kanya, so what are the top 3 departments? Can you also project whether this will remain to be the case in the next year or in the next month or in the next couple of years, something like that.",
+    "timestamp": "00:35:36",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The participant expects Sidekick to provide attrition trend projections, not just current departmental data.",
+    "fact_id": "FACT_53"
+  },
+  {
+    "verbatim_quote": "Mas lumalalim ang engagement namin more than dun sa mga typical na give me the ganyan, give me the ganto.",
+    "timestamp": "00:36:03",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The participant desires a deeper engagement with AI capabilities beyond simple data retrieval.",
+    "fact_id": "FACT_54"
+  },
+  {
+    "verbatim_quote": "Ang importante sa akin is if I see the data is like this and I plan to do this kind of policy or program, what would be the potential impact of this program to this data or this data to. The program?",
+    "timestamp": "00:36:29",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The participant's crucial need from generative AI is to analyze the potential impact of policies or programs on data, and vice-versa.",
+    "fact_id": "FACT_55"
+  },
+  {
+    "verbatim_quote": "I wouldn't say right away na parang I'm very confident but this is a good start.",
+    "timestamp": "00:37:25",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The participant considers the dashboard a good initial offering but does not yet feel fully confident in it.",
+    "fact_id": "FACT_56"
+  },
+  {
+    "verbatim_quote": "I'll certainly check if the data that you have here are correct and then see if they are indeed true based on what I have. That's number one.",
+    "timestamp": "00:37:37",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant plans to verify the dashboard's data against their own records to ensure accuracy.",
+    "fact_id": "FACT_57"
+  },
+  {
+    "verbatim_quote": "yung level of confidence ko kasi is of course the maturity of the sidekick or the attrition dashboard. What I mean is of course the more data that you put, the longer that you stay in a relationship with it, then the more it becomes mature, the more it becomes you.",
+    "timestamp": "00:37:57",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The participant's confidence in the dashboard is linked to its maturity, which is influenced by continuous data input and prolonged usage.",
+    "fact_id": "FACT_58"
+  },
+  {
+    "verbatim_quote": "So may good start to pero ibe-verify ko pa rin siya. So certainly, there's a level of adoption and there's a level of maturity that I would want to see until such time that I'd say na, ah, ito na talaga yung gagamitin ko.",
+    "timestamp": "00:38:29",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The participant expects a period of adoption and observation of the dashboard's maturity before fully committing to its use.",
+    "fact_id": "FACT_59"
+  },
+  {
+    "verbatim_quote": "Well, just because I'm using mobile now, hopefully it becomes mobile responsive.",
+    "timestamp": "00:38:46",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The participant hopes the dashboard will be mobile-responsive for improved mobile usability.",
+    "fact_id": "FACT_60"
+  },
+  {
+    "verbatim_quote": "Siguro just some sort of UI UX there that if there are bold nudges that you want me to do, I think that's the better approach. Parang sasabihin mo. Lang sa akin na ito yung pinakakritikal na gagawin mo. And then highlight to me the most critical data. Like ito naman meron dito, it's color red, it's.",
+    "timestamp": "00:39:05",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The participant suggests UI/UX improvements such as bolder nudges and highlighting the most critical data, similar to existing color-coded indicators.",
+    "fact_id": "FACT_61"
+  }
+]

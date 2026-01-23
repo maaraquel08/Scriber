@@ -247,6 +247,7 @@ export function FactsPanel({
                     return (
                         <Card
                             key={fact.fact_id}
+                            data-fact-id={fact.fact_id}
                             className={`hover:shadow-md transition-all cursor-pointer ${
                                 isActive
                                     ? "ring-2 ring-primary ring-offset-2 bg-primary/5 border-primary/20"

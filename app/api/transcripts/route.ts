@@ -37,9 +37,19 @@ export async function GET() {
           // If we can't read the file, use defaults
         }
         
+        let methodology = null
+        try {
+          const content = readFileSync(filePath, "utf-8")
+          const transcriptData = JSON.parse(content)
+          methodology = transcriptData.methodology || null
+        } catch {
+          // If we can't read the file, use defaults
+        }
+        
         return {
           id: transcriptId,
           title,
+          methodology,
           createdAt: createdAt.toISOString(),
           updatedAt: stats.mtime.toISOString(),
         }

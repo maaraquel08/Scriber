@@ -360,6 +360,7 @@ export async function POST(request: NextRequest) {
         audio: audioBuffer,
         speaker_labels: true,
         speech_model: "universal",
+        language_code: "tl", // Tagalog language code for accurate transcription
       })
 
       // Check if transcription completed successfully

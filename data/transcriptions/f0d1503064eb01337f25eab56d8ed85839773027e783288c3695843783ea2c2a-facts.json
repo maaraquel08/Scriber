@@ -1,0 +1,371 @@
+[
+  {
+    "verbatim_quote": "So it's helpful and for. Yeah, more helpful for the team and easier to track them. Before we used to manually track numbers.",
+    "timestamp": "00:03:33",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user previously tracked numbers manually, highlighting a need for an easier, automated tracking solution.",
+    "fact_id": "FACT_01"
+  },
+  {
+    "verbatim_quote": "When we track the attrition we also look at how many people left a certain department for that period.",
+    "timestamp": "00:04:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The user tracks attrition by the number of people who left a specific department within a period.",
+    "fact_id": "FACT_02"
+  },
+  {
+    "verbatim_quote": "Another important siguro for attrition is we also look at separation employees it through resignation. Is it through termination? Yeah, either voluntary or involuntary.",
+    "timestamp": "00:05:01",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The user considers the type of separation (resignation, termination, voluntary, involuntary) as an important factor for attrition.",
+    "fact_id": "FACT_03"
+  },
+  {
+    "verbatim_quote": "sometimes in that specific context we could also inform recruitment. Employees because of study. So maybe when we hire people or when we look for people refrain from hiring candidates who are still studying because most likely they would also leave the company.",
+    "timestamp": "00:05:40",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Decision Making Process",
+    "summary_of_observation": "The user uses attrition data (e.g., people leaving for school) to inform recruitment strategies, advising against hiring candidates still studying.",
+    "fact_id": "FACT_04"
+  },
+  {
+    "verbatim_quote": "we also looked at how long they have stayed in the company. Like for example it was employing six months long or within three months. And what's the reason it can help recruitment then filter in a higher Nothing, ordinary recruitment first stage.",
+    "timestamp": "00:06:05",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user looks at employee tenure (e.g., 3-6 months) and reasons for leaving to help recruitment filter candidates.",
+    "fact_id": "FACT_05"
+  },
+  {
+    "verbatim_quote": "that's why it's very important to look at the reason for separation.",
+    "timestamp": "00:07:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user emphasizes the importance of understanding the reason for employee separation.",
+    "fact_id": "FACT_06"
+  },
+  {
+    "verbatim_quote": "My survey anonymous. Then in a way they can really tell what the majority of the reasons why they chose to resign or leave the company.",
+    "timestamp": "00:08:44",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Routine",
+    "summary_of_observation": "Anonymous exit surveys are used to gather honest feedback on reasons for employee resignations.",
+    "fact_id": "FACT_07"
+  },
+  {
+    "verbatim_quote": "forecasting mechanism within HR we would predict now based on his story. For example during these months employees are more prone to resign recruitment replacements or talent pool prepared.",
+    "timestamp": "00:09:28",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "HR uses historical data and forecasting to predict periods of higher attrition and prepare a talent pool for replacements.",
+    "fact_id": "FACT_08"
+  },
+  {
+    "verbatim_quote": "Q1 of every year they're looking for another job and they got their 13th month pay already from the current company. So between January to to March usually based experience.",
+    "timestamp": "00:10:35",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The user observes a seasonal trend where employees tend to seek new jobs between January and March after receiving their 13th-month pay.",
+    "fact_id": "FACT_09"
+  },
+  {
+    "verbatim_quote": "Would there be an option my filter for us to check for example first box overall attrition. So I'm assuming there's already a set time period for this. For example we just want to look at from this quarter although monthly basis maybe you could also have a filter here. For example what about just to check Q1 and then Q2 probably or Q3 for certain months long and then.",
+    "timestamp": "00:13:06",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user immediately asks for a time period filter for overall attrition, suggesting quarterly or monthly options.",
+    "fact_id": "FACT_10"
+  },
+  {
+    "verbatim_quote": "Since this is attrition I'm assuming this is from the people who got separated.",
+    "timestamp": "00:14:04",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The user assumes that 'tenure' data displayed on the attrition dashboard refers to people who have separated from the company.",
+    "fact_id": "FACT_11"
+  },
+  {
+    "verbatim_quote": "since my book I returned over. Maybe it's also better than Merinding involuntary turnover. So the people who got terminated voluntary versus involuntary turnover.",
+    "timestamp": "00:14:14",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests adding 'involuntary turnover' data alongside 'voluntary turnover' for a more complete picture.",
+    "fact_id": "FACT_12"
+  },
+  {
+    "verbatim_quote": "attrition by department Seguru maybe there's a filter we can add to check the time period because general although it tells us data when it tells us insights. For example, what do we mean by 9.8% sales and no timeline to. Is this for 2025? Is this for 2026? Is this from the start of this up until the recent day today?",
+    "timestamp": "00:14:37",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user expresses frustration over the lack of a time period filter for 'attrition by department,' making percentages like '9.8% sales' unclear without a timeline.",
+    "fact_id": "FACT_13"
+  },
+  {
+    "verbatim_quote": "Very minor. Copy suggestion.",
+    "timestamp": "00:15:42",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Language and Terminology",
+    "summary_of_observation": "The user has a minor suggestion related to the copy used for 'departure reason'.",
+    "fact_id": "FACT_14"
+  },
+  {
+    "verbatim_quote": "I think so far all goods a lot of insight as you can get from the dashboard about this.",
+    "timestamp": "00:16:01",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user finds the dashboard provides a lot of useful insights.",
+    "fact_id": "FACT_15"
+  },
+  {
+    "verbatim_quote": "It's actually very helpful. I wanted to ask something obvious again because you know, it would also tell Casse sometimes, for example, for a certain worker, this person is always getting the highest attrition rate. So that means there's something going on with the team dynamics, HR or management. So I find this very, very helpful.",
+    "timestamp": "00:16:50",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Motivation",
+    "summary_of_observation": "The user finds the supervisor attrition rate helpful for identifying potential issues with team dynamics, HR, or management, which is a strong motivator for using such data.",
+    "fact_id": "FACT_16"
+  },
+  {
+    "verbatim_quote": "I think same thing regardless of the number of people reporting under you. So it's really the number of people who left over the total number of people you're managing.",
+    "timestamp": "00:18:14",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The user understands attrition rate as the number of people who left compared to the total number of people managed.",
+    "fact_id": "FACT_17"
+  },
+  {
+    "verbatim_quote": "We also have to look at what was the reason then for the attrition.",
+    "timestamp": "00:18:40",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user emphasizes the need to also consider the reason behind attrition, not just the numbers.",
+    "fact_id": "FACT_18"
+  },
+  {
+    "verbatim_quote": "It's impactful because we can compare the performance then like for example, if we compare it with operations, let's say productivity this quarter. So maybe factored in Casseyung attrition there were fewer people doing the task. That's why the productivity also dipped. That's why it's important to look at it in terms of quarters or timelines for comparison.",
+    "timestamp": "00:19:29",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Comparative Feedback",
+    "summary_of_observation": "The user states that a time period filter is impactful for comparing performance (e.g., correlating attrition with productivity dips) across quarters or timelines.",
+    "fact_id": "FACT_19"
+  },
+  {
+    "verbatim_quote": "AI overview. My increase from the previous quarter there can be a filter and then my AI overview. So it's a really, really good idea.",
+    "timestamp": "00:20:04",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests an 'AI overview' with a filter to show attrition increases from the previous quarter, finding it a good idea.",
+    "fact_id": "FACT_20"
+  },
+  {
+    "verbatim_quote": "Timeline comparison there can be a standard metric. For example for. For this department. Let's use the actual departments here year. Let's see. For example sales is Q1. So metric for Q2 attrition by 5%. We should have fewer attrition this upcoming quarter and then every quarterly month or quarterly business review department head. So from last quarter to this quarter we've had fewer attritions. So you look at the trend for. For those time period.",
+    "timestamp": "00:20:25",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user needs timeline comparisons with standard metrics for departments to track attrition trends quarter-over-quarter for business reviews.",
+    "fact_id": "FACT_21"
+  },
+  {
+    "verbatim_quote": "Yes, correct.",
+    "timestamp": "00:21:30",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user confirms the need for percentages and data when presenting reports to the CEO.",
+    "fact_id": "FACT_22"
+  },
+  {
+    "verbatim_quote": "For today? Parasha? Obviously with what's going on with the numbers here. So with the multiple numbers we're looking at on a daily basis. Automatic national response power automatic national data. And I don't have to think about attrition rate from this quarter to this quarter. So in this summary, super helpful. Even my immediate attention. So that also would tell me from the numbers itself the departments in terms of attrition. Okay. It makes analysis easier.",
+    "timestamp": "00:21:56",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user finds the AI overview 'super helpful' as it provides automatic responses and data, simplifying analysis and drawing immediate attention to attrition trends across departments.",
+    "fact_id": "FACT_23"
+  },
+  {
+    "verbatim_quote": "Seguru. As long as there is the. There is accuracy in terms of putting the data back end. For example, I'm assuming this is going to be built based on how the employee was tagged system.",
+    "timestamp": "00:23:08",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Security",
+    "summary_of_observation": "The user's confidence in the AI overview is contingent on the accuracy of backend data tagging in the system.",
+    "fact_id": "FACT_24"
+  },
+  {
+    "verbatim_quote": "As long as there is accuracy there and then download as Excel file. Double check your data. I'm. I'm going to Be confident with the AI overview. As long as those are accurate then. And that's an option then to manually download the data.",
+    "timestamp": "00:23:29",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user's confidence in the AI overview relies on data accuracy and the option to manually download data as an Excel file for double-checking.",
+    "fact_id": "FACT_25"
+  },
+  {
+    "verbatim_quote": "Yeah, I think it would be easier. Although boxes maybe as a one box after this ask more info. When you ask here, where do I find and how do I check for additional questions? If I have questions about this statement, for me, if I am the user, sames as proud Dashboard currently Nayong Sidekick. That's a top left shot and it's just one box. Maybe that would be easier having these three.",
+    "timestamp": "00:24:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "The user would prefer a single 'ask more info' box, similar to the existing 'Sidekick' dashboard, instead of multiple boxes for AI interaction.",
+    "fact_id": "FACT_26"
+  },
+  {
+    "verbatim_quote": "But you can also see the history of the questions you've had. Because I'm assuming with this one there will be three. But is it gonna be one history for all of the boxes or separate histories per box.",
+    "timestamp": "00:25:29",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "The user prefers a single, unified history for all AI questions rather than separate histories for each interaction box.",
+    "fact_id": "FACT_27"
+  },
+  {
+    "verbatim_quote": "I would prefer it in one history. So one box. But I direct to the point, it's really just showing the numbers and we just have one box to ask about the attrition data. For me, Langha, as a, as someone using the interface.",
+    "timestamp": "00:25:52",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "The user prefers a single, direct 'ask' box for all attrition data inquiries within one history, for a simpler interface.",
+    "fact_id": "FACT_28"
+  },
+  {
+    "verbatim_quote": "I'm assuming this is still gonna be with the ass sidekick. And then you just ask for the file.",
+    "timestamp": "00:27:19",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The user expects to interact with the 'Sidekick' AI by 'asking for the file' to generate insights on attrition trends.",
+    "fact_id": "FACT_29"
+  },
+  {
+    "verbatim_quote": "Seguru, we have to really add the reasons again. Since Maramiyung, for example, 12.5% young attrition, I need to ask how many people were separated versus the population? Which departments had higher attrition and what's the. What's the trend of separation? Reason? I would ask right away.",
+    "timestamp": "00:28:09",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "When seeking context on attrition, the user would immediately ask the AI about the number of separated people versus the population, departments with high attrition, and separation reasons/trends.",
+    "fact_id": "FACT_30"
+  },
+  {
+    "verbatim_quote": "I think it's too broad from my definition again, when I was just asked numbers.",
+    "timestamp": "00:29:42",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Frustration",
+    "summary_of_observation": "The user finds the AI's response too broad when they specifically asked for numbers, indicating a desire for precise quantitative answers.",
+    "fact_id": "FACT_31"
+  },
+  {
+    "verbatim_quote": "Sorry, I know widget. This is the sidekick.",
+    "timestamp": "00:31:50",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Usability",
+    "summary_of_observation": "The user expresses confusion, indicating uncertainty about whether an element is a 'widget' or the 'Sidekick' chat.",
+    "fact_id": "FACT_32"
+  },
+  {
+    "verbatim_quote": "Okay. I didn't notice it.",
+    "timestamp": "00:32:20",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Usability",
+    "summary_of_observation": "The user did not notice the lower right UI element for the Sidekick, suggesting poor discoverability.",
+    "fact_id": "FACT_33"
+  },
+  {
+    "verbatim_quote": "Okay, something new. Now you can drag and drop chats then.",
+    "timestamp": "00:33:06",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Usability",
+    "summary_of_observation": "The user notes the drag-and-drop functionality for chats as a new interaction.",
+    "fact_id": "FACT_34"
+  },
+  {
+    "verbatim_quote": "I can't see any use buffer now since obviously. If I'm gonna drag it and then data, maybe I can ask it to compare from current Current attrition from the past.",
+    "timestamp": "00:33:23",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The user initially cannot see an immediate use for the drag-and-drop feature but then suggests it could be used to compare current and past attrition data.",
+    "fact_id": "FACT_35"
+  },
+  {
+    "verbatim_quote": "So based on the data we have from the dashboard, highest would be coming from sales with 9.8% versus finance which is at 4.2%. I just noticed arrange.",
+    "timestamp": "00:35:24",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The user provides an example of verbally reporting the highest and lowest department attrition rates from the dashboard data.",
+    "fact_id": "FACT_37"
+  },
+  {
+    "verbatim_quote": "For my last employer we did have an AI but it was mostly used for benefits and policies where employees can ask there directly. We didn't really incorporate it to dashboards yet so I found it very helpful. Who can answer a few questions.",
+    "timestamp": "00:36:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Comparative Feedback",
+    "summary_of_observation": "The user finds the dashboard's integrated AI helpful for answering questions, contrasting it with a previous employer's AI used only for benefits and policies.",
+    "fact_id": "FACT_38"
+  },
+  {
+    "verbatim_quote": "Yeah, I think that the last task you asked me to do which is the. You know when you drag the box and then put it in the chat box, that's done. Because I haven't done that with the AIs I have used except for ChatGPT Seguru but you know, for tricks that are already here and then you can drag it easily. AI. I found it very useful. Something new then my experience.",
+    "timestamp": "00:36:36",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Usability",
+    "summary_of_observation": "The user found the drag-and-drop widget to chat interaction 'very useful' and a 'new experience,' standing out among other AI interactions.",
+    "fact_id": "FACT_39"
+  },
+  {
+    "verbatim_quote": "For me when there is this. So maybe put it in one AI widget and then remove this. But it looks cleaner so far. If I, if I were to change one thing here.",
+    "timestamp": "00:37:32",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests consolidating multiple AI widgets into a single one for a cleaner visual design.",
+    "fact_id": "FACT_40"
+  },
+  {
+    "verbatim_quote": "So Far the man. All goods with the dashboard, a few tweaks. I don't have questions actually, since everything I would need probably at a glance. So no questions for now.",
+    "timestamp": "00:38:19",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user is satisfied with the dashboard, finding everything they need at a glance with only a few minor tweaks desired.",
+    "fact_id": "FACT_41"
+  },
+  {
+    "verbatim_quote": "This is the first time I've been invited to a session like this before. I can say for context, with my last employer, we did have, you know, when we request for features conversation, it's all of. All of the conversation rather happens in a chat or email. For example, we want to request for this feature to be added. Sometimes they would just send us an invite to talk about how do you want it to look like. And then once the product is available, they would send it to us and then let us use it right away. So ask and then implement right away. Test it out first before we roll it out. So yeah, I like the session, especially since we're developing a product for potential and current clients.",
+    "timestamp": "00:39:10",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Comparative Feedback",
+    "summary_of_observation": "The user appreciates the usability session approach, contrasting it with previous employers who would implement features directly without prior testing or extensive user feedback.",
+    "fact_id": "FACT_42"
+  }
+]

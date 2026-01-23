@@ -106,7 +106,8 @@ export async function GET(
         start(controller) {
           stream.on("data", (chunk) => {
             try {
-              controller.enqueue(new Uint8Array(chunk))
+              const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+              controller.enqueue(new Uint8Array(buffer))
             } catch (error) {
               console.error("Error enqueueing chunk:", error)
               controller.error(error)
@@ -161,7 +162,8 @@ export async function GET(
         start(controller) {
           stream.on("data", (chunk) => {
             try {
-              controller.enqueue(new Uint8Array(chunk))
+              const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+              controller.enqueue(new Uint8Array(buffer))
             } catch (error) {
               console.error("Error enqueueing chunk:", error)
               controller.error(error)

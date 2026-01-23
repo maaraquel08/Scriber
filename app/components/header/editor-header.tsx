@@ -97,35 +97,39 @@ export function EditorHeader({
           </Button>
         )}
       </div>
-      <div className="text-sm text-muted-foreground">
-        {lastSaved
-          ? `Last saved ${lastSaved.toLocaleTimeString()}`
-          : "Last saved never"}
-      </div>
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm">
-          <MessageSquare className="mr-2 h-4 w-4" />
-          Feedback
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" disabled={!hasTranscript}>
-              <Download className="mr-2 h-4 w-4" />
-              Export
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleExportTranscript} disabled={!hasTranscript}>
-              <FileText className="mr-2 h-4 w-4" />
-              Download Transcript JSON
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleExportFacts} disabled={!hasFacts}>
-              <Lightbulb className="mr-2 h-4 w-4" />
-              Download Facts JSON
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      {hasTranscript && (
+        <div className="text-sm text-muted-foreground">
+          {lastSaved
+            ? `Last saved ${lastSaved.toLocaleTimeString()}`
+            : "Last saved never"}
+        </div>
+      )}
+      {hasTranscript && (
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">
+            <MessageSquare className="mr-2 h-4 w-4" />
+            Feedback
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" disabled={!hasTranscript}>
+                <Download className="mr-2 h-4 w-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={handleExportTranscript} disabled={!hasTranscript}>
+                <FileText className="mr-2 h-4 w-4" />
+                Download Transcript JSON
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleExportFacts} disabled={!hasFacts}>
+                <Lightbulb className="mr-2 h-4 w-4" />
+                Download Facts JSON
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </header>
   )
 }

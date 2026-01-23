@@ -51,7 +51,8 @@ export async function POST(
       words, 
       title,
       fileName,
-      fileType 
+      fileType,
+      methodology 
     } = body
 
     // Validate required fields
@@ -78,6 +79,7 @@ export async function POST(
       title: title || fileName || `Transcript ${transcriptId.slice(0, 8)}...`,
       fileName: fileName,
       fileType: fileType,
+      methodology: methodology || null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }
@@ -99,6 +101,56 @@ export async function POST(
     console.error("Error saving transcript:", error)
     return NextResponse.json(
       { error: "Failed to save transcript" },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: transcriptId } = await params
+    const body = await request.json()
+    const transcriptPath = join(
+      process.cwd(),
+      "data",
+      "transcriptions",
+      `${transcriptId}.json`
+    )
+
+    if (!existsSync(transcriptPath)) {
+      return NextResponse.json(
+        { error: "Transcript not found" },
+        { status: 404 }
+      )
+    }
+
+    const fileContent = readFileSync(transcriptPath, "utf-8")
+    const transcriptData = JSON.parse(fileContent)
+
+    // Update only provided fields
+    if (body.methodology !== undefined) {
+      transcriptData.methodology = body.methodology || null
+    }
+    if (body.title !== undefined) {
+      transcriptData.title = body.title
+    }
+    
+    transcriptData.updatedAt = new Date().toISOString()
+
+    writeFileSync(transcriptPath, JSON.stringify(transcriptData, null, 2), "utf-8")
+
+    return NextResponse.json({ 
+      success: true, 
+      transcript: transcriptData,
+      message: "Transcript updated successfully" 
+    })
+  } catch (error) {
+    console.error("Error updating transcript:", error)
+    return NextResponse.json(
+      { error: "Failed to update transcript" },
       { status: 500 }
     )
   }

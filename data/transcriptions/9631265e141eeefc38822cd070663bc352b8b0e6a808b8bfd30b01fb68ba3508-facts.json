@@ -1,0 +1,497 @@
+[
+  {
+    "verbatim_quote": "Before we used to manually track the numbers",
+    "timestamp": "00:03:37",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user previously had to track numbers manually.",
+    "fact_id": "FACT_1"
+  },
+  {
+    "verbatim_quote": "I kind of have an idea and siguro parang meron ding mga, what do you call this, parang idea how a dashboard can probably look like so it's helpful and more helpful for the team and easier to track them.",
+    "timestamp": "00:03:37",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user has ideas on how a dashboard could be designed to be more helpful and easier to track data.",
+    "fact_id": "FACT_2"
+  },
+  {
+    "verbatim_quote": "on a monthly basis kasi I think normal na yan sa BPO na may attrition at least 10 per month.",
+    "timestamp": "00:04:22",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The user expects a monthly attrition rate of at least 10 people in the BPO industry.",
+    "fact_id": "FACT_3"
+  },
+  {
+    "verbatim_quote": "when we track the attrition we also look at ... How many people left a certain department for that period?",
+    "timestamp": "00:04:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user needs to track attrition by the number of people who left a specific department within a period.",
+    "fact_id": "FACT_4"
+  },
+  {
+    "verbatim_quote": "Sometimes gender but not that important.",
+    "timestamp": "00:04:57",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "Tracking attrition by gender is not considered important by the user.",
+    "fact_id": "FACT_5"
+  },
+  {
+    "verbatim_quote": "Another important siguro for attention is we also look at paano ba yung naging separation ni employees, is it through resignation, is it through termination? Yung dalawa either voluntary or involuntary.",
+    "timestamp": "00:05:01",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user needs to understand the type of employee separation (resignation or termination, voluntary or involuntary).",
+    "fact_id": "FACT_6"
+  },
+  {
+    "verbatim_quote": "Yan ang importante talaga from what department, the reason or the type of separation",
+    "timestamp": "00:05:24",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user finds the department, reason, and type of separation as crucial information.",
+    "fact_id": "FACT_7"
+  },
+  {
+    "verbatim_quote": "pag-resignation kasi sometimes we also look at bakit ba sila nag-resign from the company, may specific reason ba or may specific trend ba ng reason nila. For example, for this month maraming nag-resign because they wanted to go back to school or prioritize school.",
+    "timestamp": "00:05:31",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user looks for specific reasons or trends behind resignations, such as employees leaving to prioritize school.",
+    "fact_id": "FACT_8"
+  },
+  {
+    "verbatim_quote": "Sometimes mga data na ganyan i-present namin sa CEO",
+    "timestamp": "00:05:54",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The user presents attrition data to the CEO.",
+    "fact_id": "FACT_9"
+  },
+  {
+    "verbatim_quote": "in that specific context we could also inform recruitment na parang padami na padami ang mga nag-re-resign natin na employees because of studies. Maybe when we hire people or when we look for people, refrain from hiring candidates who are still studying because most likely they would also leave the company.",
+    "timestamp": "00:05:57",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests using attrition data to inform recruitment to avoid hiring candidates likely to leave due to studies.",
+    "fact_id": "FACT_10"
+  },
+  {
+    "verbatim_quote": "I just remembered we also look at how long they have stayed in the company. For example ito si employee 6 months lang or within 3 months lang nag-resign na ganoon. What's the reason? Bakit siya na-separate?",
+    "timestamp": "00:06:26",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user tracks employee tenure and reasons for separation, especially for those who leave early.",
+    "fact_id": "FACT_11"
+  },
+  {
+    "verbatim_quote": "ang data ng attrition it can help recruitment din pag-filter ng mga tao na hinahire natin or dinirecruit natin sa 1st. Stage pa lang.",
+    "timestamp": "00:06:26",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Motivation",
+    "summary_of_observation": "Attrition data is seen as helpful for recruitment in filtering candidates during the initial stages.",
+    "fact_id": "FACT_12"
+  },
+  {
+    "verbatim_quote": "it's very important to look at the reason for separation.",
+    "timestamp": "00:07:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user emphasizes the importance of understanding the reason for employee separation.",
+    "fact_id": "FACT_13"
+  },
+  {
+    "verbatim_quote": "So pwede yung double-check para yung backup na data to support.",
+    "timestamp": "00:08:00",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user needs backup data to double-check information.",
+    "fact_id": "FACT_14"
+  },
+  {
+    "verbatim_quote": "I agree sometimes employees sa resignation letter nila, personal reasons, but ano ba yung personal reasons na ganyan? Ano ba talagang rason bakit ka nag-resign?",
+    "timestamp": "00:08:05",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user finds that employees often provide vague 'personal reasons' for resigning, making it difficult to understand the true cause.",
+    "fact_id": "FACT_15"
+  },
+  {
+    "verbatim_quote": "yan pumapasok yung process din ng HR which is the exit survey. Dapat may survey na in-answer si employee dyan... ... Para siyang anonymous din in a way na they can really tell what the majority of the reasons why. They chose to resign or leave the company.",
+    "timestamp": "00:08:26",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests implementing an anonymous exit survey to gather honest feedback on reasons for leaving.",
+    "fact_id": "FACT_16"
+  },
+  {
+    "verbatim_quote": "I predict based on history, for example during these months, employees are more prone to resign.",
+    "timestamp": "00:09:17",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The user predicts resignation trends based on historical data and specific months.",
+    "fact_id": "FACT_17"
+  },
+  {
+    "verbatim_quote": "Parang nagpaplano na rin si recruitment na hanap na tayo ng potential na replacements or i-ready na natin yung talent pool, baka kasi maraming mag-resign at least prepared agad, ready to index na mga people to replace those positions.",
+    "timestamp": "00:09:37",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "Recruitment plans for potential replacements and prepares a talent pool based on predicted resignation surges.",
+    "fact_id": "FACT_18"
+  },
+  {
+    "verbatim_quote": "Based on my experience, Q1 of every year marami talaga nag-resign kasi they're looking for another job and they got their 13th month pay already from the current company. So between January. To March, diyan usually marami nag-resign based sa experience ko.",
+    "timestamp": "00:10:20",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Mental Models",
+    "summary_of_observation": "The user observes a trend of high resignations in Q1 (January to March) due to employees receiving their 13th-month pay and seeking new jobs.",
+    "fact_id": "FACT_19"
+  },
+  {
+    "verbatim_quote": "Would there be an option na parang may filter for us to check? For me kasi parang ideal din siya, for example we just want to look at from this quarter. Although meron naman dito sa baba yung monthly basis. Maybe we could also have a filter here na for example what about just to check Q1 and then Q2 probably or Q3 for certain months lang.",
+    "timestamp": "00:12:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests adding a filter option to view attrition data by quarter or specific months.",
+    "fact_id": "FACT_20"
+  },
+  {
+    "verbatim_quote": "Itong average tenure is this. From the separated people?",
+    "timestamp": "00:13:48",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The user seeks clarification on whether 'average tenure' refers specifically to separated employees.",
+    "fact_id": "FACT_21"
+  },
+  {
+    "verbatim_quote": "Since this is a threshold, I'm assuming this is from the people who got separated?",
+    "timestamp": "00:14:14",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The user assumes that a 'threshold' metric applies to separated employees.",
+    "fact_id": "FACT_22"
+  },
+  {
+    "verbatim_quote": "Maybe it's also better na may involuntary turnover so the people who got terminated para ma-compare nilang agad ang involuntary versus involuntary turnover.",
+    "timestamp": "00:14:34",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests including involuntary turnover data to allow for comparison with voluntary turnover.",
+    "fact_id": "FACT_23"
+  },
+  {
+    "verbatim_quote": "Although it tells us data naman, it tells us not insights.",
+    "timestamp": "00:14:52",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user notes that the dashboard presents data but lacks immediate insights.",
+    "fact_id": "FACT_24"
+  },
+  {
+    "verbatim_quote": "For example, what do we mean by 9.8% sa sales? Anong timeline ito? Is this for 2025? Is this for 2026? Is this from the start of this up until the recent day-to-day?",
+    "timestamp": "00:15:00",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user finds that specific data points lack clear timeline context, making interpretation difficult.",
+    "fact_id": "FACT_25"
+  },
+  {
+    "verbatim_quote": "Siguro yung numbers. Nalang very minor lang ito, kapakilakihan nalang. Siguro nito.",
+    "timestamp": "00:15:33",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Visual Design",
+    "summary_of_observation": "The user suggests making the numbers larger for better readability.",
+    "fact_id": "FACT_26"
+  },
+  {
+    "verbatim_quote": "It's actually very helpful, that's why I wanted to ask, something na obvious agad sino yung pinakamaraming attrition.",
+    "timestamp": "00:16:24",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user finds the supervisor ranking feature helpful for quickly identifying who has the highest attrition.",
+    "fact_id": "FACT_27"
+  },
+  {
+    "verbatim_quote": "Because it would also tell kasi sometimes na for example for a certain worker, this person is always getting the highest attrition rate. So that means there's something going on with the team dynamics siguro na parang kailangan siya i-check.",
+    "timestamp": "00:16:47",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Motivation",
+    "summary_of_observation": "The user is motivated to use the supervisor ranking to identify underlying team dynamics issues when a supervisor consistently has a high attrition rate.",
+    "fact_id": "FACT_28"
+  },
+  {
+    "verbatim_quote": "Na may ranking at rate by supervisor then maybe siguro may department din.",
+    "timestamp": "00:17:23",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests adding a department ranking feature in addition to supervisor ranking.",
+    "fact_id": "FACT_29"
+  },
+  {
+    "verbatim_quote": "we also have to look at what. Was the reason din for that attrition.",
+    "timestamp": "00:18:42",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user emphasizes the need to understand the underlying reasons for attrition.",
+    "fact_id": "FACT_30"
+  },
+  {
+    "verbatim_quote": "It's impactful because we can compare kasi the performance din.",
+    "timestamp": "00:19:22",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Motivation",
+    "summary_of_observation": "The user finds the time period filter impactful for comparing performance.",
+    "fact_id": "FACT_31"
+  },
+  {
+    "verbatim_quote": "Like for example, if we compare it with operations, let's say bakit parang ang baba ng productivity this quarter. So maybe factor din kasi yung attrition. There were fewer people doing the task, that's why the productivity also dipped. That's why it's important to look at it in terms of quarters or timelines for comparison lang siya.",
+    "timestamp": "00:19:35",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user needs time period filters to compare performance, linking attrition to productivity dips.",
+    "fact_id": "FACT_32"
+  },
+  {
+    "verbatim_quote": "Obvious agad na there can be a filter and then may AI overview. So it's a really, really good idea na mayroong ganyan na timeline comparison.",
+    "timestamp": "00:20:25",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user finds the presence of a filter and AI overview for timeline comparison to be a very good idea.",
+    "fact_id": "FACT_33"
+  },
+  {
+    "verbatim_quote": "Para siyang magiging target ng department na we should have fewer attrition this upcoming quarter and every quarterly business review parang part na din siya nang.",
+    "timestamp": "00:20:53",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Routine",
+    "summary_of_observation": "The user describes how attrition reduction becomes a department target reported in quarterly business reviews.",
+    "fact_id": "FACT_34"
+  },
+  {
+    "verbatim_quote": "Multiple numbers we're looking at on a daily basis siguro para siyang automatic na siya na-response or automatic na siya na-addite. I don't have to think about ano ba talaga ang addition rate from this quarter to this quarter. So in this summary parang super helpful siya.",
+    "timestamp": "00:21:39",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Usability",
+    "summary_of_observation": "The user finds the AI overview summary super helpful as it automates responses and eliminates the need to manually calculate attrition rates across quarters.",
+    "fact_id": "FACT_35"
+  },
+  {
+    "verbatim_quote": "Even may nakalagay dito na needed attention. So that also would tell me that yeah true from the numbers itself parang kailangan agad tutukan... ... yung pinakamataas na departments in terms of attrition. Yan para siyang it makes analysis easier.",
+    "timestamp": "00:22:20",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Usability",
+    "summary_of_observation": "The user appreciates the 'needed attention' indicator in the AI overview, which simplifies analysis by highlighting departments with high attrition.",
+    "fact_id": "FACT_36"
+  },
+  {
+    "verbatim_quote": "Siguro as long as there is accuracy in terms of putting the data sa back end, for example, I'm assuming this is going to be built based on how the employee was tagged sa system, yung separation niya, tama ba? As long as there is accuracy there and pwede rin siyang i-download as Excel file... ... Para din ma-doublecheck lang ang data, I'm going to be confident with the AI.",
+    "timestamp": "00:22:50",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Security",
+    "summary_of_observation": "The user's confidence in the AI overview depends on data accuracy in the backend and the option to download data for manual double-checking.",
+    "fact_id": "FACT_37"
+  },
+  {
+    "verbatim_quote": "Yeah, I think it would be easier. Although may nakalagay naman dito na as sidekick sa mga boxes. Maybe as a one box na lang after this. Para para ask more info. Kasi when you asked me earlier, where do I find and how do I check For additional questions, if I have questions about this statement, siguro for me if I am the user, parang same sa Sprout na dashboard, currently na yung sidekick na sa top left siya and it's just one box. Maybe that would be easier having these three. So one box lang lahat. Para direct to the point lang ito mga boxes dito na, it's really just showing the numbers. And we.",
+    "timestamp": "00:24:25",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests consolidating multiple AI sidekick boxes into a single, unified chat box for asking questions, similar to their current dashboard experience.",
+    "fact_id": "FACT_38"
+  },
+  {
+    "verbatim_quote": "With the help of AI, how would you generate insight for that one? Let's say, for example, attrition trend. Siguro dito, I'm.",
+    "timestamp": "00:27:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Expectation",
+    "summary_of_observation": "The user expects AI to help generate insights from attrition trends.",
+    "fact_id": "FACT_39"
+  },
+  {
+    "verbatim_quote": "Siguro we have to really add the reasons agad. Since marami yung for example sa statement pa lang dito na 12.5% yung attrition, I need to ask how many people were separated versus the population, which departments had higher. Attrition and what's the trend of separation reason? Yung tatlo na yan siguro I would ask right away.",
+    "timestamp": "00:28:13",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user expects detailed information from the AI, including reasons for attrition, separation numbers versus population, high-attrition departments, and separation reason trends.",
+    "fact_id": "FACT_40"
+  },
+  {
+    "verbatim_quote": "I think it's too broad.",
+    "timestamp": "00:29:43",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Painpoint",
+    "summary_of_observation": "The user finds the AI's response to be too broad and lacking specific numbers.",
+    "fact_id": "FACT_41"
+  },
+  {
+    "verbatim_quote": "Of total separations in the dashboard and also the attrition by.",
+    "timestamp": "00:30:02",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user wants to see total separations and attrition broken down by department in the dashboard.",
+    "fact_id": "FACT_42"
+  },
+  {
+    "verbatim_quote": "How would you ask the relationship between total separations and attrition department?",
+    "timestamp": "00:30:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "User Behavior",
+    "summary_of_observation": "The user considers how to phrase a question about the relationship between total separations and department attrition.",
+    "fact_id": "FACT_43"
+  },
+  {
+    "verbatim_quote": "It.",
+    "timestamp": "00:32:21",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Usability",
+    "summary_of_observation": "The user initially did not notice the UI element, indicating a discoverability issue.",
+    "fact_id": "FACT_44"
+  },
+  {
+    "verbatim_quote": "Something new na you can drag and drop sa chats din.",
+    "timestamp": "00:33:07",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user finds the drag-and-drop functionality for chats to be new and interesting.",
+    "fact_id": "FACT_45"
+  },
+  {
+    "verbatim_quote": "Is it something that you will use over time? I can't see any use pa for now since... Obvious naman kasi dito sa rankings agad.",
+    "timestamp": "00:33:14",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Usability",
+    "summary_of_observation": "The user doesn't see an immediate use case for the drag-and-drop feature as rankings are already obvious on the dashboard.",
+    "fact_id": "FACT_46"
+  },
+  {
+    "verbatim_quote": "Siguro if I'm gonna drag it and nandito lahat yung data, maybe I can ask it to. Compare lang siguro yung attrition from current attrition from the past. So parang ganyan siguro if I'm gonna use it.",
+    "timestamp": "00:33:41",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user suggests a potential use for the drag-and-drop feature, like comparing current attrition with past attrition.",
+    "fact_id": "FACT_47"
+  },
+  {
+    "verbatim_quote": "... I need a report what's the current attrition state of our company this January. How would.",
+    "timestamp": "00:34:22",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Needs",
+    "summary_of_observation": "The user requires a report on the current attrition state for a specific month.",
+    "fact_id": "FACT_48"
+  },
+  {
+    "verbatim_quote": "Rate is at 12.5%. Parang ganyan lang. Verbal lang naman. Direct to the point lang.",
+    "timestamp": "00:34:52",
+    "speaker_label": "speaker_1",
+    "sentiment": "Neutral",
+    "theme": "Preference",
+    "summary_of_observation": "The user prefers direct and concise verbal answers for reports.",
+    "fact_id": "FACT_49"
+  },
+  {
+    "verbatim_quote": "Siguro yung may AI na part lang. Kasi yung samin, for me as an employer, we did have an AI but it was mostly used for benefits and policies lang where employees can ask there directly.",
+    "timestamp": "00:35:58",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Preference",
+    "summary_of_observation": "The AI part of the dashboard stands out to the user because their previous AI experience was limited to benefits and policies.",
+    "fact_id": "FACT_50"
+  },
+  {
+    "verbatim_quote": "I think the last task you asked me to do which is the, you know, when you drag the box and then put it in the chat box. That's done now because I haven't done that with the AIs I have used except for chat GPT siguro.",
+    "timestamp": "00:36:40",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The drag-and-drop interaction with the AI chatbox stands out as a novel and useful experience for the user.",
+    "fact_id": "FACT_51"
+  },
+  {
+    "verbatim_quote": "Siguro yung madami lang sidekick dito parang redundant siya for me when there is this na bugs naman. Put it in one AI na talaga.",
+    "timestamp": "00:37:25",
+    "speaker_label": "speaker_1",
+    "sentiment": "Negative",
+    "theme": "Suggestions",
+    "summary_of_observation": "The user finds multiple sidekick AI boxes redundant and suggests consolidating them into a single AI widget for a cleaner interface.",
+    "fact_id": "FACT_52"
+  },
+  {
+    "verbatim_quote": "So far naman, all good with the dashboard. A few tweaks na lang siguro.",
+    "timestamp": "00:38:15",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user is generally satisfied with the dashboard, noting only a few minor tweaks are needed.",
+    "fact_id": "FACT_53"
+  },
+  {
+    "verbatim_quote": "I don't have questions actually since everything I would need probably At a glance, parang dito naman lahat sa dashboard.",
+    "timestamp": "00:38:31",
+    "speaker_label": "speaker_0",
+    "sentiment": "Positive",
+    "theme": "Satisfaction",
+    "summary_of_observation": "The user has no questions because the dashboard provides all necessary information at a glance.",
+    "fact_id": "FACT_54"
+  },
+  {
+    "verbatim_quote": "This is the first time I've been invited to a session like this. Before kasi for context, with my last employer, we did have, you know, when we request for features, parang walang conversation na nangyayari. It's all All of the conversation rather happens in a chat or email. For example, we want to request for this feature to be added. Sometimes they would just send us an invite to talk about how do you want it to look like. And then once the product is available, they would send it to us and then let us use it right away. So parang ask and then implement right away. Wala siya yung parang stage na test it out first before we roll it out.",
+    "timestamp": "00:39:03",
+    "speaker_label": "speaker_1",
+    "sentiment": "Positive",
+    "theme": "Comparative Feedback",
+    "summary_of_observation": "The user appreciates the usability testing stage, contrasting it with a previous employer who would implement features immediately without prior testing.",
+    "fact_id": "FACT_55"
+  }
+]

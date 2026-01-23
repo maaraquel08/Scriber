@@ -334,3 +334,25 @@ export function getTimelinePosition(
     if (duration === 0) return 0;
     return Math.min(100, Math.max(0, (timestamp / duration) * 100));
 }
+
+/**
+ * Format a date string to relative time (e.g., "6m ago", "7d ago", "2h ago")
+ */
+export function formatRelativeTime(dateString: string): string {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffSeconds = Math.floor(diffMs / 1000)
+    const diffMinutes = Math.floor(diffSeconds / 60)
+    const diffHours = Math.floor(diffMinutes / 60)
+    const diffDays = Math.floor(diffHours / 24)
+    const diffMonths = Math.floor(diffDays / 30)
+    const diffYears = Math.floor(diffDays / 365)
+
+    if (diffSeconds < 60) return "just now"
+    if (diffMinutes < 60) return `${diffMinutes}m ago`
+    if (diffHours < 24) return `${diffHours}h ago`
+    if (diffDays < 30) return `${diffDays}d ago`
+    if (diffMonths < 12) return `${diffMonths}mo ago`
+    return `${diffYears}y ago`
+}

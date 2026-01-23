@@ -43,3 +43,35 @@ export interface Fact {
 export interface ExtractionResponse {
   facts: Fact[];
 }
+
+export interface Methodology {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Insight {
+  id: string; // e.g., "INS-001"
+  level: "Principle" | "Strategic" | "Tactical";
+  type: "Behavioral" | "Functional" | "Need" | "Pain Point";
+  strength: "Strong" | "Emerging";
+  context: string;
+  cause: string;
+  effect: string;
+  relevance: string;
+  evidence: {
+    fact_ids: string[];
+    supporting_quotes: string[];
+  };
+  recommendation: string;
+}
+
+export interface InsightsResponse {
+  insight_summary: {
+    total_facts_analyzed: number;
+    total_insights_generated: number;
+  };
+  insights: Insight[];
+}
