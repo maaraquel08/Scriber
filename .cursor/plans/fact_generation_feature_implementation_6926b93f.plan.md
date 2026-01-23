@@ -1,36 +1,3 @@
----
-name: Fact Generation Feature Implementation
-overview: Implement the atomic fact generation feature that extracts structured insights from transcripts using Gemini AI. Add dropdown inputs for Data Type, Product, and Feature in the sidepanel, create an API route for fact generation, and display the generated facts in the main transcript area.
-todos:
-    - id: config-file
-      content: Create lib/fact-generation-config.ts with predefined dropdown options
-      status: completed
-    - id: types
-      content: Add Fact and ExtractionResponse interfaces to lib/types.ts
-      status: completed
-    - id: research-metadata
-      content: Create app/components/sidebar/research-metadata.tsx component with three Select dropdowns
-      status: completed
-    - id: api-route
-      content: Create app/api/facts/generate/route.ts with Gemini API integration
-      status: completed
-    - id: tabs-component
-      content: Create components/ui/tabs.tsx using Radix UI Tabs primitives
-      status: pending
-    - id: facts-panel
-      content: Create app/components/facts/facts-panel.tsx to display generated facts as list of cards
-      status: completed
-    - id: tabs-container
-      content: Create app/components/transcript/transcript-tabs-container.tsx to wrap TranscriptEditor and FactsPanel with tabs
-      status: pending
-    - id: integrate-page
-      content: Update app/page.tsx to add state management and integrate new components
-      status: completed
-    - id: env-setup
-      content: Document GEMINI_API_KEY environment variable requirement
-      status: completed
----
-
 # Fact Generation Feature Implementation
 
 ## Overview

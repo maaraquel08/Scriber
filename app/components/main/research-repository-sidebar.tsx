@@ -4,8 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CreateMethodologyDialog } from "./create-methodology-dialog"
-import { UploadModal } from "./upload-modal"
-import { Folder, Search } from "lucide-react"
+import { Folder, Search, Settings, Plus } from "lucide-react"
 import { ArrowsLeftRight } from "@phosphor-icons/react"
 import { useRouter } from "next/navigation"
 import { formatRelativeTime } from "@/lib/utils"
@@ -33,7 +32,7 @@ export function ResearchRepositorySidebar({
 }: ResearchRepositorySidebarProps) {
   const router = useRouter()
   const [methodologies, setMethodologies] = useState<MethodologyWithStats[]>([])
-  const [showUpload, setShowUpload] = useState(false)
+  const [showNewStudy, setShowNewStudy] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
@@ -198,7 +197,14 @@ export function ResearchRepositorySidebar({
         {methodologies.length === 0 && (
           <div className="py-8 text-center text-sm text-muted-foreground space-y-2">
             <p>No methodologies yet</p>
-            <CreateMethodologyDialog onCreated={handleMethodologyCreated} />
+            <CreateMethodologyDialog 
+              onCreated={handleMethodologyCreated}
+              trigger={
+                <Button variant="outline" size="sm">
+                  Create Your First Study
+                </Button>
+              }
+            />
           </div>
         )}
 
@@ -220,23 +226,33 @@ export function ResearchRepositorySidebar({
         </div>
       </div>
 
-      {/* New Study Button at Bottom */}
-      <div className="border-t p-4">
+      {/* Bottom Actions */}
+      <div className="border-t p-4 space-y-2">
         <Button
           className="w-full"
-          onClick={() => setShowUpload(true)}
+          onClick={() => setShowNewStudy(true)}
         >
-          + New Study
+          <Plus className="mr-2 h-4 w-4" />
+          New Study
         </Button>
-        <UploadModal
-          open={showUpload}
+        <CreateMethodologyDialog
+          open={showNewStudy}
           onOpenChange={(open) => {
-            setShowUpload(open)
+            setShowNewStudy(open)
             if (!open && onClose) {
               onClose()
             }
           }}
+          onCreated={handleMethodologyCreated}
         />
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => router.push("/settings")}
+        >
+          <Settings className="h-4 w-4 mr-2" />
+          Settings
+        </Button>
       </div>
     </div>
   )

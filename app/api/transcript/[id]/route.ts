@@ -1,31 +1,32 @@
 import { NextRequest, NextResponse } from "next/server"
-import { readFileSync, existsSync, writeFileSync, mkdirSync } from "fs"
-import { join } from "path"
+import { getTranscript, saveTranscript, updateTranscript } from "@/lib/supabase-db"
+import { getApiUser } from "@/lib/api-auth"
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: transcriptId } = await params
-    const transcriptPath = join(
-      process.cwd(),
-      "data",
-      "transcriptions",
-      `${transcriptId}.json`
-    )
+    const user = await getApiUser()
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
 
-    if (!existsSync(transcriptPath)) {
+    const { id: transcriptId } = await params
+    const transcript = await getTranscript(transcriptId, user.id)
+
+    if (!transcript) {
       return NextResponse.json(
         { error: "Transcript not found" },
         { status: 404 }
       )
     }
 
-    const fileContent = readFileSync(transcriptPath, "utf-8")
-    const transcriptData = JSON.parse(fileContent)
-
-    return NextResponse.json(transcriptData)
+    return NextResponse.json(transcript)
   } catch (error) {
     console.error("Error loading transcript:", error)
     return NextResponse.json(
@@ -40,6 +41,15 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getApiUser()
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { id: transcriptId } = await params
     const body = await request.json()
     
@@ -63,8 +73,7 @@ export async function POST(
       )
     }
 
-    // Prepare saved transcript format (camelCase for consistency)
-    const savedTranscript = {
+    await saveTranscript(transcriptId, {
       languageCode: languageCode || "en",
       languageProbability: languageProbability || 1.0,
       text: text || "",
@@ -73,24 +82,14 @@ export async function POST(
         start: word.start,
         end: word.end,
         type: word.type || "word",
-        speakerId: word.speaker_id,
-        logprob: word.logprob,
+        speaker_id: word.speaker_id || word.speakerId,
       })),
       title: title || fileName || `Transcript ${transcriptId.slice(0, 8)}...`,
       fileName: fileName,
       fileType: fileType,
       methodology: methodology || null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
-
-    // Ensure data/transcriptions directory exists
-    const transcriptionsDir = join(process.cwd(), "data", "transcriptions")
-    mkdirSync(transcriptionsDir, { recursive: true })
-
-    // Save transcript to file
-    const transcriptPath = join(transcriptionsDir, `${transcriptId}.json`)
-    writeFileSync(transcriptPath, JSON.stringify(savedTranscript, null, 2), "utf-8")
+      userId: user.id,
+    })
 
     return NextResponse.json({ 
       success: true, 
@@ -100,7 +99,7 @@ export async function POST(
   } catch (error) {
     console.error("Error saving transcript:", error)
     return NextResponse.json(
-      { error: "Failed to save transcript" },
+      { error: error instanceof Error ? error.message : "Failed to save transcript" },
       { status: 500 }
     )
   }
@@ -111,46 +110,50 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getApiUser()
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { id: transcriptId } = await params
     const body = await request.json()
-    const transcriptPath = join(
-      process.cwd(),
-      "data",
-      "transcriptions",
-      `${transcriptId}.json`
-    )
-
-    if (!existsSync(transcriptPath)) {
+    
+    // Check if transcript exists and belongs to user
+    const existing = await getTranscript(transcriptId, user.id)
+    if (!existing) {
       return NextResponse.json(
         { error: "Transcript not found" },
         { status: 404 }
       )
     }
 
-    const fileContent = readFileSync(transcriptPath, "utf-8")
-    const transcriptData = JSON.parse(fileContent)
-
     // Update only provided fields
+    const updates: { title?: string; methodology?: string | null } = {}
     if (body.methodology !== undefined) {
-      transcriptData.methodology = body.methodology || null
+      updates.methodology = body.methodology || null
     }
     if (body.title !== undefined) {
-      transcriptData.title = body.title
+      updates.title = body.title
     }
-    
-    transcriptData.updatedAt = new Date().toISOString()
 
-    writeFileSync(transcriptPath, JSON.stringify(transcriptData, null, 2), "utf-8")
+    await updateTranscript(transcriptId, updates, user.id)
+
+    // Return updated transcript
+    const updated = await getTranscript(transcriptId, user.id)
 
     return NextResponse.json({ 
       success: true, 
-      transcript: transcriptData,
+      transcript: updated,
       message: "Transcript updated successfully" 
     })
   } catch (error) {
     console.error("Error updating transcript:", error)
     return NextResponse.json(
-      { error: "Failed to update transcript" },
+      { error: error instanceof Error ? error.message : "Failed to update transcript" },
       { status: 500 }
     )
   }

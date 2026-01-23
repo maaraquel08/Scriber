@@ -8,6 +8,7 @@ import { Upload, File, X, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import type { Methodology } from "@/lib/types"
+import { getApiConfig } from "@/lib/api-config"
 
 interface UploadWithMethodologyProps {
   onClose?: () => void
@@ -119,8 +120,12 @@ export function UploadWithMethodology({ onClose }: UploadWithMethodologyProps) {
         formData.append("methodology", selectedMethodology)
       }
 
+      const apiConfig = getApiConfig()
       const response = await fetch("/api/transcribe", {
         method: "POST",
+        headers: {
+          "X-AssemblyAI-Key": apiConfig.assemblyAiKey || "",
+        },
         body: formData,
       })
 
@@ -175,17 +180,10 @@ export function UploadWithMethodology({ onClose }: UploadWithMethodologyProps) {
         }),
       })
 
-      // Save media file
-      try {
-        const mediaFormData = new FormData()
-        mediaFormData.append("file", selectedFile)
-        await fetch(`/api/media/${transcriptId}`, {
-          method: "POST",
-          body: mediaFormData,
-        })
-      } catch (mediaSaveError) {
-        console.error("Failed to save media file:", mediaSaveError)
-      }
+      // Create blob URL for session-only video playback
+      const blobUrl = URL.createObjectURL(selectedFile)
+      // Store blob URL in sessionStorage for the lab page
+      sessionStorage.setItem(`media_blob_${transcriptId}`, blobUrl)
 
       // Close upload dialog if callback provided
       if (onClose) {

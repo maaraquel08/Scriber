@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Insight } from "@/lib/types";
-import { Lightbulb, Sparkles, ExternalLink, ChevronRight } from "lucide-react";
+import { Lightbulb, Sparkles, ExternalLink, ChevronRight, Filter } from "lucide-react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 interface InsightsPanelProps {
@@ -64,6 +66,19 @@ export function InsightsPanel({
     const params = useParams();
     const searchParams = useSearchParams();
     const methodologyId = params.methodology as string;
+
+    const [levelFilter, setLevelFilter] = useState<string>("all");
+    const [typeFilter, setTypeFilter] = useState<string>("all");
+    const [strengthFilter, setStrengthFilter] = useState<string>("all");
+
+    const filteredInsights = useMemo(() => {
+        return insights.filter((insight) => {
+            if (levelFilter !== "all" && insight.level !== levelFilter) return false;
+            if (typeFilter !== "all" && insight.type !== typeFilter) return false;
+            if (strengthFilter !== "all" && insight.strength !== strengthFilter) return false;
+            return true;
+        });
+    }, [insights, levelFilter, typeFilter, strengthFilter]);
 
     function handleCardClick(insightId: string, e?: React.MouseEvent) {
         if (e) {
@@ -134,8 +149,62 @@ export function InsightsPanel({
 
     return (
         <div className="h-full overflow-y-auto px-6 py-4 bg-background">
+            <div className="mb-4 flex items-center gap-3 flex-wrap">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={levelFilter} onValueChange={setLevelFilter}>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Level" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Levels</SelectItem>
+                        <SelectItem value="Principle">Principle</SelectItem>
+                        <SelectItem value="Strategic">Strategic</SelectItem>
+                        <SelectItem value="Tactical">Tactical</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select value={typeFilter} onValueChange={setTypeFilter}>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="Behavioral">Behavioral</SelectItem>
+                        <SelectItem value="Functional">Functional</SelectItem>
+                        <SelectItem value="Need">Need</SelectItem>
+                        <SelectItem value="Pain Point">Pain Point</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select value={strengthFilter} onValueChange={setStrengthFilter}>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Strength" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Strengths</SelectItem>
+                        <SelectItem value="Strong">Strong</SelectItem>
+                        <SelectItem value="Emerging">Emerging</SelectItem>
+                    </SelectContent>
+                </Select>
+                {(levelFilter !== "all" || typeFilter !== "all" || strengthFilter !== "all") && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                            setLevelFilter("all");
+                            setTypeFilter("all");
+                            setStrengthFilter("all");
+                        }}
+                    >
+                        Clear filters
+                    </Button>
+                )}
+            </div>
             <div className="space-y-4">
-                {insights.map((insight) => {
+                {filteredInsights.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                        No insights match the selected filters.
+                    </div>
+                ) : (
+                    filteredInsights.map((insight) => {
                     const maxEvidence = 5;
                     const displayedFacts = insight.evidence.fact_ids.slice(0, maxEvidence);
                     const remainingFacts = insight.evidence.fact_ids.length - maxEvidence;
@@ -244,7 +313,8 @@ export function InsightsPanel({
                             </CardContent>
                         </Card>
                     );
-                })}
+                })
+                )}
             </div>
         </div>
     );

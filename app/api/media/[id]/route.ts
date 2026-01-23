@@ -232,71 +232,15 @@ function getMimeType(ext: string): string {
 }
 
 /**
- * POST endpoint to save media files
- * Saves uploaded media file to public/media/[id].[ext]
+ * POST endpoint removed - videos are no longer saved to disk.
+ * Videos are handled as blob URLs in the browser session only.
  */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params
-    
-    if (!id) {
-      return NextResponse.json({ error: "Media ID required" }, { status: 400 })
-    }
-
-    const formData = await request.formData()
-    const file = formData.get("file") as File | null
-
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 })
-    }
-
-    // Get file extension from original filename or MIME type
-    const originalName = file.name
-    const extension = originalName.split(".").pop()?.toLowerCase() || 
-                     getExtensionFromMimeType(file.type) || 
-                     "mp4"
-
-    // Ensure media directory exists
-    const mediaDir = join(process.cwd(), "public", "media")
-    mkdirSync(mediaDir, { recursive: true })
-
-    // Save file with transcript ID as filename
-    const filePath = join(mediaDir, `${id}.${extension}`)
-    const arrayBuffer = await file.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
-    writeFileSync(filePath, buffer)
-
-    return NextResponse.json({ 
-      success: true, 
-      path: `/api/media/${id}`,
-      message: "Media file saved successfully" 
-    })
-  } catch (error) {
-    console.error("Error saving media file:", error)
-    return NextResponse.json(
-      { error: "Failed to save media file" },
-      { status: 500 }
-    )
-  }
-}
-
-/**
- * Get file extension from MIME type
- */
-function getExtensionFromMimeType(mimeType: string): string | null {
-  const mimeToExt: Record<string, string> = {
-    "video/mp4": "mp4",
-    "video/quicktime": "mov",
-    "video/webm": "webm",
-    "video/x-matroska": "mkv",
-    "video/x-msvideo": "avi",
-    "audio/mpeg": "mp3",
-    "audio/wav": "wav",
-    "audio/mp4": "m4a",
-    "audio/ogg": "ogg",
-  }
-  return mimeToExt[mimeType] || null
+  return NextResponse.json(
+    { error: "Video saving is disabled. Videos are session-only." },
+    { status: 410 } // Gone
+  )
 }

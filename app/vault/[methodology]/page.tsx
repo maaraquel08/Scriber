@@ -9,6 +9,7 @@ import { InsightsPanel } from "@/app/components/insights/insights-panel"
 import { ResizablePanel } from "@/app/components/ui/resizable-panel"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { Methodology, Fact, Insight } from "@/lib/types"
+import { getApiConfig } from "@/lib/api-config"
 
 interface Transcript {
   id: string
@@ -165,10 +166,12 @@ export default function VaultPage() {
       const product = "Web App"
       const feature = "Dashboard"
 
+      const apiConfig = getApiConfig()
       const response = await fetch("/api/insights/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Gemini-Key": apiConfig.geminiKey || "",
         },
         body: JSON.stringify({
           facts: allFacts,

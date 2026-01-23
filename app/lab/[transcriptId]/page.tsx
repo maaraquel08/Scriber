@@ -9,11 +9,12 @@ import { MetadataPanel } from "@/app/components/sidebar/metadata-panel"
 import { ResearchMetadata } from "@/app/components/sidebar/research-metadata"
 import { ResizablePanel } from "@/app/components/ui/resizable-panel"
 import { transformToSegmentsAndSpeakers } from "@/lib/transformers"
-import { loadSavedTranscript, getMediaFileUrl } from "@/lib/load-saved-data"
+import { loadSavedTranscript } from "@/lib/load-saved-data"
 import { parseTimestampToSeconds } from "@/lib/utils"
 import { useState, useCallback, useEffect, useRef } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import type { TranscriptSegment, Speaker, TranscriptData, Fact } from "@/lib/types"
+import { getApiConfig } from "@/lib/api-config"
 
 function calculateDuration(segments: TranscriptSegment[]): number {
   if (segments.length === 0) return 0
@@ -230,10 +231,12 @@ export default function SynthesisLabPage() {
     setError(null)
 
     try {
+      const apiConfig = getApiConfig()
       const response = await fetch("/api/facts/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Gemini-Key": apiConfig.geminiKey || "",
         },
         body: JSON.stringify({
           transcriptData,
@@ -324,10 +327,10 @@ export default function SynthesisLabPage() {
             // Ignore errors
           }
 
-          // Load media file URL
-          const { url: mediaUrl } = getMediaFileUrl(transcriptId)
-          if (mediaUrl) {
-            setFileUrl(mediaUrl)
+          // Load blob URL from sessionStorage (session-only video)
+          const blobUrl = sessionStorage.getItem(`media_blob_${transcriptId}`)
+          if (blobUrl) {
+            setFileUrl(blobUrl)
           }
 
           // Load cached facts
@@ -442,14 +445,16 @@ export default function SynthesisLabPage() {
     }
   }, [searchParams, segments.length, transcriptId, router, facts.length, handleSeek, duration, zoom, videoRef])
 
-  // Cleanup file URL on unmount
+  // Cleanup blob URL on unmount
   useEffect(() => {
     return () => {
       if (fileUrl && fileUrl.startsWith("blob:")) {
         URL.revokeObjectURL(fileUrl)
+        // Also remove from sessionStorage
+        sessionStorage.removeItem(`media_blob_${transcriptId}`)
       }
     }
-  }, [fileUrl])
+  }, [fileUrl, transcriptId])
 
   // Spacebar shortcut to toggle play/pause
   useEffect(() => {

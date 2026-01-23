@@ -91,10 +91,13 @@ export function ChatInterface({
     >
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-3xl space-y-4">
+          <h2 className="text-2xl font-semibold text-center">
+            What would you like to ask about your research?
+          </h2>
           <div className="relative">
             <div
               className={cn(
-                "flex items-center gap-3 rounded-full border-2 px-6 py-4 shadow-lg transition-all",
+                "flex items-center gap-3 rounded-full border px-6 py-4 shadow-lg transition-all",
                 isDragging
                   ? "border-primary bg-primary/5"
                   : "border-border hover:border-primary/50",
@@ -129,7 +132,7 @@ export function ChatInterface({
             </div>
 
             {isDragging && (
-              <div className="absolute inset-0 flex items-center justify-center bg-primary/10 border-2 border-dashed border-primary rounded-full pointer-events-none">
+              <div className="absolute inset-0 flex items-center justify-center bg-primary/10 border border-dashed border-primary rounded-full pointer-events-none">
                 <div className="flex items-center gap-2 text-primary font-medium">
                   <Upload className="h-5 w-5" />
                   <span>Drop file to upload</span>

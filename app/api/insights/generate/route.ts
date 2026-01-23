@@ -289,14 +289,14 @@ function formatFactsForPrompt(facts: Fact[], dataType: string): string {
 
 export async function POST(request: NextRequest) {
     try {
-        const apiKey = process.env.GEMINI_API_KEY;
+        // Accept API key from header (user-provided) or fallback to env var
+        const apiKey = request.headers.get("X-Gemini-Key") || process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            console.error("GEMINI_API_KEY is not configured");
             return NextResponse.json(
                 {
-                    error: "Server configuration error: Gemini API key is not set. Please configure GEMINI_API_KEY in your environment variables.",
+                    error: "Gemini API key is not configured. Please add your API key in Settings.",
                 },
-                { status: 500 }
+                { status: 400 }
             );
         }
 
