@@ -183,6 +183,41 @@ export async function updateTranscript(
   return { success: true }
 }
 
+export async function deleteTranscript(transcriptId: string, userId?: string) {
+  const supabase = getSupabase()
+  
+  // First delete facts (though CASCADE should handle this)
+  await deleteFacts(transcriptId).catch(() => {
+    // Ignore errors if facts don't exist
+  })
+  
+  let query = supabase
+    .from("transcripts")
+    .delete()
+    .eq("id", transcriptId)
+
+  if (userId) {
+    query = query.eq("user_id", userId)
+  }
+
+  let { error } = await query
+
+  // Fallback: if user_id column doesn't exist, retry without filter
+  if (error?.message?.includes("user_id does not exist")) {
+    const result = await supabase
+      .from("transcripts")
+      .delete()
+      .eq("id", transcriptId)
+    error = result.error
+  }
+
+  if (error) {
+    throw new Error(`Failed to delete transcript: ${error.message}`)
+  }
+
+  return { success: true }
+}
+
 export async function listTranscriptsByMethodology(methodologyId: string, userId?: string) {
   const supabase = getSupabase()
   let query = supabase
@@ -511,6 +546,48 @@ export async function updateMethodology(
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }
+}
+
+export async function deleteMethodology(id: string, userId?: string) {
+  const supabase = getSupabase()
+  
+  // First, get all transcripts for this methodology to delete their media files
+  const transcriptsResponse = await supabase
+    .from("transcripts")
+    .select("id")
+    .eq("methodology_id", id)
+
+  let query = supabase
+    .from("methodologies")
+    .delete()
+    .eq("id", id)
+
+  if (userId) {
+    query = query.eq("user_id", userId)
+  }
+
+  let { error } = await query
+
+  // Fallback: if user_id column doesn't exist, retry without filter
+  if (error?.message?.includes("user_id does not exist")) {
+    const result = await supabase
+      .from("methodologies")
+      .delete()
+      .eq("id", id)
+    error = result.error
+  }
+
+  if (error) {
+    throw new Error(`Failed to delete methodology: ${error.message}`)
+  }
+
+  // Delete associated media files for transcripts in this methodology
+  if (transcriptsResponse.data) {
+    const transcriptIds = transcriptsResponse.data.map((t: any) => t.id)
+    // Note: Media file deletion will be handled by the API route
+  }
+
+  return { success: true }
 }
 
 // ============================================================================

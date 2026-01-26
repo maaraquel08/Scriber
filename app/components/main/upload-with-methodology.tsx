@@ -12,12 +12,13 @@ import { getApiConfig } from "@/lib/api-config"
 
 interface UploadWithMethodologyProps {
   onClose?: () => void
+  initialMethodology?: string
 }
 
-export function UploadWithMethodology({ onClose }: UploadWithMethodologyProps) {
+export function UploadWithMethodology({ onClose, initialMethodology }: UploadWithMethodologyProps) {
   const router = useRouter()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [selectedMethodology, setSelectedMethodology] = useState<string>("")
+  const [selectedMethodology, setSelectedMethodology] = useState<string>(initialMethodology || "")
   const [methodologies, setMethodologies] = useState<Methodology[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [fileError, setFileError] = useState<string | null>(null)
@@ -32,13 +33,17 @@ export function UploadWithMethodology({ onClose }: UploadWithMethodologyProps) {
         if (response.ok) {
           const data = await response.json()
           setMethodologies(data.methodologies || [])
+          // If initialMethodology is provided, ensure it's selected
+          if (initialMethodology && !selectedMethodology) {
+            setSelectedMethodology(initialMethodology)
+          }
         }
       } catch (err) {
         console.error("Error loading methodologies:", err)
       }
     }
     loadMethodologies()
-  }, [])
+  }, [initialMethodology, selectedMethodology])
 
   const handleFileSelect = useCallback((file: File) => {
     setFileError(null)
@@ -180,18 +185,29 @@ export function UploadWithMethodology({ onClose }: UploadWithMethodologyProps) {
         }),
       })
 
-      // Create blob URL for session-only video playback
-      const blobUrl = URL.createObjectURL(selectedFile)
-      // Store blob URL in sessionStorage for the lab page
-      sessionStorage.setItem(`media_blob_${transcriptId}`, blobUrl)
+      // Save video file to public/media directory
+      try {
+        const mediaFormData = new FormData()
+        mediaFormData.append("file", selectedFile)
+        const mediaResponse = await fetch(`/api/media/${transcriptId}`, {
+          method: "POST",
+          body: mediaFormData,
+        })
+        if (!mediaResponse.ok) {
+          console.warn("Failed to save media file:", await mediaResponse.text())
+        }
+      } catch (mediaErr) {
+        console.error("Error saving media file:", mediaErr)
+        // Don't block navigation if media save fails
+      }
 
+      // Navigate to lab
+      router.push(`/lab/${transcriptId}`)
+      
       // Close upload dialog if callback provided
       if (onClose) {
         onClose()
       }
-      
-      // Navigate to lab
-      router.push(`/lab/${transcriptId}`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Failed to transcribe file"
       setError(errorMessage)

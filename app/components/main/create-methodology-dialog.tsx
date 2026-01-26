@@ -265,9 +265,21 @@ export function CreateMethodologyDialog({
         }),
       })
 
-      // Create blob URL for session-only video playback
-      const blobUrl = URL.createObjectURL(selectedFile)
-      sessionStorage.setItem(`media_blob_${transcriptId}`, blobUrl)
+      // Save video file to public/media directory
+      try {
+        const mediaFormData = new FormData()
+        mediaFormData.append("file", selectedFile)
+        const mediaResponse = await fetch(`/api/media/${transcriptId}`, {
+          method: "POST",
+          body: mediaFormData,
+        })
+        if (!mediaResponse.ok) {
+          console.warn("Failed to save media file:", await mediaResponse.text())
+        }
+      } catch (mediaErr) {
+        console.error("Error saving media file:", mediaErr)
+        // Don't block navigation if media save fails
+      }
 
       // Close modal and navigate to lab
       setOpen(false)
@@ -326,182 +338,180 @@ export function CreateMethodologyDialog({
   }
 
   const dialogContent = (
-    <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>Create New Study</DialogTitle>
-            <DialogDescription>
-              Create a new research methodology and optionally upload a file to transcribe.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            {/* Methodology Selection or Creation */}
-            {methodologies.length > 0 && (
-              <div className="space-y-2">
-                <Label>Use Existing Study</Label>
-                <Select
-                  value={selectedMethodology}
-                  onValueChange={setSelectedMethodology}
-                  disabled={isCreating || isTranscribing}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an existing study (optional)" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {methodologies.map((methodology) => (
-                      <SelectItem key={methodology.id} value={methodology.id}>
-                        {methodology.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+    <form onSubmit={handleSubmit} className="grid grid-rows-[auto_1fr_auto] gap-4 min-h-0 h-full">
+      <DialogHeader>
+        <DialogTitle>Create New Study</DialogTitle>
+        <DialogDescription>
+          Create a new research methodology and optionally upload a file to transcribe.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="space-y-4 overflow-y-auto min-h-0">
+        {/* Methodology Selection or Creation */}
+        {methodologies.length > 0 && (
+          <div className="space-y-2">
+            <Label>Use Existing Study</Label>
+            <Select
+              value={selectedMethodology}
+              onValueChange={setSelectedMethodology}
+              disabled={isCreating || isTranscribing}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select an existing study (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                {methodologies.map((methodology) => (
+                  <SelectItem key={methodology.id} value={methodology.id}>
+                    {methodology.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-            {(!selectedMethodology || methodologies.length === 0) && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="name">Study Name *</Label>
-                  <Input
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g., Usability Testing"
-                    required={!selectedMethodology}
-                    disabled={isCreating || isTranscribing}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Optional description of this research methodology"
-                    rows={3}
-                    disabled={isCreating || isTranscribing}
-                  />
-                </div>
-              </>
-            )}
-
-            {/* File Upload Section */}
+        {(!selectedMethodology || methodologies.length === 0) && (
+          <>
             <div className="space-y-2">
-              <Label>Upload File (Optional)</Label>
-              <div
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                className={cn(
-                  "border-2 border-dashed rounded-lg p-6 text-center transition-colors",
-                  isDragging
-                    ? "border-primary bg-primary/5"
-                    : "border-muted-foreground/25 hover:border-muted-foreground/50",
-                  (isCreating || isTranscribing) && "opacity-50 pointer-events-none"
-                )}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="video/*,audio/*"
-                  onChange={handleFileInputChange}
-                  className="hidden"
-                  disabled={isCreating || isTranscribing}
-                />
-
-                {!selectedFile ? (
-                  <div className="space-y-3">
-                    <div className="flex justify-center">
-                      <Upload className="h-10 w-10 text-muted-foreground" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium mb-2">
-                        Drag and drop your file here, or
-                      </p>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={isCreating || isTranscribing}
-                      >
-                        Browse Files
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center gap-3">
-                      <File className="h-6 w-6 text-primary" />
-                      <div className="text-left">
-                        <p className="font-medium text-sm">{selectedFile.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {formatFileSize(selectedFile.size)}
-                        </p>
-                      </div>
-                      {!(isCreating || isTranscribing) && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setSelectedFile(null)}
-                          className="ml-auto h-6 w-6"
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <Label htmlFor="name">Study Name *</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g., Usability Testing"
+                required={!selectedMethodology}
+                disabled={isCreating || isTranscribing}
+              />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Optional description of this research methodology"
+                rows={3}
+                disabled={isCreating || isTranscribing}
+              />
+            </div>
+          </>
+        )}
 
-            {/* Error message */}
-            {(error || fileError) && (
-              <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-                {error || fileError}
+        {/* File Upload Section */}
+        <div className="space-y-2 overflow-hidden">
+          <Label>Upload File (Optional)</Label>
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={cn(
+              "border-2 border-dashed rounded-lg p-6 text-center transition-colors overflow-hidden",
+              isDragging
+                ? "border-primary bg-primary/5"
+                : "border-muted-foreground/25 hover:border-muted-foreground/50",
+              (isCreating || isTranscribing) && "opacity-50 pointer-events-none"
+            )}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="video/*,audio/*"
+              onChange={handleFileInputChange}
+              className="hidden"
+              disabled={isCreating || isTranscribing}
+            />
+
+            {!selectedFile ? (
+              <div className="space-y-3">
+                <div className="flex justify-center">
+                  <Upload className="h-10 w-10 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium mb-2">
+                    Drag and drop your file here, or
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isCreating || isTranscribing}
+                  >
+                    Browse Files
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <File className="h-6 w-6 text-primary flex-shrink-0" />
+                <div className="text-left flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{selectedFile.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatFileSize(selectedFile.size)}
+                  </p>
+                </div>
+                {!(isCreating || isTranscribing) && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedFile(null)}
+                    className="h-6 w-6 flex-shrink-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             )}
           </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setOpen(false)
-                resetForm()
-              }}
-              disabled={isCreating || isTranscribing}
-            >
-              Cancel
-            </Button>
-            <Button 
-              type="submit" 
-              disabled={isCreating || isTranscribing || (!name.trim() && !selectedMethodology && !selectedFile)}
-            >
-              {isTranscribing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Transcribing...
-                </>
-              ) : isCreating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
-                </>
-              ) : selectedFile ? (
-                <>
-                  <Upload className="mr-2 h-4 w-4" />
-                  {name.trim() || selectedMethodology ? "Create & Transcribe" : "Transcribe"}
-                </>
-              ) : (
-                <>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Create
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </form>
+        </div>
+
+        {/* Error message */}
+        {(error || fileError) && (
+          <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            {error || fileError}
+          </div>
+        )}
+      </div>
+      <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setOpen(false)
+                  resetForm()
+                }}
+                disabled={isCreating || isTranscribing}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={isCreating || isTranscribing || (!name.trim() && !selectedMethodology && !selectedFile)}
+              >
+                {isTranscribing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Transcribing...
+                  </>
+                ) : isCreating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
+                  </>
+                ) : selectedFile ? (
+                  <>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {name.trim() || selectedMethodology ? "Create & Transcribe" : "Transcribe"}
+                  </>
+                ) : (
+                  <>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create
+                  </>
+                )}
+              </Button>
+      </DialogFooter>
+    </form>
   )
 
   return (
@@ -519,7 +529,7 @@ export function CreateMethodologyDialog({
           {trigger}
         </DialogTrigger>
       )}
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-hidden">
         {dialogContent}
       </DialogContent>
     </Dialog>

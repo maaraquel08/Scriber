@@ -14,17 +14,28 @@ pnpm install
 yarn install
 ```
 
-### Environment Variables
+### API Configuration
 
-Create a `.env.local` file in the root directory with the following environment variables:
+**Primary Method (Recommended):** Configure your API keys through the Settings page in the app. Your keys will be stored locally in your browser's localStorage.
+
+1. Start the development server
+2. Navigate to the Settings page
+3. Enter your API keys:
+   - **AssemblyAI API Key** - For audio/video transcription
+   - **Gemini API Key** - For fact extraction and insight generation
+4. Click "Save Configuration"
+
+**Alternative Method (Optional):** You can also set environment variables in a `.env.local` file as a fallback:
 
 ```bash
-# AssemblyAI API Key (required for transcription)
+# AssemblyAI API Key (optional - fallback only)
 ASSEMBLY_API_KEY=your_assemblyai_api_key_here
 
-# Gemini API Key (required for fact generation)
+# Gemini API Key (optional - fallback only)
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+> **Note:** Environment variables are optional. The app will use API keys from the Settings page (stored in localStorage) by default. Environment variables only serve as a fallback for server-side operations.
 
 Then, run the development server:
 

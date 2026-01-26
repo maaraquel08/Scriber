@@ -216,6 +216,26 @@ export default function VaultPage() {
     }
   }
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/methodologies/${methodologyId}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to delete methodology" }))
+        throw new Error(errorData.error || "Failed to delete methodology")
+      }
+
+      // Navigate back to home after successful deletion
+      router.push("/")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to delete methodology"
+      setError(errorMessage)
+      console.error("Delete error:", err)
+    }
+  }
+
   const handleInsightFactClick = (factId: string) => {
     // Parse fact ID format: {transcriptId}_Facts_{originalFactId}
     const match = factId.match(/^(.+)_Facts_(.+)$/)
@@ -255,12 +275,29 @@ export default function VaultPage() {
     }
   }
 
+  function downloadAllInsights() {
+    if (insights.length === 0) return
+    const dataStr = JSON.stringify({ insights }, null, 2)
+    const dataBlob = new Blob([dataStr], { type: "application/json" })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `${methodologyId}-insights.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <VaultHeader
         methodology={methodology}
         transcriptCount={transcriptCount}
         factCount={factCount}
+        onDelete={handleDelete}
+        insights={insights}
+        onDownloadInsights={downloadAllInsights}
       />
       <div className="flex flex-1 overflow-hidden">
         <main className="container mx-auto flex-1 px-6 py-8 overflow-y-auto">

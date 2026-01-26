@@ -4,7 +4,13 @@ import { useState, useEffect } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ArrowLeft, ExternalLink, Download, ChevronDown } from "lucide-react"
 import type { Insight, Fact } from "@/lib/types"
 
 interface FactWithTranscript extends Fact {
@@ -134,6 +140,62 @@ export default function InsightDetailPage() {
     }
   }
 
+  function downloadJSON() {
+    if (!insight) return
+    const dataStr = JSON.stringify(insight, null, 2)
+    const dataBlob = new Blob([dataStr], { type: "application/json" })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `${insight.id}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  function downloadMarkdown() {
+    if (!insight) return
+    const md = `# ${insight.id}
+
+**Level:** ${insight.level}  
+**Type:** ${insight.type}  
+**Strength:** ${insight.strength}
+
+## Context
+${insight.context}
+
+## Cause
+${insight.cause}
+
+## Effect
+${insight.effect}
+
+## Relevance
+${insight.relevance}
+
+## Recommendation
+${insight.recommendation}
+
+## Evidence
+
+### Fact IDs (${insight.evidence.fact_ids.length})
+${insight.evidence.fact_ids.map((id) => `- ${id}`).join("\n")}
+
+### Supporting Quotes (${insight.evidence.supporting_quotes.length})
+${insight.evidence.supporting_quotes.map((quote) => `> "${quote}"`).join("\n\n")}
+`
+    const dataBlob = new Blob([md], { type: "text/markdown" })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `${insight.id}.md`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -168,16 +230,37 @@ export default function InsightDetailPage() {
 
         <Card>
           <CardHeader className="pb-4">
-            <div className="flex items-center gap-2 flex-wrap mb-2">
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getLevelColor(insight.level)}`}>
-                {insight.level}
-              </span>
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getTypeColor(insight.type)}`}>
-                {insight.type}
-              </span>
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getStrengthColor(insight.strength)}`}>
-                {insight.strength}
-              </span>
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getLevelColor(insight.level)}`}>
+                  {insight.level}
+                </span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getTypeColor(insight.type)}`}>
+                  {insight.type}
+                </span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getStrengthColor(insight.strength)}`}>
+                  {insight.strength}
+                </span>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={downloadJSON}>
+                    <Download className="h-4 w-4 mr-2" />
+                    JSON
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={downloadMarkdown}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Markdown
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <p className="text-xs text-muted-foreground">{insight.id}</p>
           </CardHeader>

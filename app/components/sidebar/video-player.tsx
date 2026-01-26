@@ -247,6 +247,17 @@ export function VideoPlayer({
   }
 
   if (isVideo) {
+    if (!fileUrl) {
+      return (
+        <div className="relative aspect-video w-full bg-black rounded-lg overflow-hidden flex items-center justify-center">
+          <div className="text-white text-sm text-center p-4">
+            <p>Video not available</p>
+            <p className="text-xs text-white/70 mt-2">This transcript was created before video storage was implemented</p>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="relative aspect-video w-full bg-black rounded-lg overflow-hidden">
         {isLoading && (
@@ -258,7 +269,7 @@ export function VideoPlayer({
           <div className="absolute inset-0 flex items-center justify-center z-10">
             <div className="text-white text-sm text-center p-4">
               <p>Failed to load video</p>
-              <p className="text-xs text-white/70 mt-2">{fileUrl}</p>
+              <p className="text-xs text-white/70 mt-2">The video file may not exist for this transcript</p>
             </div>
           </div>
         )}

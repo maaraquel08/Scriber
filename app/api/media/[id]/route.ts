@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createReadStream, writeFileSync, mkdirSync } from "fs"
-import { stat } from "fs/promises"
+import { createReadStream, writeFileSync, mkdirSync, existsSync } from "fs"
+import { stat, writeFile } from "fs/promises"
 import { join } from "path"
 import { Readable } from "stream"
 
@@ -232,15 +232,109 @@ function getMimeType(ext: string): string {
 }
 
 /**
- * POST endpoint removed - videos are no longer saved to disk.
- * Videos are handled as blob URLs in the browser session only.
+ * Ensure media directory exists
+ */
+function ensureMediaDirectory() {
+  const mediaDir = join(process.cwd(), "public", "media")
+  if (!existsSync(mediaDir)) {
+    mkdirSync(mediaDir, { recursive: true })
+  }
+}
+
+/**
+ * Get file extension from filename or MIME type
+ */
+function getFileExtension(filename?: string | null, mimeType?: string | null): string {
+  // Try to extract from filename first
+  if (filename) {
+    const match = filename.match(/\.([^.]+)$/)
+    if (match) {
+      const ext = match[1].toLowerCase()
+      // Validate extension is supported
+      const supportedExtensions = ["mp4", "mov", "webm", "mkv", "avi", "mp3", "wav", "m4a", "ogg"]
+      if (supportedExtensions.includes(ext)) {
+        return ext
+      }
+    }
+  }
+
+  // Fall back to MIME type mapping
+  if (mimeType) {
+    const mimeToExt: Record<string, string> = {
+      "video/mp4": "mp4",
+      "video/quicktime": "mov",
+      "video/webm": "webm",
+      "video/x-matroska": "mkv",
+      "video/x-msvideo": "avi",
+      "audio/mpeg": "mp3",
+      "audio/wav": "wav",
+      "audio/mp4": "m4a",
+      "audio/ogg": "ogg",
+    }
+    return mimeToExt[mimeType] || "mp4" // Default to mp4
+  }
+
+  // Default to mp4 if nothing else works
+  return "mp4"
+}
+
+/**
+ * POST endpoint to save media files to public/media directory
  */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  return NextResponse.json(
-    { error: "Video saving is disabled. Videos are session-only." },
-    { status: 410 } // Gone
-  )
+  try {
+    const { id } = await params
+
+    if (!id) {
+      return NextResponse.json({ error: "Media ID required" }, { status: 400 })
+    }
+
+    // Parse form data
+    const formData = await request.formData()
+    const file = formData.get("file") as File | null
+
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 })
+    }
+
+    // Validate file size (optional: add max size limit if needed)
+    if (file.size === 0) {
+      return NextResponse.json({ error: "File is empty" }, { status: 400 })
+    }
+
+    // Get file extension
+    const extension = getFileExtension(file.name, file.type)
+
+    // Ensure media directory exists
+    ensureMediaDirectory()
+
+    // Convert file to buffer
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+
+    // Save file to public/media/{id}.{ext}
+    const mediaDir = join(process.cwd(), "public", "media")
+    const filePath = join(mediaDir, `${id}.${extension}`)
+
+    await writeFile(filePath, buffer)
+
+    return NextResponse.json({
+      success: true,
+      id,
+      extension,
+      path: `/api/media/${id}`,
+      message: "Media file saved successfully",
+    })
+  } catch (error) {
+    console.error("Error saving media file:", error)
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "Failed to save media file",
+      },
+      { status: 500 }
+    )
+  }
 }

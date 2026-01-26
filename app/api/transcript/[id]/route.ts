@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getTranscript, saveTranscript, updateTranscript } from "@/lib/supabase-db"
+import { getTranscript, saveTranscript, updateTranscript, deleteTranscript } from "@/lib/supabase-db"
 import { getApiUser } from "@/lib/api-auth"
+import { unlink } from "fs/promises"
+import { join } from "path"
+import { existsSync } from "fs"
 
 export async function GET(
   request: NextRequest,
@@ -154,6 +157,64 @@ export async function PATCH(
     console.error("Error updating transcript:", error)
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to update transcript" },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const user = await getApiUser()
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
+    const { id: transcriptId } = await params
+    
+    // Check if transcript exists and belongs to user
+    const existing = await getTranscript(transcriptId, user.id)
+    if (!existing) {
+      return NextResponse.json(
+        { error: "Transcript not found" },
+        { status: 404 }
+      )
+    }
+
+    // Delete transcript from database
+    await deleteTranscript(transcriptId, user.id)
+
+    // Delete associated media file if it exists
+    const videoExtensions = ["mp4", "mov", "webm", "mkv", "avi"]
+    const audioExtensions = ["mp3", "wav", "m4a", "ogg"]
+    const allExtensions = [...videoExtensions, ...audioExtensions]
+
+    for (const ext of allExtensions) {
+      const mediaPath = join(process.cwd(), "public", "media", `${transcriptId}.${ext}`)
+      if (existsSync(mediaPath)) {
+        try {
+          await unlink(mediaPath)
+        } catch (err) {
+          console.warn(`Failed to delete media file ${mediaPath}:`, err)
+          // Continue even if file deletion fails
+        }
+      }
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      message: "Transcript deleted successfully" 
+    })
+  } catch (error) {
+    console.error("Error deleting transcript:", error)
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to delete transcript" },
       { status: 500 }
     )
   }

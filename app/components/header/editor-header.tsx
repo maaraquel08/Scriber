@@ -7,7 +7,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ArrowLeft, MessageSquare, Download, FileText, Lightbulb } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { ArrowLeft, MessageSquare, Download, FileText, Lightbulb, Trash2 } from "lucide-react"
 import type { TranscriptSegment, Speaker, Fact } from "@/lib/types"
 
 interface EditorHeaderProps {
@@ -18,6 +29,8 @@ interface EditorHeaderProps {
   languageCode?: string
   onBack?: () => void
   lastSaved?: Date | null
+  transcriptId?: string
+  onDelete?: () => void
 }
 
 function downloadJSON(data: object, filename: string) {
@@ -41,6 +54,8 @@ export function EditorHeader({
   languageCode = "en",
   onBack,
   lastSaved = null,
+  transcriptId,
+  onDelete,
 }: EditorHeaderProps) {
   const hasTranscript = segments.length > 0
   const hasFacts = facts.length > 0
@@ -128,6 +143,30 @@ export function EditorHeader({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          {transcriptId && onDelete && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Transcript</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete this transcript? This action cannot be undone and will also delete all associated facts and media files.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={onDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
       )}
     </header>

@@ -286,6 +286,32 @@ export default function SynthesisLabPage() {
     }
   }, [router, methodology])
 
+  const handleDelete = useCallback(async () => {
+    if (!transcriptId) return
+
+    try {
+      const response = await fetch(`/api/transcript/${transcriptId}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to delete transcript" }))
+        throw new Error(errorData.error || "Failed to delete transcript")
+      }
+
+      // Navigate back after successful deletion
+      if (methodology) {
+        router.push(`/vault/${methodology}`)
+      } else {
+        router.push("/")
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to delete transcript"
+      setError(errorMessage)
+      console.error("Delete error:", err)
+    }
+  }, [transcriptId, router, methodology])
+
   // Load transcript data
   useEffect(() => {
     async function loadTranscript() {
@@ -327,10 +353,24 @@ export default function SynthesisLabPage() {
             // Ignore errors
           }
 
-          // Load blob URL from sessionStorage (session-only video)
-          const blobUrl = sessionStorage.getItem(`media_blob_${transcriptId}`)
-          if (blobUrl) {
-            setFileUrl(blobUrl)
+          // Load video from API route (saved to public/media/)
+          // Check if video exists by trying to fetch it
+          const { getMediaFileUrl } = await import("@/lib/load-saved-data")
+          const mediaUrl = getMediaFileUrl(transcriptId)
+          if (mediaUrl.url) {
+            // Verify the media file exists before setting URL
+            try {
+              const mediaCheck = await fetch(mediaUrl.url, { method: "HEAD" })
+              if (mediaCheck.ok) {
+                setFileUrl(mediaUrl.url)
+              } else {
+                console.warn(`Media file not found for transcript ${transcriptId}`)
+                // Don't set fileUrl if media doesn't exist - video player will handle gracefully
+              }
+            } catch (err) {
+              console.warn(`Error checking media file:`, err)
+              // Don't set fileUrl if check fails
+            }
           }
 
           // Load cached facts
@@ -532,6 +572,8 @@ export default function SynthesisLabPage() {
         languageCode={language}
         onBack={handleBack}
         lastSaved={lastSaved}
+        transcriptId={transcriptId}
+        onDelete={handleDelete}
       />
       <div className="flex flex-1 overflow-hidden">
         {/* Main transcript editor area */}
