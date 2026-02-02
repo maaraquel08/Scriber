@@ -1,24 +1,28 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { Check, Loader2 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 
 export default function LoginPage() {
-  const router = useRouter()
-  const { signIn, isLoading: authLoading } = useAuth()
-  
+  const searchParams = useSearchParams()
+  const { sendMagicLink, isLoading: authLoading } = useAuth()
+
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  useEffect(() => {
+    const err = searchParams.get("error")
+    if (err) setError(decodeURIComponent(err))
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,15 +30,21 @@ export default function LoginPage() {
     setIsSubmitting(true)
 
     try {
-      const { error } = await signIn(email, password)
-      
+      const { error } = await sendMagicLink(email)
+
       if (error) {
-        setError(error.message)
+        const is429 =
+          (error as { status?: number }).status === 429 ||
+          /too many requests|429/i.test(error.message)
+        setError(
+          is429
+            ? "Too many requests. Please wait a few minutes and try again."
+            : error.message
+        )
         return
       }
 
-      router.push("/")
-      router.refresh()
+      setSuccess(true)
     } catch (err) {
       setError("An unexpected error occurred. Please try again.")
     } finally {
@@ -44,13 +54,41 @@ export default function LoginPage() {
 
   const isLoading = isSubmitting || authLoading
 
+  if (success) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <Check className="h-6 w-6 text-green-600" />
+            </div>
+            <CardTitle className="text-2xl font-semibold">Check your email</CardTitle>
+            <CardDescription>
+              We sent a login link to <strong>{email}</strong>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            <p className="text-sm text-muted-foreground mb-4">
+              Click the link in the email to sign in. Open it in the same browser tab where you requested it, or copy the link and paste it there.
+            </p>
+            <Link href="/auth/login">
+              <Button variant="outline" className="w-full">
+                Send another link
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-semibold">Welcome back</CardTitle>
           <CardDescription>
-            Sign in to your account to continue
+            Sign in with your email — we&apos;ll send you a link
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -74,44 +112,14 @@ export default function LoginPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="pr-10"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-            </div>
-
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
+                  Sending link...
                 </>
               ) : (
-                "Sign in"
+                "Send link"
               )}
             </Button>
 

@@ -8,10 +8,8 @@ interface AuthContextType {
   user: User | null
   session: Session | null
   isLoading: boolean
-  signUp: (email: string, password: string) => Promise<{ error: AuthError | null }>
-  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>
+  sendMagicLink: (email: string) => Promise<{ error: AuthError | null }>
   signOut: () => Promise<{ error: AuthError | null }>
-  resetPassword: (email: string) => Promise<{ error: AuthError | null }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -62,28 +60,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [supabase.auth])
 
-  const signUp = async (email: string, password: string) => {
+  const sendMagicLink = async (email: string) => {
     setIsLoading(true)
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signInWithOtp({
         email,
-        password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
-      })
-      return { error }
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const signIn = async (email: string, password: string) => {
-    setIsLoading(true)
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
       })
       return { error }
     } finally {
@@ -101,21 +85,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
-    })
-    return { error }
-  }
-
   const value: AuthContextType = {
     user,
     session,
     isLoading,
-    signUp,
-    signIn,
+    sendMagicLink,
     signOut,
-    resetPassword,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -1,24 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, EyeOff, Loader2, Check } from "lucide-react"
+import { Check, Loader2 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 
 export default function SignupPage() {
-  const router = useRouter()
-  const { signUp, isLoading: authLoading } = useAuth()
-  
+  const { sendMagicLink, isLoading: authLoading } = useAuth()
+
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -26,26 +20,20 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
-    }
-
-    // Validate password strength
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters")
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
-      const { error } = await signUp(email, password)
-      
+      const { error } = await sendMagicLink(email)
+
       if (error) {
-        setError(error.message)
+        const is429 =
+          (error as { status?: number }).status === 429 ||
+          /too many requests|429/i.test(error.message)
+        setError(
+          is429
+            ? "Too many signup attempts. Please wait a few minutes and try again."
+            : error.message
+        )
         return
       }
 
@@ -69,12 +57,12 @@ export default function SignupPage() {
             </div>
             <CardTitle className="text-2xl font-semibold">Check your email</CardTitle>
             <CardDescription>
-              We&apos;ve sent a confirmation link to <strong>{email}</strong>
+              We sent a link to <strong>{email}</strong>
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-sm text-muted-foreground mb-4">
-              Click the link in the email to verify your account and get started.
+              Click the link in the email to create your account and sign in. Open it in the same browser tab where you requested it, or copy the link and paste it there.
             </p>
             <Link href="/auth/login">
               <Button variant="outline" className="w-full">
@@ -93,7 +81,7 @@ export default function SignupPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-semibold">Create an account</CardTitle>
           <CardDescription>
-            Sign up to get started with Scriber
+            Enter your email — we&apos;ll send you a link to get started
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -117,77 +105,14 @@ export default function SignupPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Create a password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="pr-10"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Must be at least 6 characters
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm Password</Label>
-              <div className="relative">
-                <Input
-                  id="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="pr-10"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-            </div>
-
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating account...
+                  Sending link...
                 </>
               ) : (
-                "Create account"
+                "Send link"
               )}
             </Button>
 

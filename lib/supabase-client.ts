@@ -210,10 +210,12 @@ export function createSupabaseClient() {
     )
   }
 
-  // Return singleton for browser
+  // Return singleton for browser (PKCE so magic link uses ?code=; code_verifier stored in cookies)
   if (typeof window !== "undefined") {
     if (!browserClient) {
-      browserClient = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey)
+      browserClient = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey, {
+        auth: { flowType: "pkce", detectSessionInUrl: true },
+      })
     }
     return browserClient
   }
