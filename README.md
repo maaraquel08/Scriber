@@ -190,6 +190,74 @@ Upload a video or audio file, transcribe it, extract facts, and start building r
 
 ---
 
+## Customizing AI Prompts and Output Structure
+
+Scriber uses Gemini to generate two types of AI output: **Facts** and **Insights**. You can change the prompt instructions, output fields, themes, enums, and JSON schema by editing the files below.
+
+---
+
+### Facts (Atomic Nuggets)
+
+**What it does:** Shreds a transcript into atomic observations tagged by theme, sentiment, speaker, and timestamp.
+
+**Where to edit:**
+
+| What you want to change | File |
+|---|---|
+| System prompt (role, rules, instructions) | `app/api/facts/generate/route.ts` → `buildSystemPrompt()` |
+| Output JSON schema (fields, types, required) | `app/api/facts/generate/route.ts` → `buildResponseSchema()` |
+| Theme list (enum values) | `app/api/facts/generate/route.ts` → `THEMES` array at the top |
+| Sentiment options | `buildResponseSchema()` → `sentiment.enum` |
+| Dropdown options shown in the UI (Data Type, Product, Feature) | `lib/fact-generation-config.ts` |
+
+**Current output fields per fact:**
+
+| Field | Description |
+|---|---|
+| `fact_id` | Unique ID (e.g. `FACT_01`) |
+| `verbatim_quote` | Direct word-for-word quote from the transcript |
+| `timestamp` | `HH:MM:SS` of when it was said |
+| `speaker_label` | Who said it (e.g. `Speaker 1`) |
+| `sentiment` | `Positive`, `Neutral`, or `Negative` |
+| `theme` | One of 21 UX research themes |
+| `summary_of_observation` | Short objective summary of the fact |
+
+---
+
+### Insights
+
+**What it does:** Synthesizes a collection of Facts across transcripts into higher-level research insights with evidence traceability.
+
+**Where to edit:**
+
+| What you want to change | File |
+|---|---|
+| System prompt (role, rules, synthesis instructions) | `app/CONTEXT/STRICT_SCHEME_PROMPT_INSIGHTS_V3.MD` |
+| Output JSON schema (fields, types, required) | `app/api/insights/generate/route.ts` → `buildResponseSchema()` |
+| Insight level options (`Principle`, `Strategic`, `Tactical`) | `buildResponseSchema()` → `level.enum` |
+| Insight type options (`Behavioral`, `Functional`, etc.) | `buildResponseSchema()` → `type.enum` |
+| Evidence strength options (`Strong`, `Emerging`) | `buildResponseSchema()` → `strength.enum` |
+
+**Current output fields per insight:**
+
+| Field | Description |
+|---|---|
+| `id` | Unique ID (e.g. `INS-001`) |
+| `level` | Scope — `Principle`, `Strategic`, or `Tactical` |
+| `type` | `Behavioral`, `Functional`, `Need`, or `Pain Point` |
+| `strength` | `Strong` (3+ facts) or `Emerging` (1–2 facts) |
+| `context` | The scenario where the issue occurs |
+| `cause` | Evidence-backed reason it is happening |
+| `effect` | User or business impact if it persists |
+| `relevance` | Why it matters for design or strategy |
+| `evidence.fact_ids` | Array of Fact IDs that support this insight |
+| `evidence.supporting_quotes` | Verbatim quotes pulled from those facts |
+| `recommendation` | An evidence-appropriate next step |
+
+> **Note:** The insights prompt is intentionally kept in a separate Markdown file (`STRICT_SCHEME_PROMPT_INSIGHTS_V3.MD`) so non-developers can edit the instructions without touching code. The route reads it at runtime and falls back to an inline version if the file is missing.
+
+---
+
 ## Available Scripts
 
 ```bash
