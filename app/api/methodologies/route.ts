@@ -16,7 +16,7 @@ export async function GET() {
       )
     }
 
-    const methodologies = await listMethodologies(user.id)
+    const methodologies = await listMethodologies()
     return NextResponse.json({ methodologies })
   } catch (error) {
     console.error("Error listing methodologies:", error)

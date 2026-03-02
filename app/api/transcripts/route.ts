@@ -17,7 +17,6 @@ export async function GET() {
     const { data, error } = await supabase
       .from("transcripts")
       .select("id, title, methodology_id, created_at, updated_at")
-      .eq("user_id", user.id)
       .order("created_at", { ascending: false })
 
     if (error) {

@@ -20,7 +20,7 @@ export async function GET(
     }
 
     const { id: transcriptId } = await params
-    const transcript = await getTranscript(transcriptId, user.id)
+    const transcript = await getTranscript(transcriptId)
 
     if (!transcript) {
       return NextResponse.json(
@@ -126,7 +126,7 @@ export async function PATCH(
     const body = await request.json()
     
     // Check if transcript exists and belongs to user
-    const existing = await getTranscript(transcriptId, user.id)
+    const existing = await getTranscript(transcriptId)
     if (!existing) {
       return NextResponse.json(
         { error: "Transcript not found" },
@@ -143,10 +143,10 @@ export async function PATCH(
       updates.title = body.title
     }
 
-    await updateTranscript(transcriptId, updates, user.id)
+    await updateTranscript(transcriptId, updates)
 
     // Return updated transcript
-    const updated = await getTranscript(transcriptId, user.id)
+    const updated = await getTranscript(transcriptId)
 
     return NextResponse.json({ 
       success: true, 
@@ -179,7 +179,7 @@ export async function DELETE(
     const { id: transcriptId } = await params
     
     // Check if transcript exists and belongs to user
-    const existing = await getTranscript(transcriptId, user.id)
+    const existing = await getTranscript(transcriptId)
     if (!existing) {
       return NextResponse.json(
         { error: "Transcript not found" },
@@ -188,7 +188,7 @@ export async function DELETE(
     }
 
     // Delete transcript from database
-    await deleteTranscript(transcriptId, user.id)
+    await deleteTranscript(transcriptId)
 
     // Delete associated media file if it exists
     const videoExtensions = ["mp4", "mov", "webm", "mkv", "avi"]

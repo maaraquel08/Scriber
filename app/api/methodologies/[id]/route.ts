@@ -20,7 +20,7 @@ export async function GET(
     }
 
     const { id } = await params
-    const methodology = await getMethodology(id, user.id)
+    const methodology = await getMethodology(id)
 
     if (!methodology) {
       return NextResponse.json(
@@ -56,7 +56,7 @@ export async function DELETE(
     const { id: methodologyId } = await params
     
     // Check if methodology exists and belongs to user
-    const existing = await getMethodology(methodologyId, user.id)
+    const existing = await getMethodology(methodologyId)
     if (!existing) {
       return NextResponse.json(
         { error: "Methodology not found" },
@@ -75,7 +75,7 @@ export async function DELETE(
     }
 
     // Delete methodology from database (this will cascade delete transcripts and facts)
-    await deleteMethodology(methodologyId, user.id)
+    await deleteMethodology(methodologyId)
 
     // Delete associated media files for all transcripts
     const videoExtensions = ["mp4", "mov", "webm", "mkv", "avi"]

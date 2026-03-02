@@ -24,7 +24,7 @@ export async function GET(
     const { id: transcriptId } = await params
     
     // Verify user owns this transcript
-    const transcript = await getTranscript(transcriptId, user.id)
+    const transcript = await getTranscript(transcriptId)
     if (!transcript) {
       return NextResponse.json(
         { error: "Transcript not found", facts: [] },
@@ -64,7 +64,7 @@ export async function POST(
     const { id: transcriptId } = await params
     
     // Verify user owns this transcript
-    const transcript = await getTranscript(transcriptId, user.id)
+    const transcript = await getTranscript(transcriptId)
     if (!transcript) {
       return NextResponse.json(
         { error: "Transcript not found" },

@@ -17,7 +17,7 @@ export async function GET(
     }
 
     const { id: methodologyId } = await params
-    const transcripts = await listTranscriptsByMethodology(methodologyId, user.id)
+    const transcripts = await listTranscriptsByMethodology(methodologyId)
     return NextResponse.json({ transcripts })
   } catch (error) {
     console.error("Error listing transcripts for methodology:", error)

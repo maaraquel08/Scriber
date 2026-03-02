@@ -24,7 +24,7 @@ export async function GET(
     const { id: methodologyId } = await params
     
     // Verify user owns this methodology
-    const methodology = await getMethodology(methodologyId, user.id)
+    const methodology = await getMethodology(methodologyId)
     if (!methodology) {
       return NextResponse.json(
         { error: "Methodology not found" },
@@ -64,7 +64,7 @@ export async function POST(
     const { id: methodologyId } = await params
     
     // Verify user owns this methodology
-    const methodology = await getMethodology(methodologyId, user.id)
+    const methodology = await getMethodology(methodologyId)
     if (!methodology) {
       return NextResponse.json(
         { error: "Methodology not found" },

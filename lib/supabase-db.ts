@@ -18,14 +18,13 @@ export interface SaveTranscriptData {
   fileName?: string
   fileType?: string
   methodology?: string | null
-  userId?: string // User ID for RLS
+  userId?: string // Stored as audit trail only
 }
 
 export async function saveTranscript(
   transcriptId: string,
   data: SaveTranscriptData
 ) {
-  // Transform words to match database format
   const wordsForDb = data.words.map((word) => ({
     text: word.text,
     start: word.start,
@@ -35,9 +34,7 @@ export async function saveTranscript(
   }))
 
   const supabase = getSupabase()
-  
-  // Try with user_id first, fallback without if column doesn't exist
-  let { error } = await supabase
+  const { error } = await supabase
     .from("transcripts")
     .upsert({
       id: transcriptId,
@@ -53,25 +50,6 @@ export async function saveTranscript(
       updated_at: new Date().toISOString(),
     } as any)
 
-  // Fallback: if user_id column doesn't exist, retry without it
-  if (error?.message?.includes("user_id")) {
-    const result = await supabase
-      .from("transcripts")
-      .upsert({
-        id: transcriptId,
-        title: data.title,
-        text: data.text,
-        language_code: data.languageCode,
-        language_probability: data.languageProbability,
-        words: wordsForDb,
-        file_name: data.fileName || null,
-        file_type: data.fileType || null,
-        methodology_id: data.methodology || null,
-        updated_at: new Date().toISOString(),
-      } as any)
-    error = result.error
-  }
-
   if (error) {
     throw new Error(`Failed to save transcript: ${error.message}`)
   }
@@ -79,34 +57,16 @@ export async function saveTranscript(
   return { success: true, id: transcriptId }
 }
 
-export async function getTranscript(transcriptId: string, userId?: string) {
+export async function getTranscript(transcriptId: string) {
   const supabase = getSupabase()
-  let query = supabase
+  const { data, error } = await supabase
     .from("transcripts")
     .select("*")
     .eq("id", transcriptId)
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { data, error } = await query.single()
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("transcripts")
-      .select("*")
-      .eq("id", transcriptId)
-      .single()
-    data = result.data
-    error = result.error
-  }
+    .single()
 
   if (error) {
-    if (error.code === "PGRST116") {
-      return null
-    }
+    if (error.code === "PGRST116") return null
     throw new Error(`Failed to get transcript: ${error.message}`)
   }
 
@@ -138,43 +98,18 @@ export async function getTranscript(transcriptId: string, userId?: string) {
 
 export async function updateTranscript(
   transcriptId: string,
-  updates: {
-    title?: string
-    methodology?: string | null
-  },
-  userId?: string
+  updates: { title?: string; methodology?: string | null }
 ) {
-  const updateData: any = {
-    updated_at: new Date().toISOString(),
-  }
+  const updateData: any = { updated_at: new Date().toISOString() }
 
-  if (updates.title !== undefined) {
-    updateData.title = updates.title
-  }
-  if (updates.methodology !== undefined) {
-    updateData.methodology_id = updates.methodology
-  }
+  if (updates.title !== undefined) updateData.title = updates.title
+  if (updates.methodology !== undefined) updateData.methodology_id = updates.methodology
 
   const supabase = getSupabase()
-  let query = supabase
+  const { error } = await supabase
     .from("transcripts")
     .update(updateData)
     .eq("id", transcriptId)
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { error } = await query
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("transcripts")
-      .update(updateData)
-      .eq("id", transcriptId)
-    error = result.error
-  }
 
   if (error) {
     throw new Error(`Failed to update transcript: ${error.message}`)
@@ -183,33 +118,15 @@ export async function updateTranscript(
   return { success: true }
 }
 
-export async function deleteTranscript(transcriptId: string, userId?: string) {
+export async function deleteTranscript(transcriptId: string) {
   const supabase = getSupabase()
-  
-  // First delete facts (though CASCADE should handle this)
-  await deleteFacts(transcriptId).catch(() => {
-    // Ignore errors if facts don't exist
-  })
-  
-  let query = supabase
+
+  await deleteFacts(transcriptId).catch(() => {})
+
+  const { error } = await supabase
     .from("transcripts")
     .delete()
     .eq("id", transcriptId)
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { error } = await query
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("transcripts")
-      .delete()
-      .eq("id", transcriptId)
-    error = result.error
-  }
 
   if (error) {
     throw new Error(`Failed to delete transcript: ${error.message}`)
@@ -218,36 +135,18 @@ export async function deleteTranscript(transcriptId: string, userId?: string) {
   return { success: true }
 }
 
-export async function listTranscriptsByMethodology(methodologyId: string, userId?: string) {
+export async function listTranscriptsByMethodology(methodologyId: string) {
   const supabase = getSupabase()
-  let query = supabase
+  const { data, error } = await supabase
     .from("transcripts")
     .select("id, title, created_at, updated_at, file_name, file_type")
     .eq("methodology_id", methodologyId)
     .order("created_at", { ascending: false })
 
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { data, error } = await query
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("transcripts")
-      .select("id, title, created_at, updated_at, file_name, file_type")
-      .eq("methodology_id", methodologyId)
-      .order("created_at", { ascending: false })
-    data = result.data
-    error = result.error
-  }
-
   if (error) {
     throw new Error(`Failed to list transcripts: ${error.message}`)
   }
 
-  // Get fact counts for each transcript
   const transcriptsWithFacts = await Promise.all(
     ((data as any[]) || []).map(async (transcript) => {
       const supabaseClient = getSupabase()
@@ -259,7 +158,7 @@ export async function listTranscriptsByMethodology(methodologyId: string, userId
       return {
         id: transcript.id,
         title: transcript.title,
-        duration: 0, // Calculate from words if needed
+        duration: 0,
         factCount: count || 0,
         createdAt: transcript.created_at,
         updatedAt: transcript.updated_at,
@@ -276,14 +175,10 @@ export async function listTranscriptsByMethodology(methodologyId: string, userId
 
 export async function saveFacts(transcriptId: string, facts: Fact[]) {
   const supabase = getSupabase()
-  // Delete existing facts for this transcript
   await supabase.from("facts").delete().eq("transcript_id", transcriptId)
 
-  if (facts.length === 0) {
-    return { success: true, count: 0 }
-  }
+  if (facts.length === 0) return { success: true, count: 0 }
 
-  // Insert new facts
   const factsToInsert = facts.map((fact) => ({
     transcript_id: transcriptId,
     fact_id: fact.fact_id,
@@ -358,11 +253,9 @@ export async function createMethodology(
     .replace(/^-+|-+$/g, "")
 
   const now = new Date().toISOString()
-
   const supabase = getSupabase()
-  
-  // Try with user_id first, fallback without if column doesn't exist
-  let { data, error } = await supabase
+
+  const { data, error } = await supabase
     .from("methodologies")
     .insert({
       id,
@@ -374,23 +267,6 @@ export async function createMethodology(
     } as any)
     .select()
     .single()
-
-  // Fallback: if user_id column doesn't exist, retry without it
-  if (error?.message?.includes("user_id")) {
-    const result = await supabase
-      .from("methodologies")
-      .insert({
-        id,
-        name,
-        description: description || null,
-        created_at: now,
-        updated_at: now,
-      } as any)
-      .select()
-      .single()
-    data = result.data
-    error = result.error
-  }
 
   if (error) {
     throw new Error(`Failed to create methodology: ${error.message}`)
@@ -407,32 +283,12 @@ export async function createMethodology(
   }
 }
 
-export async function listMethodologies(userId?: string): Promise<Methodology[]> {
+export async function listMethodologies(): Promise<Methodology[]> {
   const supabase = getSupabase()
-  
-  // Try with user_id filter first, fallback without if column doesn't exist
-  let query = supabase
+  const { data, error } = await supabase
     .from("methodologies")
     .select("*")
     .order("created_at", { ascending: false })
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { data, error } = await query
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const fallbackQuery = supabase
-      .from("methodologies")
-      .select("*")
-      .order("created_at", { ascending: false })
-    
-    const result = await fallbackQuery
-    data = result.data
-    error = result.error
-  }
 
   if (error) {
     throw new Error(`Failed to list methodologies: ${error.message}`)
@@ -447,34 +303,16 @@ export async function listMethodologies(userId?: string): Promise<Methodology[]>
   }))
 }
 
-export async function getMethodology(id: string, userId?: string): Promise<Methodology | null> {
+export async function getMethodology(id: string): Promise<Methodology | null> {
   const supabase = getSupabase()
-  let query = supabase
+  const { data, error } = await supabase
     .from("methodologies")
     .select("*")
     .eq("id", id)
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { data, error } = await query.single()
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("methodologies")
-      .select("*")
-      .eq("id", id)
-      .single()
-    data = result.data
-    error = result.error
-  }
+    .single()
 
   if (error) {
-    if (error.code === "PGRST116") {
-      return null
-    }
+    if (error.code === "PGRST116") return null
     throw new Error(`Failed to get methodology: ${error.message}`)
   }
 
@@ -493,43 +331,20 @@ export async function getMethodology(id: string, userId?: string): Promise<Metho
 
 export async function updateMethodology(
   id: string,
-  updates: { name?: string; description?: string },
-  userId?: string
+  updates: { name?: string; description?: string }
 ): Promise<Methodology | null> {
-  const updateData: any = {
-    updated_at: new Date().toISOString(),
-  }
+  const updateData: any = { updated_at: new Date().toISOString() }
 
-  if (updates.name !== undefined) {
-    updateData.name = updates.name
-  }
-  if (updates.description !== undefined) {
-    updateData.description = updates.description || null
-  }
+  if (updates.name !== undefined) updateData.name = updates.name
+  if (updates.description !== undefined) updateData.description = updates.description || null
 
   const supabase = getSupabase()
-  let query = supabase
+  const { data, error } = await supabase
     .from("methodologies")
     .update(updateData)
     .eq("id", id)
-
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { data, error } = await query.select().single()
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("methodologies")
-      .update(updateData)
-      .eq("id", id)
-      .select()
-      .single()
-    data = result.data
-    error = result.error
-  }
+    .select()
+    .single()
 
   if (error) {
     throw new Error(`Failed to update methodology: ${error.message}`)
@@ -548,43 +363,16 @@ export async function updateMethodology(
   }
 }
 
-export async function deleteMethodology(id: string, userId?: string) {
+export async function deleteMethodology(id: string) {
   const supabase = getSupabase()
-  
-  // First, get all transcripts for this methodology to delete their media files
-  const transcriptsResponse = await supabase
-    .from("transcripts")
-    .select("id")
-    .eq("methodology_id", id)
 
-  let query = supabase
+  const { error } = await supabase
     .from("methodologies")
     .delete()
     .eq("id", id)
 
-  if (userId) {
-    query = query.eq("user_id", userId)
-  }
-
-  let { error } = await query
-
-  // Fallback: if user_id column doesn't exist, retry without filter
-  if (error?.message?.includes("user_id does not exist")) {
-    const result = await supabase
-      .from("methodologies")
-      .delete()
-      .eq("id", id)
-    error = result.error
-  }
-
   if (error) {
     throw new Error(`Failed to delete methodology: ${error.message}`)
-  }
-
-  // Delete associated media files for transcripts in this methodology
-  if (transcriptsResponse.data) {
-    const transcriptIds = transcriptsResponse.data.map((t: any) => t.id)
-    // Note: Media file deletion will be handled by the API route
   }
 
   return { success: true }
@@ -599,14 +387,10 @@ export async function saveInsights(
   insightsData: InsightsResponse
 ) {
   const supabase = getSupabase()
-  // Delete existing insights for this methodology
   await supabase.from("insights").delete().eq("methodology_id", methodologyId)
 
-  if (insightsData.insights.length === 0) {
-    return { success: true, count: 0 }
-  }
+  if (insightsData.insights.length === 0) return { success: true, count: 0 }
 
-  // Insert new insights
   const insightsToInsert = insightsData.insights.map((insight) => ({
     methodology_id: methodologyId,
     insight_id: insight.id,
@@ -631,9 +415,7 @@ export async function saveInsights(
   return { success: true, count: insightsData.insights.length }
 }
 
-export async function getInsights(
-  methodologyId: string
-): Promise<InsightsResponse> {
+export async function getInsights(methodologyId: string): Promise<InsightsResponse> {
   const supabase = getSupabase()
   const { data, error } = await supabase
     .from("insights")
@@ -647,17 +429,13 @@ export async function getInsights(
 
   if (!data || data.length === 0) {
     return {
-      insight_summary: {
-        total_facts_analyzed: 0,
-        total_insights_generated: 0,
-      },
+      insight_summary: { total_facts_analyzed: 0, total_insights_generated: 0 },
       insights: [],
     }
   }
 
   const rows = data as any[]
 
-  // Get insight_summary from first insight (they all have the same summary)
   const insightSummary = rows[0]?.insight_summary || {
     total_facts_analyzed: 0,
     total_insights_generated: 0,
@@ -676,8 +454,5 @@ export async function getInsights(
     recommendation: row.recommendation,
   }))
 
-  return {
-    insight_summary: insightSummary,
-    insights,
-  }
+  return { insight_summary: insightSummary, insights }
 }
