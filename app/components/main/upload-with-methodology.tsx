@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import type { Methodology } from "@/lib/types"
 import { getApiConfig } from "@/lib/api-config"
+import { createSupabaseClient } from "@/lib/supabase-client"
 
 interface UploadWithMethodologyProps {
   onClose?: () => void
@@ -109,7 +110,7 @@ export function UploadWithMethodology({ onClose, initialMethodology }: UploadWit
 
   const handleUpload = useCallback(async () => {
     if (!selectedFile) return
-    
+
     if (!selectedMethodology && methodologies.length > 0) {
       setError("Please select a methodology")
       return
@@ -119,19 +120,47 @@ export function UploadWithMethodology({ onClose, initialMethodology }: UploadWit
     setError(null)
 
     try {
-      const formData = new FormData()
-      formData.append("file", selectedFile)
-      if (selectedMethodology) {
-        formData.append("methodology", selectedMethodology)
+      // Generate transcript ID up front (used as the storage path too)
+      const timestamp = Date.now()
+      const dataStr = `${selectedFile.name}-${selectedFile.size}-${selectedFile.type}-${timestamp}`
+      const encoder = new TextEncoder()
+      const dataBuffer = encoder.encode(dataStr)
+      const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer)
+      const hashArray = Array.from(new Uint8Array(hashBuffer))
+      const transcriptId = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
+
+      // Step 1: Upload file directly to Supabase Storage from the browser.
+      // This bypasses Vercel's 4.5MB serverless body limit entirely.
+      const ext = selectedFile.name.split(".").pop()
+      const storagePath = `${transcriptId}.${ext}`
+      const supabase = createSupabaseClient()
+      const { error: uploadError } = await supabase.storage
+        .from("media")
+        .upload(storagePath, selectedFile, { upsert: true })
+
+      if (uploadError) {
+        throw new Error(`Failed to upload file: ${uploadError.message}`)
       }
 
+      const { data: publicUrlData } = supabase.storage
+        .from("media")
+        .getPublicUrl(storagePath)
+
+      const fileUrl = publicUrlData.publicUrl
+
+      // Step 2: Send the public URL to /api/transcribe — AssemblyAI fetches it directly.
       const apiConfig = getApiConfig()
       const response = await fetch("/api/transcribe", {
         method: "POST",
         headers: {
           "X-AssemblyAI-Key": apiConfig.assemblyAiKey || "",
+          "Content-Type": "application/json",
         },
-        body: formData,
+        body: JSON.stringify({
+          fileUrl,
+          fileName: selectedFile.name,
+          fileType: selectedFile.type,
+        }),
       })
 
       if (!response.ok) {
@@ -151,28 +180,15 @@ export function UploadWithMethodology({ onClose, initialMethodology }: UploadWit
       }
 
       const data = await response.json()
-      
-      // Generate transcript ID
-      const timestamp = Date.now()
-      const dataStr = `${selectedFile.name}-${selectedFile.size}-${selectedFile.type}-${timestamp}`
-      const encoder = new TextEncoder()
-      const dataBuffer = encoder.encode(dataStr)
-      const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer)
-      const hashArray = Array.from(new Uint8Array(hashBuffer))
-      const transcriptId = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
 
-      // Transform and save transcript
+      // Step 3: Transform and save transcript
       const { transformToSegmentsAndSpeakers } = await import("@/lib/transformers")
       const { transcriptData: newTranscriptData } = transformToSegmentsAndSpeakers(data)
-
       const fileTitle = selectedFile.name.replace(/\.[^/.]+$/, "")
 
-      // Save transcript with methodology
       await fetch(`/api/transcript/${transcriptId}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           languageCode: newTranscriptData.language_code,
           languageProbability: newTranscriptData.language_probability,
@@ -181,33 +197,13 @@ export function UploadWithMethodology({ onClose, initialMethodology }: UploadWit
           title: fileTitle,
           fileName: selectedFile.name,
           fileType: selectedFile.type,
+          fileUrl,
           methodology: selectedMethodology || null,
         }),
       })
 
-      // Save video file to public/media directory
-      try {
-        const mediaFormData = new FormData()
-        mediaFormData.append("file", selectedFile)
-        const mediaResponse = await fetch(`/api/media/${transcriptId}`, {
-          method: "POST",
-          body: mediaFormData,
-        })
-        if (!mediaResponse.ok) {
-          console.warn("Failed to save media file:", await mediaResponse.text())
-        }
-      } catch (mediaErr) {
-        console.error("Error saving media file:", mediaErr)
-        // Don't block navigation if media save fails
-      }
-
-      // Navigate to lab
       router.push(`/lab/${transcriptId}`)
-      
-      // Close upload dialog if callback provided
-      if (onClose) {
-        onClose()
-      }
+      if (onClose) onClose()
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Failed to transcribe file"
       setError(errorMessage)

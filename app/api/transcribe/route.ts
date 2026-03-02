@@ -238,129 +238,42 @@ export async function POST(request: NextRequest) {
     const apiKey = request.headers.get("X-AssemblyAI-Key") || process.env.ASSEMBLY_API_KEY
     if (!apiKey) {
       return NextResponse.json(
-        {
-          error:
-            "AssemblyAI API key is not configured. Please add your API key in Settings.",
-        },
+        { error: "AssemblyAI API key is not configured. Please add your API key in Settings." },
         { status: 400 }
       )
     }
 
-    const formData = await request.formData()
-    const file = formData.get("file") as File | null
+    const body = await request.json()
+    const { fileUrl, fileName, fileType } = body
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 })
+    if (!fileUrl) {
+      return NextResponse.json({ error: "No file URL provided" }, { status: 400 })
     }
 
-    if (file.size === 0) {
-      return NextResponse.json({ error: "File is empty" }, { status: 400 })
-    }
+    // Validate file type from fileName/fileType
+    const mimeType: string = fileType || ""
+    const extension = (fileName as string || "").split(".").pop()?.toLowerCase() || ""
+    const validExtensions = ["mp4", "mov", "avi", "mkv", "webm", "mp3", "wav", "m4a", "ogg", "flac", "aac"]
+    const isValidType = isVideoFile(mimeType) || isAudioFile(mimeType) || validExtensions.includes(extension)
 
-    // Check cache first
-    const cachedResponse = getCachedResponse(file.name, file.size, file.type)
-    if (cachedResponse) {
-      console.log("Returning cached transcription response")
-      return NextResponse.json(cachedResponse)
-    }
-
-    // Check file type
-    const mimeType = file.type
-    const isValidType = isVideoFile(mimeType) || isAudioFile(mimeType)
-    
-    // If MIME type is not available, try to infer from extension
-    let inferredValid = false
     if (!isValidType) {
-      const extension = file.name.split(".").pop()?.toLowerCase()
-      const validExtensions = [
-        "mp4",
-        "mov",
-        "avi",
-        "mkv",
-        "webm",
-        "mp3",
-        "wav",
-        "m4a",
-        "ogg",
-        "flac",
-        "aac",
-      ]
-      inferredValid = extension ? validExtensions.includes(extension) : false
-    }
-
-    if (!isValidType && !inferredValid) {
       return NextResponse.json(
-        {
-          error: `Unsupported file type: ${mimeType || "unknown"}. Please upload a video (MP4, MOV, AVI, etc.) or audio (MP3, WAV, M4A, etc.) file.`,
-        },
+        { error: `Unsupported file type: ${mimeType || extension || "unknown"}. Please upload a video or audio file.` },
         { status: 400 }
       )
-    }
-
-    // Convert file to buffer
-    const arrayBuffer = await file.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
-
-    let audioBuffer: Buffer = buffer
-    let audioMimeType = mimeType
-
-    // Extract audio from video if needed
-    if (isVideoFile(mimeType)) {
-      const tempDir = tmpdir()
-      const videoPath = join(tempDir, `video_${Date.now()}_${file.name}`)
-      const audioPath = join(tempDir, `audio_${Date.now()}.mp3`)
-
-      try {
-        // Write video to temp file
-        await writeFile(videoPath, buffer)
-
-        // Extract audio
-        await extractAudioFromVideo(videoPath, audioPath)
-
-        // Read extracted audio
-        const { readFile } = await import("fs/promises")
-        audioBuffer = await readFile(audioPath)
-        audioMimeType = "audio/mpeg"
-
-        // Clean up temp files
-        await unlink(videoPath).catch(() => {})
-        await unlink(audioPath).catch(() => {})
-      } catch (error) {
-        // Clean up on error
-        await unlink(videoPath).catch(() => {})
-        await unlink(audioPath).catch(() => {})
-
-        // Check if error is about ffmpeg not being found
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        if (errorMessage.includes("ffmpeg is not installed") || errorMessage.includes("Cannot find ffmpeg")) {
-          // Return a clear error to the user
-          return NextResponse.json(
-            {
-              error: "ffmpeg is not installed. Please install ffmpeg to process video files:\n\nOn macOS: brew install ffmpeg\n\nAfter installation, restart your development server.",
-            },
-            { status: 500 }
-          )
-        }
-
-        // If ffmpeg fails for other reasons, try sending the video file directly
-        // Some video formats might work with AssemblyAI
-        console.warn("Audio extraction failed, trying video file directly:", error)
-      }
     }
 
     // Initialize AssemblyAI client
-    const client = new AssemblyAI({
-      apiKey: apiKey,
-    })
+    const client = new AssemblyAI({ apiKey })
 
-    // Call AssemblyAI Speech-to-Text API
-    // AssemblyAI accepts Buffer directly and handles polling automatically
+    // Pass the public URL directly — AssemblyAI fetches the file itself.
+    // This avoids sending the file through Vercel (which has a 4.5MB body limit).
     try {
       const transcript = await client.transcripts.transcribe({
-        audio: audioBuffer,
+        audio: fileUrl,
         speaker_labels: true,
         speech_models: ["universal"],
-        language_code: "tl", // Tagalog language code for accurate transcription
+        language_code: "tl",
       })
 
       // Check if transcription completed successfully
@@ -376,7 +289,7 @@ export async function POST(request: NextRequest) {
       const transformedResponse = transformAssemblyAIResponse(transcript)
 
       // Save to cache
-      saveCachedResponse(file.name, file.size, file.type, transformedResponse)
+      saveCachedResponse(fileName, 0, fileType, transformedResponse)
 
       return NextResponse.json(transformedResponse)
     } catch (apiError) {
