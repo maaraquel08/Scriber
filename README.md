@@ -11,36 +11,102 @@ A UX research tool that transcribes audio/video interviews, extracts atomic insi
 
 ---
 
-## Prerequisites
+## Tech Stack
 
-- [Node.js](https://nodejs.org/) v18 or higher
-- [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/), or [yarn](https://yarnpkg.com/)
-- A [Supabase](https://supabase.com/) project (for auth and database)
-- An [AssemblyAI](https://www.assemblyai.com/) API key (for transcription)
-- A [Google Gemini](https://aistudio.google.com/) API key (for fact extraction and insights)
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + Radix UI |
+| Auth & Database | Supabase |
+| Transcription | AssemblyAI |
+| AI / LLM | Google Gemini 2.5 Flash |
+| Video processing | ffmpeg |
+| Icons | Phosphor Icons + Lucide |
 
 ---
 
-## Installation
+## Local Setup Guide
 
-**1. Clone the repository**
+Follow these steps in order to get Scriber running on your machine.
+
+### Step 1 — Install Node.js
+
+Make sure you have **Node.js v18 or higher** installed.
 
 ```bash
-git clone https://github.com/your-username/scriber.git
-cd scriber
+node -v   # should print v18.x.x or higher
 ```
 
-**2. Install dependencies**
+Download it at [nodejs.org](https://nodejs.org/) if you don't have it.
+
+---
+
+### Step 2 — Install ffmpeg
+
+ffmpeg is required to extract audio from video files before sending them to AssemblyAI.
+
+**macOS (Homebrew)**
+```bash
+brew install ffmpeg
+```
+
+**Windows**
+1. Download the latest build from [ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+2. Extract the zip and move the `bin/` folder somewhere permanent (e.g. `C:\ffmpeg\bin`)
+3. Add `C:\ffmpeg\bin` to your system PATH:
+   - Search "Environment Variables" in the Start menu
+   - Under "System variables" → select `Path` → click Edit → Add new → paste the path
+
+**Linux (Ubuntu/Debian)**
+```bash
+sudo apt update && sudo apt install ffmpeg
+```
+
+Verify the installation:
+```bash
+ffmpeg -version   # should print version info
+```
+
+---
+
+### Step 3 — Clone the repository
+
+```bash
+git clone https://github.com/maaraquel08/Scriber.git
+cd Scriber
+```
+
+---
+
+### Step 4 — Install dependencies
 
 ```bash
 npm install
-# or
-pnpm install
-# or
-yarn install
 ```
 
-**3. Set up environment variables**
+---
+
+### Step 5 — Set up Supabase
+
+Scriber uses Supabase for authentication and database storage.
+
+1. Go to [supabase.com](https://supabase.com/) and create a free account
+2. Click **New project** and fill in the details
+3. Wait for the project to finish provisioning (~1 minute)
+4. Go to **Project Settings → API** and copy:
+   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+   - **anon / public key** → `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`
+   - **service_role key** → `SUPABASE_SERVICE_ROLE_KEY`
+
+Also configure the Auth settings:
+- Go to **Authentication → URL Configuration**
+- Set **Site URL** to `http://localhost:3000`
+- Under **Redirect URLs**, add: `http://localhost:3000/auth/callback`
+
+---
+
+### Step 6 — Configure environment variables
 
 Create a `.env.local` file in the project root:
 
@@ -48,44 +114,55 @@ Create a `.env.local` file in the project root:
 cp .env.example .env.local
 ```
 
-Then fill in your Supabase credentials:
+Open `.env.local` and fill in your Supabase credentials:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-> Your Supabase URL and keys can be found in your Supabase project under **Project Settings → API**.
+---
 
-**4. Run the development server**
+### Step 7 — Get your API keys
+
+Scriber needs two external AI API keys. You configure these inside the app (not in `.env.local`).
+
+**AssemblyAI** (transcription)
+1. Sign up at [assemblyai.com](https://www.assemblyai.com/)
+2. Go to your dashboard and copy your API key
+
+**Google Gemini** (fact extraction + insights)
+1. Go to [aistudio.google.com](https://aistudio.google.com/)
+2. Click **Get API key** and create a new key
+
+---
+
+### Step 8 — Run the development server
 
 ```bash
 npm run dev
-# or
-pnpm dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## API Key Configuration
+### Step 9 — Add your API keys in the app
 
-Scriber requires two external AI API keys. You can configure them directly in the app — no need to hardcode them into environment files.
+1. Click the **Settings** icon in the sidebar
+2. Enter your **AssemblyAI API Key** and **Gemini API Key**
+3. Click **Save Configuration**
 
-1. Start the dev server and open the app
-2. Go to **Settings** (gear icon in the sidebar)
-3. Enter your API keys:
-   - **AssemblyAI API Key** — used for audio/video transcription. Get one at [assemblyai.com](https://www.assemblyai.com/)
-   - **Gemini API Key** — used for fact extraction and insight generation. Get one at [aistudio.google.com](https://aistudio.google.com/)
-4. Click **Save Configuration**
+Keys are stored in your browser's `localStorage` and sent per-request. They are never stored on the server.
 
-Keys are stored in your browser's `localStorage` and sent securely per-request. They never leave your device beyond the API calls themselves.
+> **Optional:** You can also add `ASSEMBLY_API_KEY` and `GEMINI_API_KEY` directly to `.env.local` as a fallback for server-side use.
 
-> **Optional fallback:** You can also add `ASSEMBLY_API_KEY` and `GEMINI_API_KEY` to your `.env.local` file. The app will use localStorage keys first and fall back to env vars if none are set.
+---
+
+### You're ready
+
+Upload a video or audio file, transcribe it, extract facts, and start building research insights.
 
 ---
 
@@ -105,24 +182,11 @@ Keys are stored in your browser's `localStorage` and sent securely per-request. 
 │   ├── supabase-client.ts     # Supabase browser client
 │   ├── supabase-db.ts         # Database query helpers
 │   └── fact-generation-config.ts  # Dropdown options for fact generation
-├── public/                    # Static assets
-├── next.config.ts             # Next.js configuration
+├── public/
+│   └── media/                 # Uploaded video/audio files for local playback
+├── next.config.ts
 └── package.json
 ```
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | Next.js (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + Radix UI |
-| Auth & Database | Supabase |
-| Transcription | AssemblyAI |
-| AI / LLM | Google Gemini 2.5 Flash |
-| Icons | Phosphor Icons + Lucide |
 
 ---
 
