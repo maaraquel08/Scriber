@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Check, Loader2 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 
-export default function LoginPage() {
+function LoginContent() {
   const searchParams = useSearchParams()
   const { sendMagicLink, isLoading: authLoading } = useAuth()
 
@@ -136,5 +136,17 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   )
 }

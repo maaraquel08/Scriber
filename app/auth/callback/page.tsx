@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { createSupabaseClient } from "@/lib/supabase-client"
 import { Loader2 } from "lucide-react"
@@ -17,7 +17,7 @@ function parseHashParams(hash: string): Record<string, string> {
   return params
 }
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
@@ -103,5 +103,19 @@ export default function AuthCallbackPage() {
     <div className="min-h-screen bg-background flex items-center justify-center">
       <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
     </div>
+  )
+}
+
+const Spinner = () => (
+  <div className="min-h-screen bg-background flex items-center justify-center">
+    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+  </div>
+)
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <AuthCallbackContent />
+    </Suspense>
   )
 }

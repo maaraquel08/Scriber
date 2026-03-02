@@ -23,18 +23,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  const supabase = createSupabaseClient()
-
   useEffect(() => {
+    // createSupabaseClient is called here (inside useEffect) so it only runs
+    // in the browser — never during static prerendering at build time.
+    let supabase: ReturnType<typeof createSupabaseClient>
+    try {
+      supabase = createSupabaseClient()
+    } catch {
+      setIsLoading(false)
+      return
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
-        
+
         if (error) {
           console.error("Error getting session:", error.message)
         }
-        
+
         setSession(session)
         setUser(session?.user ?? null)
       } catch (error) {
@@ -58,11 +66,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => {
       subscription.unsubscribe()
     }
-  }, [supabase.auth])
+  }, [])
 
   const sendMagicLink = async (email: string) => {
     setIsLoading(true)
     try {
+      const supabase = createSupabaseClient()
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
@@ -78,6 +87,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signOut = async () => {
     setIsLoading(true)
     try {
+      const supabase = createSupabaseClient()
       const { error } = await supabase.auth.signOut()
       return { error }
     } finally {
