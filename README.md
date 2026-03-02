@@ -1,10 +1,36 @@
 # Scriber
 
-A Next.js boilerplate project with Tailwind CSS.
+A UX research tool that transcribes audio/video interviews, extracts atomic insight facts, and synthesizes them into structured research findings.
 
-## Getting Started
+## What It Does
 
-First, install the dependencies:
+- **Transcribe** — Upload audio or video files and automatically transcribe them using AssemblyAI
+- **Extract Facts** — Use Gemini AI to shred transcripts into atomic "nuggets" tagged by theme, sentiment, speaker, and timestamp
+- **Synthesize Insights** — Group facts across multiple transcripts into research insights inside methodology folders (the Vault)
+- **Playback** — Review transcripts with a synchronized media player and timeline
+
+---
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/), or [yarn](https://yarnpkg.com/)
+- A [Supabase](https://supabase.com/) project (for auth and database)
+- An [AssemblyAI](https://www.assemblyai.com/) API key (for transcription)
+- A [Google Gemini](https://aistudio.google.com/) API key (for fact extraction and insights)
+
+---
+
+## Installation
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/your-username/scriber.git
+cd scriber
+```
+
+**2. Install dependencies**
 
 ```bash
 npm install
@@ -14,30 +40,25 @@ pnpm install
 yarn install
 ```
 
-### API Configuration
+**3. Set up environment variables**
 
-**Primary Method (Recommended):** Configure your API keys through the Settings page in the app. Your keys will be stored locally in your browser's localStorage.
-
-1. Start the development server
-2. Navigate to the Settings page
-3. Enter your API keys:
-   - **AssemblyAI API Key** - For audio/video transcription
-   - **Gemini API Key** - For fact extraction and insight generation
-4. Click "Save Configuration"
-
-**Alternative Method (Optional):** You can also set environment variables in a `.env.local` file as a fallback:
+Create a `.env.local` file in the project root:
 
 ```bash
-# AssemblyAI API Key (optional - fallback only)
-ASSEMBLY_API_KEY=your_assemblyai_api_key_here
-
-# Gemini API Key (optional - fallback only)
-GEMINI_API_KEY=your_gemini_api_key_here
+cp .env.example .env.local
 ```
 
-> **Note:** Environment variables are optional. The app will use API keys from the Settings page (stored in localStorage) by default. Environment variables only serve as a fallback for server-side operations.
+Then fill in your Supabase credentials:
 
-Then, run the development server:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+> Your Supabase URL and keys can be found in your Supabase project under **Project Settings → API**.
+
+**4. Run the development server**
 
 ```bash
 npm run dev
@@ -47,31 +68,70 @@ pnpm dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Tech Stack
+---
 
-- **Next.js** - React framework with App Router
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first CSS framework
-- **ESLint** - Code linting
+## API Key Configuration
+
+Scriber requires two external AI API keys. You can configure them directly in the app — no need to hardcode them into environment files.
+
+1. Start the dev server and open the app
+2. Go to **Settings** (gear icon in the sidebar)
+3. Enter your API keys:
+   - **AssemblyAI API Key** — used for audio/video transcription. Get one at [assemblyai.com](https://www.assemblyai.com/)
+   - **Gemini API Key** — used for fact extraction and insight generation. Get one at [aistudio.google.com](https://aistudio.google.com/)
+4. Click **Save Configuration**
+
+Keys are stored in your browser's `localStorage` and sent securely per-request. They never leave your device beyond the API calls themselves.
+
+> **Optional fallback:** You can also add `ASSEMBLY_API_KEY` and `GEMINI_API_KEY` to your `.env.local` file. The app will use localStorage keys first and fall back to env vars if none are set.
+
+---
 
 ## Project Structure
 
 ```
 /
 ├── app/
-│   ├── globals.css      # Global styles with Tailwind imports
-│   ├── layout.tsx       # Root layout component
-│   └── page.tsx         # Home page
-├── public/              # Static assets
-├── next.config.ts       # Next.js configuration
-├── postcss.config.mjs   # PostCSS configuration for Tailwind
-├── tsconfig.json        # TypeScript configuration
-└── package.json         # Dependencies and scripts
+│   ├── api/                   # API routes (transcribe, facts, insights, methodologies)
+│   ├── auth/                  # Login, signup, and OAuth callback pages
+│   ├── lab/[transcriptId]/    # Transcript viewer with media player and fact extraction
+│   ├── vault/[methodology]/   # Methodology folders and insight synthesis
+│   ├── settings/              # API key configuration page
+│   └── page.tsx               # Home / research repository
+├── lib/
+│   ├── types.ts               # Shared TypeScript types
+│   ├── supabase-client.ts     # Supabase browser client
+│   ├── supabase-db.ts         # Database query helpers
+│   └── fact-generation-config.ts  # Dropdown options for fact generation
+├── public/                    # Static assets
+├── next.config.ts             # Next.js configuration
+└── package.json
 ```
 
-## Learn More
+---
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + Radix UI |
+| Auth & Database | Supabase |
+| Transcription | AssemblyAI |
+| AI / LLM | Google Gemini 2.5 Flash |
+| Icons | Phosphor Icons + Lucide |
+
+---
+
+## Available Scripts
+
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run start     # Start production server
+npm run lint      # Run ESLint
+npm run lint:fix  # Run ESLint with auto-fix
+```

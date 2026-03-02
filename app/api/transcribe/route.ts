@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
       const transcript = await client.transcripts.transcribe({
         audio: audioBuffer,
         speaker_labels: true,
-        speech_model: "universal",
+        speech_models: ["universal"],
         language_code: "tl", // Tagalog language code for accurate transcription
       })
 
